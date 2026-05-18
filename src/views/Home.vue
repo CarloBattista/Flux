@@ -1,5 +1,6 @@
 <template>
   <div>Home</div>
+  <RouterLink to="/tool/temperature">Convertitore Temperature</RouterLink>
 </template>
 
 <script>
