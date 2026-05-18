@@ -8,6 +8,14 @@ const routes = [
     component: () => import('../views/Home.vue'),
     props: true,
   },
+
+  // Tools
+  {
+    path: '/tool/:slug',
+    name: 'tool',
+    component: () => import('../views/Tool.vue'),
+    props: true,
+  },
 ];
 
 const router = createRouter({
