@@ -1,4 +1,4 @@
 export default {
   title: 'Temperatura',
-  units: ['celsius', 'fahrenheit'],
+  units: ['celsius', 'fahrenheit', 'kelvin'],
 };

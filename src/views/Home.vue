@@ -1,11 +1,17 @@
 <template>
-  <div>Home</div>
-  <RouterLink to="/tool/temperature">Convertitore Temperature</RouterLink>
+  <div></div>
 </template>
 
 <script>
+import { tools } from '../toolsRegistry';
+
 export default {
   name: 'Home',
+  data() {
+    return {
+      tools,
+    };
+  },
 };
 </script>
 
