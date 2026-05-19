@@ -9,12 +9,17 @@
       </p>
     </div>
 
-    <converterUi :tool="tool" />
+    <imageConverterUi v-if="tool.metadata.type === 'file-converter'" :tool="tool" />
+    <converterUi v-else :tool="tool" />
 
     <div class="bg-indigo-50 rounded-lg p-6 border border-indigo-100">
       <h3 class="text-indigo-800 font-bold mb-2">Suggerimento</h3>
       <p class="text-indigo-700 text-sm">
-        Inserisci il valore e seleziona le unità di misura per ottenere istantaneamente la conversione.
+        {{
+          tool.metadata.type === 'file-converter'
+            ? 'Carica un file, scegli il formato di destinazione e clicca su Converti.'
+            : 'Inserisci il valore e seleziona le unità di misura per ottenere istantaneamente la conversione.'
+        }}
       </p>
     </div>
   </div>
@@ -28,20 +33,19 @@
 import { tools } from '../toolsRegistry';
 
 import converterUi from '../components/layout/converter-ui.vue';
+import imageConverterUi from '../components/layout/image-converter-ui.vue';
 
 export default {
   name: 'Tool',
   components: {
     converterUi,
+    imageConverterUi,
   },
   computed: {
     tool() {
       const slug = this.$route.params.slug;
       return tools[slug] || null;
     },
-  },
-  mounted() {
-    console.log(tools);
   },
 };
 </script>
