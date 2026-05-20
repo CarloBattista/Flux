@@ -63,12 +63,6 @@
         </div>
       </div>
 
-      <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
-        <p class="text-amber-800 text-xs">
-          Nota: La conversione video lato client è limitata. Per conversioni professionali è consigliato l'uso di FFmpeg.
-        </p>
-      </div>
-
       <button
         @click="convertVideo"
         :disabled="isConverting || !videoReady"
@@ -176,8 +170,19 @@ export default {
         const arrayBuffer = await this.selectedFile.arrayBuffer();
         await this.ffmpeg.writeFile(inputName, new Uint8Array(arrayBuffer));
 
-        // Esecuzione del comando di conversione
-        await this.ffmpeg.exec(['-i', inputName, '-preset', 'ultrafast', outputName]);
+        // Esecuzione del comando di conversione con parametri specifici per formato
+        const ffmpegArgs = ['-i', inputName];
+
+        if (this.targetFormat === 'webm') {
+          // Parametri ottimizzati per WebM (VP8 + Vorbis)
+          // Nota: libvpx è più lento, usiamo parametri di velocità se possibile
+          ffmpegArgs.push('-c:v', 'libvpx', '-crf', '30', '-b:v', '1M', '-c:a', 'libvorbis', outputName);
+        } else {
+          // Default per MP4 e altri formati basati su x264
+          ffmpegArgs.push('-preset', 'ultrafast', outputName);
+        }
+
+        await this.ffmpeg.exec(ffmpegArgs);
 
         // Lettura del file convertito
         const data = await this.ffmpeg.readFile(outputName);
