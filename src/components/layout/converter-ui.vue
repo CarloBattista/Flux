@@ -1,60 +1,25 @@
 <template>
-  <div v-if="tool" class="max-w-[1024px] mx-auto">
+  <div v-if="tool" class="max-w-2xl mx-auto">
     <div class="space-y-8">
-      <!-- Input Value and Result (Desktop) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="space-y-3">
-          <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider">Valore</label>
-          <div class="relative">
-            <input
-              v-model.number="value"
-              type="number"
-              class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all text-xl font-bold text-gray-900"
-              placeholder="0"
-              @input="autoConvert"
-            />
-          </div>
-        </div>
-
-        <div class="hidden md:block space-y-3">
-          <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider">Risultato</label>
-          <div class="h-[60px] px-5 flex items-center bg-indigo-50 border-2 border-indigo-100 rounded-2xl font-black text-2xl text-indigo-700">
-            {{ result !== null ? result : '---' }}
-          </div>
-        </div>
+      <div class="w-full flex flex-col gap-8">
+        <hrInput v-model.number="value" label="Valore" placeholder="0" @input="autoConvert" />
       </div>
-
-      <!-- Unit Selection -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="space-y-3">
-          <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider">Da</label>
-          <select
-            v-model="from"
-            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all text-lg font-medium text-gray-900 appearance-none cursor-pointer"
-            @change="autoConvert"
-          >
-            <option v-for="u in tool.config.units" :key="u" :value="u">
-              {{ tool.config.labels ? tool.config.labels[u] : u }}
-            </option>
-          </select>
-        </div>
-
-        <div class="space-y-3">
-          <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider">A</label>
-          <select
-            v-model="to"
-            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all text-lg font-medium text-gray-900 appearance-none cursor-pointer"
-            @change="autoConvert"
-          >
-            <option v-for="u in tool.config.units" :key="u" :value="u">
-              {{ tool.config.labels ? tool.config.labels[u] : u }}
-            </option>
-          </select>
-        </div>
+        <hrSelect
+          v-model="from"
+          label="Da"
+          :options="tool.config.units.map((u) => ({ label: tool.config.labels ? tool.config.labels[u] : u, value: u }))"
+          @update:modelValue="autoConvert"
+        />
+        <hrSelect
+          v-model="to"
+          label="A"
+          :options="tool.config.units.map((u) => ({ label: tool.config.labels ? tool.config.labels[u] : u, value: u }))"
+          @update:modelValue="autoConvert"
+        />
       </div>
-
       <!-- Mobile Result -->
-      <div v-if="result !== null" class="md:hidden p-6 bg-indigo-600 rounded-2xl shadow-inner text-white animate-fade-in">
+      <div v-if="result !== null" class="p-6 rounded-2xl bg-[#8e48ff] shadow-inner shadow-white/20 text-white animate-fade-in">
         <span class="text-xs font-bold uppercase tracking-widest opacity-80">Risultato Finale</span>
         <div class="text-3xl font-black mt-1">
           {{ result }} <span class="text-xl font-medium opacity-90 ml-1">{{ tool.config.labels ? tool.config.labels[to] : to }}</span>
@@ -65,8 +30,15 @@
 </template>
 
 <script>
+import hrInput from '../input/hr-input.vue';
+import hrSelect from '../input/hr-select.vue';
+
 export default {
   name: 'converter-ui',
+  components: {
+    hrInput,
+    hrSelect,
+  },
   props: {
     tool: Object,
   },
