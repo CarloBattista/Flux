@@ -105,7 +105,7 @@ import { tools } from '../../toolsRegistry';
 import hrInput from '../button/hr-input.vue';
 
 // ICONS
-import { ChevronDown, Image as ImageIcon, Thermometer, Clock, Gauge, Zap, Menu as MenuIcon, X as CloseIcon } from '@lucide/vue';
+import { ChevronDown, Image as ImageIcon, Video as VideoIcon, Thermometer, Clock, Gauge, Zap, Menu as MenuIcon, X as CloseIcon } from '@lucide/vue';
 
 export default {
   name: 'navigation',
@@ -115,6 +115,7 @@ export default {
     // ICONS
     ChevronDown,
     ImageIcon,
+    VideoIcon,
     Thermometer,
     Clock,
     Gauge,
@@ -130,9 +131,9 @@ export default {
       },
       dropdownTimer: null,
       categories: {
-        images: {
-          label: 'Immagini',
-          tools: [tools['image-converter']],
+        media: {
+          label: 'Media',
+          tools: [tools['image-converter'], tools['video-converter']],
         },
         units: {
           label: 'Unità',

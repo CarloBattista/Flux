@@ -10,6 +10,7 @@
     </div>
 
     <imageConverterUi v-if="tool.metadata.type === 'file-converter'" :tool="tool" />
+    <videoConverterUi v-else-if="tool.metadata.type === 'video-converter'" :tool="tool" />
     <converterUi v-else :tool="tool" />
 
     <div class="bg-indigo-50 rounded-lg p-6 border border-indigo-100">
@@ -34,12 +35,14 @@ import { tools } from '../toolsRegistry';
 
 import converterUi from '../components/layout/converter-ui.vue';
 import imageConverterUi from '../components/layout/image-converter-ui.vue';
+import videoConverterUi from '../components/layout/video-converter-ui.vue';
 
 export default {
   name: 'Tool',
   components: {
     converterUi,
     imageConverterUi,
+    videoConverterUi,
   },
   computed: {
     tool() {
