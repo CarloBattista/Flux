@@ -89,8 +89,9 @@
             <div class="h-full aspect-square rounded-xl flex flex-none items-center justify-center bg-white/10 text-white/70">
               <component :is="tool.metadata.icon" size="18" />
             </div>
-            <div class="w-full flex flex-col">
+            <div class="w-full flex flex-row gap-2">
               <h2 class="text-white text-sm font-medium">{{ tool.metadata.title }}</h2>
+              <span v-if="tool.metadata.new" class="w-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]">New</span>
             </div>
           </RouterLink>
         </section>
