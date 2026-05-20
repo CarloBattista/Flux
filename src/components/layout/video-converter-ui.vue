@@ -24,8 +24,16 @@
       </div>
 
       <div v-else-if="isReading || isConverting" class="space-y-4">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-        <p class="text-indigo-600 font-bold">{{ isReading ? 'Caricamento video...' : 'Conversione in corso...' }}</p>
+        <div class="relative flex justify-center">
+          <div class="animate-spin rounded-full h-16 w-16 border-4 border-indigo-100 border-b-indigo-600 mx-auto"></div>
+          <div v-if="isConverting" class="absolute inset-0 flex items-center justify-center">
+            <span class="text-[10px] font-bold text-indigo-600">{{ Math.round(progress * 100) }}%</span>
+          </div>
+        </div>
+        <div class="space-y-1">
+          <p class="text-indigo-600 font-bold text-lg">{{ isReading ? 'Caricamento video...' : 'Conversione professionale...' }}</p>
+          <p v-if="isConverting" class="text-indigo-400 text-xs font-medium">L'operazione avviene interamente nel tuo browser</p>
+        </div>
       </div>
 
       <div v-else class="space-y-4">
@@ -74,6 +82,10 @@
 </template>
 
 <script>
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { toBlobURL } from '@ffmpeg/util';
+import { markRaw } from 'vue';
+
 export default {
   name: 'video-converter-ui',
   props: { tool: Object },
@@ -85,7 +97,11 @@ export default {
       isConverting: false,
       isReading: false,
       videoReady: false,
+      progress: 0,
     };
+  },
+  created() {
+    this.ffmpeg = null;
   },
   methods: {
     handleFileSelect(e) {
@@ -116,17 +132,6 @@ export default {
       this.isReading = false;
       if (this.$refs.fileInput) this.$refs.fileInput.value = '';
     },
-    async convertVideo() {
-      if (!this.videoReady) return;
-      this.isConverting = true;
-
-      // Simulazione conversione (in un'app reale qui si userebbe ffmpeg.wasm)
-      setTimeout(() => {
-        const fileName = this.selectedFile.name.split('.')[0];
-        this.downloadFile(this.selectedFile, `${fileName}.${this.targetFormat}`);
-        this.isConverting = false;
-      }, 1500);
-    },
     downloadFile(blob, name) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -134,6 +139,64 @@ export default {
       link.href = url;
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 100);
+    },
+
+    async loadFFmpeg() {
+      if (this.ffmpeg && this.ffmpeg.loaded) return;
+
+      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+
+      // Usa markRaw per evitare che Vue crei un Proxy sull'istanza di FFmpeg
+      const ffmpeg = new FFmpeg();
+      this.ffmpeg = markRaw(ffmpeg);
+
+      // Ora on() funzionerà correttamente
+      this.ffmpeg.on('progress', ({ progress }) => {
+        this.progress = progress;
+      });
+
+      await this.ffmpeg.load({
+        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      });
+    },
+    async convertVideo() {
+      if (!this.videoReady) return;
+      this.isConverting = true;
+      this.progress = 0;
+
+      try {
+        await this.loadFFmpeg();
+
+        const inputExt = this.selectedFile.name.substring(this.selectedFile.name.lastIndexOf('.'));
+        const inputName = `input${inputExt}`;
+        const outputName = `output.${this.targetFormat}`;
+
+        // Convertiamo esplicitamente in Uint8Array per stabilità WASM
+        const arrayBuffer = await this.selectedFile.arrayBuffer();
+        await this.ffmpeg.writeFile(inputName, new Uint8Array(arrayBuffer));
+
+        // Esecuzione del comando di conversione
+        await this.ffmpeg.exec(['-i', inputName, '-preset', 'ultrafast', outputName]);
+
+        // Lettura del file convertito
+        const data = await this.ffmpeg.readFile(outputName);
+        const blob = new Blob([data.buffer], { type: `video/${this.targetFormat}` });
+
+        const fileName = this.selectedFile.name.split('.')[0];
+        this.downloadFile(blob, `${fileName}.${this.targetFormat}`);
+
+        // Pulizia file system virtuale
+        await this.ffmpeg.deleteFile(inputName);
+        await this.ffmpeg.deleteFile(outputName);
+      } catch (error) {
+        console.error('Errore durante la conversione con FFmpeg:', error);
+        this.ffmpeg = null; // Resetta l'istanza in caso di crash
+        alert('Errore di memoria o formato non supportato. Prova con un file più piccolo o ricarica la pagina.');
+      } finally {
+        this.isConverting = false;
+        this.progress = 0;
+      }
     },
   },
   beforeUnmount() {

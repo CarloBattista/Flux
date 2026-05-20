@@ -12,6 +12,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@lucide/vue": "^1.16.0",
     "@tailwindcss/vite": "^4.3.0",
     "heic2any": "^0.0.4",
