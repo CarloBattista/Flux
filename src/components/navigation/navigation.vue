@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center">
+  <div class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center" :class="{ 'nav-active': viewedScrolled }">
     <div class="h-full flex flex-1 items-center justify-start">
       <RouterLink to="/">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 449 71" class="h-[17px] w-auto md:h-[20px]">
@@ -27,8 +27,8 @@
       </div>
     </div>
     <div class="h-full md:flex hidden flex-1 gap-3 items-center justify-end">
-      <hrInput v-if="false" variant="primary" label="Vedi prezzi" />
-      <hrInput v-if="false" variant="secondary" label="Inizia ora" />
+      <hrButton v-if="false" variant="primary" label="Vedi prezzi" />
+      <hrButton v-if="false" variant="secondary" label="Inizia ora" />
     </div>
     <div
       @click="burger.isOpen = !burger.isOpen"
@@ -63,8 +63,8 @@
         </div>
 
         <div v-if="false" class="flex flex-col gap-3 pt-4">
-          <hrInput variant="primary" label="Vedi prezzi" class="w-full justify-center" />
-          <hrInput variant="secondary" label="Inizia ora" class="w-full justify-center" />
+          <hrButton variant="primary" label="Vedi prezzi" class="w-full justify-center" />
+          <hrButton variant="secondary" label="Inizia ora" class="w-full justify-center" />
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
 <script>
 import { tools } from '../../toolsRegistry';
 
-import hrInput from '../button/hr-input.vue';
+import hrButton from '../button/hr-button.vue';
 
 // ICONS
 import { ChevronDown, Image as ImageIcon, Video as VideoIcon, Thermometer, Clock, Gauge, Zap, Menu as MenuIcon, X as CloseIcon } from '@lucide/vue';
@@ -110,7 +110,7 @@ import { ChevronDown, Image as ImageIcon, Video as VideoIcon, Thermometer, Clock
 export default {
   name: 'navigation',
   components: {
-    hrInput,
+    hrButton,
 
     // ICONS
     ChevronDown,
@@ -129,7 +129,6 @@ export default {
         isOpen: false,
         menu: '',
       },
-      dropdownTimer: null,
       categories: {
         media: {
           label: 'Media',
@@ -140,10 +139,12 @@ export default {
           tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
         },
       },
-
       burger: {
         isOpen: false,
       },
+
+      dropdownTimer: null,
+      viewedScrolled: false,
     };
   },
   computed: {
@@ -175,6 +176,13 @@ export default {
     dropdownMouseEnter() {
       if (this.dropdownTimer) clearTimeout(this.dropdownTimer);
     },
+    handleScroll() {
+      if (window.scrollY > 0) {
+        this.viewedScrolled = true;
+      } else {
+        this.viewedScrolled = false;
+      }
+    },
   },
   watch: {
     'burger.isOpen'(val) {
@@ -185,10 +193,28 @@ export default {
       }
     },
   },
+  mounted() {
+    this.handleScroll();
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
 };
 </script>
 
 <style scoped>
+.nav {
+  transition-property: background-color, backdrop-filter;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+.nav-active {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(18px);
+}
+
 .nav-item {
   height: 100%;
   font-size: 0.875rem;
