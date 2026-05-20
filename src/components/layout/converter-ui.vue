@@ -18,11 +18,15 @@
           @update:modelValue="autoConvert"
         />
       </div>
-      <!-- Mobile Result -->
-      <div v-if="result !== null" class="p-6 rounded-2xl bg-[#8e48ff] shadow-inner shadow-white/20 text-white animate-fade-in">
+      <div class="p-6 rounded-2xl bg-[#8e48ff] shadow-inner shadow-white/20 text-white animate-fade-in">
         <span class="text-xs font-bold uppercase tracking-widest opacity-80">Risultato Finale</span>
-        <div class="text-3xl font-black mt-1">
-          {{ result }} <span class="text-xl font-medium opacity-90 ml-1">{{ tool.config.labels ? tool.config.labels[to] : to }}</span>
+        <div class="min-w-0 text-3xl font-black mt-1 flex items-baseline">
+          <span
+            @click="actionCopy"
+            class="min-w-0 px-2 py-1 block rounded-2xl hover:bg-white/20 active:scale-95 transition-all duration-200 max-one-line cursor-pointer"
+            >{{ result }}</span
+          >
+          <span class="text-xl font-medium opacity-90 ml-1">{{ tool.config.labels ? tool.config.labels[to] : to }}</span>
         </div>
       </div>
     </div>
@@ -61,6 +65,11 @@ export default {
         this.from = this.tool.config.units[0];
         this.to = this.tool.config.units[1] || this.tool.config.units[0];
         this.autoConvert();
+      }
+    },
+    actionCopy() {
+      if (this.result !== null) {
+        navigator.clipboard.writeText(this.result);
       }
     },
   },
