@@ -158,9 +158,15 @@ export default {
   },
   methods: {
     handleGlobalKeydown(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      // Toggle search bar with Cmd+K (Mac) or Ctrl+K (Windows/Linux)
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         this.store.searchBar.isOpen = !this.store.searchBar.isOpen;
+      }
+
+      // Close search bar with Escape if it's open
+      if (e.key === 'Escape' && this.store.searchBar.isOpen) {
+        this.store.searchBar.isOpen = false;
       }
     },
     moveSelection(direction) {

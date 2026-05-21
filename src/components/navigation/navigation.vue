@@ -24,11 +24,14 @@
         <ChevronDown size="18" class="nav-icon" />
       </div>
       <div class="nav-item">
-        <div
-          @click="store.searchBar.isOpen = !store.searchBar.isOpen"
-          class="relative h-8 aspect-square rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
-        >
-          <SearchIcon size="18" class="nav-icon" />
+        <div class="flex gap-1 items-center">
+          <div
+            @click="store.searchBar.isOpen = !store.searchBar.isOpen"
+            class="relative h-8 aspect-square rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
+          >
+            <SearchIcon size="18" class="nav-icon" />
+          </div>
+          <hrButtonShortcut icon="⌘ K" />
         </div>
       </div>
     </div>
@@ -146,6 +149,7 @@ import { store } from '../../data/store';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
+import hrButtonShortcut from '../button/hr-button-shortcut.vue';
 
 // ICONS
 import {
@@ -177,6 +181,7 @@ export default {
   components: {
     appLogo,
     hrButton,
+    hrButtonShortcut,
 
     // ICONS
     ChevronDown,
