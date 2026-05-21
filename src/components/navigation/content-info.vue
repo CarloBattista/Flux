@@ -49,21 +49,21 @@
           <div class="w-full flex flex-col">
             <a href="#" target="_blank" class="footer-nav">Chi siamo</a>
             <a href="#" target="_blank" class="footer-nav">Sicurezza</a>
-            <a href="#" target="_blank" class="footer-nav">Termini e privacy</a>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">
-          <h2 class="footer-nav-head text-sm font-medium brightness-50">Scarica</h2>
+          <h2 class="footer-nav-head text-sm font-medium brightness-50">Legale</h2>
           <div class="w-full flex flex-col">
-            <a href="#" target="_blank" class="footer-nav">iOS e Android</a>
-            <a href="#" target="_blank" class="footer-nav">Mac e Windows</a>
+            <RouterLink to="/privacy-policy" class="footer-nav">Privacy policy</RouterLink>
+            <RouterLink to="/cookie" class="footer-nav">Cookie</RouterLink>
+            <a href="#" target="_blank" class="footer-nav">Contattaci</a>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">
           <h2 class="footer-nav-head text-sm font-medium brightness-50">Risorse</h2>
           <div class="w-full flex flex-col">
             <a href="#" target="_blank" class="footer-nav">Centro assistenza</a>
-            <a href="#" target="_blank" class="footer-nav">Prezzi</a>
+            <RouterLink to="/pricing" class="footer-nav">Prezzi</RouterLink>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@
     "@lucide/vue": "^1.16.0",
     "@tailwindcss/vite": "^4.3.0",
     "heic2any": "^0.0.4",
+    "marked": "^18.0.4",
     "tailwindcss": "^4.3.0",
     "utif": "^3.1.0",
     "vue": "^3.5.34",

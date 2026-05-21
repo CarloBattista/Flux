@@ -24,6 +24,20 @@ const routes = [
     component: () => import('../views/Tool.vue'),
     props: true,
   },
+
+  // Legal
+  {
+    path: '/privacy-policy',
+    name: 'privacy-policy',
+    component: () => import('../views/Legal/Privacy-policy.vue'),
+    props: true,
+  },
+  {
+    path: '/cookie',
+    name: 'cookie',
+    component: () => import('../views/Legal/Cookie.vue'),
+    props: true,
+  },
 ];
 
 const router = createRouter({

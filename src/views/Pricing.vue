@@ -68,6 +68,8 @@
       </div>
     </div>
   </div>
+  <div class="relative w-full h-[300px]"></div>
+  <contentInfo />
 </template>
 
 <script>
@@ -76,18 +78,23 @@ import { store } from '../data/store';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
+import contentInfo from '../components/navigation/content-info.vue';
 
 export default {
   name: 'Pricing',
   components: {
     navigation,
     hrButton,
+    contentInfo,
   },
   data() {
     return {
       tools,
       store,
     };
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
 };
 </script>
