@@ -11,8 +11,16 @@
 </template>
 
 <script>
+// ICONS
+import { Check, Copy } from '@lucide/vue';
+
 export default {
   name: 'hr-button',
+  components: {
+    // ICONS
+    Check,
+    Copy,
+  },
   props: {
     type: {
       type: String,
@@ -45,13 +53,14 @@ export default {
 .hr-button {
   position: relative;
   gap: 8px;
+  border-radius: 12px;
   outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 
-  transition-property: background-color, color, opacity, transform, border-color;
+  transition-property: background, background-color, color, opacity, transform, border-color;
   transition-duration: 200ms;
   transition-timing-function: ease-in-out;
 }
@@ -80,45 +89,66 @@ export default {
 }
 
 /* SIZE */
+.hr-button.size-small {
+  padding: 8px 14px;
+  height: 36px;
+  min-width: 36px;
+}
+
 .hr-button.size-default {
   padding: 8px 16px;
   height: 40px;
-  border-radius: 12px;
+  min-width: 40px;
 }
 
 .hr-button.size-large {
-  padding: 12px 24px;
-  height: 50px;
-  border-radius: 12px;
+  padding: 8px 18px;
+  height: 48px;
+  min-width: 48px;
 }
 
 /* VARIANT */
 .hr-button.variant-core-primary {
   background-color: rgba(142, 72, 255, 1);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.25);
   color: #fff;
 }
 
 .hr-button.variant-core-primary:not(:disabled):hover {
-  background-color: rgba(142, 72, 255, 0.75);
+  background-color: rgba(111, 61, 190, 1);
 }
 
 .hr-button.variant-primary {
-  background-color: #000;
+  background: #121212;
+  background: linear-gradient(900deg, rgba(18, 18, 18, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.25);
   color: #fff;
 }
 
 .hr-button.variant-primary:not(:disabled):hover {
-  background-color: rgba(0, 0, 0, 0.75);
+  background: #121212;
+  background: linear-gradient(900deg, rgba(18, 18, 18, 1) 0%, rgba(25, 25, 25, 1) 100%);
 }
 
 .hr-button.variant-secondary {
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  color: #000;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 1);
+  color: #fff;
 }
 
 .hr-button.variant-secondary:not(:disabled):hover {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(164, 164, 164, 0.45);
+}
+
+.hr-button.variant-tertiary {
+  background: #4c4c4c;
+  background: linear-gradient(900deg, rgba(76, 76, 76, 1) 0%, rgba(35, 35, 35, 1) 100%);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.21);
+  color: #fff;
+}
+
+.hr-button.variant-tertiary:not(:disabled):hover {
+  background: #121212;
+  background: linear-gradient(900deg, rgba(18, 18, 18, 1) 0%, rgba(25, 25, 25, 1) 100%);
 }
 </style>

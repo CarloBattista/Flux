@@ -113,6 +113,7 @@ import {
   Menu as MenuIcon,
   X as CloseIcon,
   Headphones,
+  Braces,
 } from '@lucide/vue';
 
 export default {
@@ -132,6 +133,7 @@ export default {
     MenuIcon,
     CloseIcon,
     Headphones,
+    Braces,
   },
   data() {
     return {
@@ -147,6 +149,10 @@ export default {
         units: {
           label: 'Unità',
           tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
+        },
+        devtools: {
+          label: 'DevTools',
+          tools: [tools['json-formatter']],
         },
       },
       burger: {

@@ -5,6 +5,7 @@ import dataTransferRate from './tools/data_transfer_rate';
 import imageConverter from './tools/image_converter';
 import videoConverter from './tools/video_converter';
 import audioConverter from './tools/audio_converter';
+import jsonFormatter from './tools/json_formatter';
 
 export const tools = {
   temperature,
@@ -14,4 +15,5 @@ export const tools = {
   'image-converter': imageConverter,
   'video-converter': videoConverter,
   'audio-converter': audioConverter,
+  'json-formatter': jsonFormatter,
 };
