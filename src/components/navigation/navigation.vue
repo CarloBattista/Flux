@@ -1,5 +1,5 @@
 <template>
-  <div class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center" :class="{ 'nav-active': viewedScrolled }">
+  <div class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center" :class="{ 'nav-active': viewedScrolled || burger.isOpen }">
     <div class="h-full flex flex-1 items-center justify-start">
       <RouterLink to="/">
         <appLogo class="relative h-5" />

@@ -10,6 +10,12 @@ const routes = [
     component: () => import('../views/Home.vue'),
     props: true,
   },
+  {
+    path: '/pricing',
+    name: 'pricing',
+    component: () => import('../views/Pricing.vue'),
+    props: true,
+  },
 
   // Tools
   {

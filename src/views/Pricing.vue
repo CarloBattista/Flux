@@ -34,54 +34,59 @@
         </g>
       </svg>
     </div>
-    <div class="relative z-20 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-center">
+    <div class="relative z-20 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-start md:pt-[10%] pt-[20%]">
       <div class="w-full flex flex-col items-center justify-center text-center">
-        <div
-          class="relative mb-6 h-8 p-0.5 rounded-full flex gap-1.5 items-center border border-white/50 hover:bg-white/20 transition-colors duration-200 cursor-pointer"
-        >
-          <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">Explore</span>
-          <span class="text-sm">Fast media & dev tools</span>
-          <ArrowRight size="16" class="mr-2" />
-        </div>
-        <h1 class="md:text-6xl text-3xl font-semibold text-center whitespace-nowrap">
-          Converti qualsiasi cosa, <br />
-          in pochi secondi.
-        </h1>
+        <h1 class="text-6xl font-semibold text-center whitespace-nowrap">Pricing</h1>
         <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">
           Strumenti veloci e moderni per convertire immagini, video, audio, file e dati direttamente nel browser.
         </p>
-        <div class="w-full mt-8 flex gap-2 items-center justify-center">
-          <hrButton size="large" variant="core-primary" label="Vedi prezzi" />
-          <hrButton size="large" variant="secondary" label="Inizia ora" />
+      </div>
+      <div class="relative w-full max-w-[1024px] mx-auto mt-14">
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
+          <div v-for="plan in store.plans" :key="plan.id" class="card-plan w-full py-6 px-4" :class="{ 'plus-card': plan.name === 'Plus' }">
+            <h3 class="text-base mb-10">{{ plan.name }}</h3>
+            <div class="w-full mb-8 flex flex-col gap-2">
+              <div class="w-full flex items-baseline">
+                <h2 class="text-5xl font-semibold">{{ plan.price }}</h2>
+                <span class="text-base font-medium ml-2">{{ plan.type }}</span>
+              </div>
+              <p>{{ plan.description }}</p>
+            </div>
+            <div class="w-full flex gap-2 items-center">
+              <hrButton variant="core-primary" label="Continua" class="w-full" />
+            </div>
+            <div class="w-full mt-16 flex flex-col">
+              <h2 class="text-base font-medium">What's included</h2>
+              <div class="w-full mt-2 flex flex-col gap-1 text-sm font-normal">
+                <div v-for="feature in plan.features" :key="feature" class="flex gap-2 items-center">
+                  <span>{{ feature }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div v-if="false" class="relative w-full h-[78px] my-10"></div>
     </div>
   </div>
-  <p v-for="index in 50" :key="index" class="opacity-0">p</p>
 </template>
 
 <script>
 import { tools } from '../toolsRegistry';
+import { store } from '../data/store';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
 
-// ICONS
-import { ArrowRight } from '@lucide/vue';
-
 export default {
-  name: 'Home',
+  name: 'Pricing',
   components: {
     navigation,
     hrButton,
-
-    // ICONS
-    ArrowRight,
   },
   data() {
     return {
       tools,
+      store,
     };
   },
 };
@@ -91,5 +96,15 @@ export default {
 .grid-bg {
   transform: translateX(-10px) scale(2.5);
   filter: brightness(0.2);
+}
+
+.card-plan {
+  position: relative;
+  border-radius: 16px;
+  background-color: #1b1b1b;
+}
+
+.card-plan.plus-card {
+  background-color: #1b1b1b;
 }
 </style>
