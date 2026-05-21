@@ -46,15 +46,17 @@
         </div>
       </div>
 
-      <hrButton
-        @click="convertAudio"
-        size="large"
-        variant="core-primary"
-        label="Converti e Scarica"
-        :disabled="isConverting || !audioReady"
-        class="w-full mt-auto"
-      />
-      <hrButton @click="reset" size="large" variant="primary" label="Cambia file" class="w-full" />
+      <div class="w-full mt-auto flex flex-col gap-2">
+        <hrButton
+          @click="convertAudio"
+          size="large"
+          variant="core-primary"
+          label="Converti e Scarica"
+          :disabled="isConverting || !audioReady"
+          class="w-full"
+        />
+        <hrButton @click="reset" size="large" variant="primary" label="Cambia file" class="w-full" />
+      </div>
     </div>
   </div>
 </template>

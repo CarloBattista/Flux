@@ -12,6 +12,7 @@ import regexTester from './tools/regex_tester';
 import timestampConverter from './tools/timestamp_converter';
 import uuidGenerator from './tools/uuid_generator';
 import colorPickerConverter from './tools/color_picker_converter';
+import imageCompressor from './tools/image_compressor';
 
 export const tools = {
   temperature,
@@ -28,4 +29,5 @@ export const tools = {
   'timestamp-converter': timestampConverter,
   'uuid-generator': uuidGenerator,
   'color-picker-converter': colorPickerConverter,
+  'image-compressor': imageCompressor,
 };

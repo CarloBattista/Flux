@@ -15,6 +15,7 @@
         <imageConverterUi v-if="tool.metadata.type === 'file-converter'" :tool="tool" />
         <videoConverterUi v-else-if="tool.metadata.type === 'video-converter'" :tool="tool" />
         <audioConverterUi v-else-if="tool.metadata.type === 'audio-converter'" :tool="tool" />
+        <imageCompressorUi v-else-if="tool.metadata.type === 'image-tool'" :tool="tool" />
         <jsonFormatterUi v-else-if="tool.metadata.type === 'json-formatter'" :tool="tool" />
         <base64ConverterUi v-else-if="tool.metadata.type === 'base64-converter'" :tool="tool" />
         <jwtDecoderUi v-else-if="tool.metadata.type === 'jwt-decoder'" :tool="tool" />
@@ -40,6 +41,7 @@ import converterUi from '../components/layout/converter-ui.vue';
 import imageConverterUi from '../components/layout/image-converter-ui.vue';
 import videoConverterUi from '../components/layout/video-converter-ui.vue';
 import audioConverterUi from '../components/layout/audio-converter-ui.vue';
+import imageCompressorUi from '../components/layout/image-compressor-ui.vue';
 import jsonFormatterUi from '../components/layout/json-formatter-ui.vue';
 import base64ConverterUi from '../components/layout/base64-converter-ui.vue';
 import jwtDecoderUi from '../components/layout/jwt-decoder-ui.vue';
@@ -56,6 +58,7 @@ export default {
     imageConverterUi,
     videoConverterUi,
     audioConverterUi,
+    imageCompressorUi,
     jsonFormatterUi,
     base64ConverterUi,
     jwtDecoderUi,
