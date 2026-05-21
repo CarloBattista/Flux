@@ -99,6 +99,7 @@
       </div>
     </div>
   </section>
+  <contentInfo />
 </template>
 
 <script>
@@ -106,6 +107,7 @@ import { tools } from '../toolsRegistry';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
+import contentInfo from '../components/navigation/content-info.vue';
 
 // ICONS
 import { ArrowRight, Video as VideoIcon, Images, Shield } from '@lucide/vue';
@@ -115,6 +117,7 @@ export default {
   components: {
     navigation,
     hrButton,
+    contentInfo,
 
     // ICONS
     ArrowRight,
