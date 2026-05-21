@@ -11,6 +11,7 @@ import jwtDecoder from './tools/jwt_decoder';
 import regexTester from './tools/regex_tester';
 import timestampConverter from './tools/timestamp_converter';
 import uuidGenerator from './tools/uuid_generator';
+import colorPickerConverter from './tools/color_picker_converter';
 
 export const tools = {
   temperature,
@@ -26,4 +27,5 @@ export const tools = {
   'regex-tester': regexTester,
   'timestamp-converter': timestampConverter,
   'uuid-generator': uuidGenerator,
+  'color-picker-converter': colorPickerConverter,
 };

@@ -119,6 +119,7 @@ import {
   Regex,
   Calendar,
   Fingerprint,
+  Palette,
 } from '@lucide/vue';
 
 export default {
@@ -144,6 +145,7 @@ export default {
     Regex,
     Calendar,
     Fingerprint,
+    Palette,
   },
   data() {
     return {
@@ -169,6 +171,7 @@ export default {
             tools['regex-tester'],
             tools['timestamp-converter'],
             tools['uuid-generator'],
+            tools['color-picker-converter'],
           ],
         },
       },

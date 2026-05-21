@@ -21,6 +21,7 @@
         <regexTesterUi v-else-if="tool.metadata.type === 'regex-tester'" :tool="tool" />
         <timestampConverterUi v-else-if="tool.metadata.type === 'timestamp-converter'" :tool="tool" />
         <uuidGeneratorUi v-else-if="tool.metadata.type === 'uuid-generator'" :tool="tool" />
+        <colorPickerConverterUi v-else-if="tool.metadata.type === 'color-picker-converter'" :tool="tool" />
         <converterUi v-else :tool="tool" />
       </div>
       <div v-else class="text-center py-20">
@@ -45,6 +46,7 @@ import jwtDecoderUi from '../components/layout/jwt-decoder-ui.vue';
 import regexTesterUi from '../components/layout/regex-tester-ui.vue';
 import timestampConverterUi from '../components/layout/timestamp-converter-ui.vue';
 import uuidGeneratorUi from '../components/layout/uuid-generator-ui.vue';
+import colorPickerConverterUi from '../components/layout/color-picker-converter-ui.vue';
 
 export default {
   name: 'Tool',
@@ -60,6 +62,7 @@ export default {
     regexTesterUi,
     timestampConverterUi,
     uuidGeneratorUi,
+    colorPickerConverterUi,
   },
   computed: {
     tool() {
