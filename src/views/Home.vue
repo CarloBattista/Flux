@@ -1,8 +1,8 @@
 <template>
   <navigation />
-  <div class="relative w-full h-svh pt-24 px-6">
-    <div class="absolute z-10 top-0 left-0 w-full h-full pointer-events-none">
-      <img src="/_resources/imgs/background.png" alt="background" draggable="false" style="filter: blur(500px) brightness(0.2)" />
+  <div class="relative w-full pt-24 px-6">
+    <div class="absolute z-10 top-0 left-0 w-full h-fit pointer-events-none">
+      <img src="/_resources/imgs/background.png" alt="background" draggable="false" style="filter: blur(500px) brightness(0.2) hue-rotate(360deg)" />
     </div>
     <div class="relative z-40 w-full max-w-[1024px] mx-auto">
       <h1 class="md:text-6xl text-3xl md:leading-20 leading-12 font-semibold text-center whitespace-nowrap">

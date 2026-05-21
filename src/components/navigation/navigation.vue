@@ -1,7 +1,9 @@
 <template>
   <div class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center" :class="{ 'nav-active': viewedScrolled }">
     <div class="h-full flex flex-1 items-center justify-start">
-      <RouterLink to="/">Flux</RouterLink>
+      <RouterLink to="/">
+        <appLogo class="relative h-5" />
+      </RouterLink>
     </div>
     <div class="h-full md:flex hidden gap-6 items-center justify-center">
       <RouterLink to="/" class="nav-item">
@@ -96,6 +98,7 @@
 <script>
 import { tools } from '../../toolsRegistry';
 
+import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
 
 // ICONS
@@ -115,6 +118,7 @@ import {
 export default {
   name: 'navigation',
   components: {
+    appLogo,
     hrButton,
 
     // ICONS
