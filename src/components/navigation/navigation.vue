@@ -116,6 +116,7 @@ import {
   Braces,
   Binary,
   ShieldCheck,
+  Regex,
 } from '@lucide/vue';
 
 export default {
@@ -138,6 +139,7 @@ export default {
     Braces,
     Binary,
     ShieldCheck,
+    Regex,
   },
   data() {
     return {
@@ -156,7 +158,7 @@ export default {
         },
         devtools: {
           label: 'DevTools',
-          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder']],
+          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder'], tools['regex-tester']],
         },
       },
       burger: {

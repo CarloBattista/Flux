@@ -18,6 +18,7 @@
         <jsonFormatterUi v-else-if="tool.metadata.type === 'json-formatter'" :tool="tool" />
         <base64ConverterUi v-else-if="tool.metadata.type === 'base64-converter'" :tool="tool" />
         <jwtDecoderUi v-else-if="tool.metadata.type === 'jwt-decoder'" :tool="tool" />
+        <regexTesterUi v-else-if="tool.metadata.type === 'regex-tester'" :tool="tool" />
         <converterUi v-else :tool="tool" />
       </div>
       <div v-else class="text-center py-20">
@@ -39,6 +40,7 @@ import audioConverterUi from '../components/layout/audio-converter-ui.vue';
 import jsonFormatterUi from '../components/layout/json-formatter-ui.vue';
 import base64ConverterUi from '../components/layout/base64-converter-ui.vue';
 import jwtDecoderUi from '../components/layout/jwt-decoder-ui.vue';
+import regexTesterUi from '../components/layout/regex-tester-ui.vue';
 
 export default {
   name: 'Tool',
@@ -51,6 +53,7 @@ export default {
     jsonFormatterUi,
     base64ConverterUi,
     jwtDecoderUi,
+    regexTesterUi,
   },
   computed: {
     tool() {

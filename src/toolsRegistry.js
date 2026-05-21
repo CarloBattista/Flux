@@ -8,6 +8,7 @@ import audioConverter from './tools/audio_converter';
 import jsonFormatter from './tools/json_formatter';
 import base64Converter from './tools/base64_converter';
 import jwtDecoder from './tools/jwt_decoder';
+import regexTester from './tools/regex_tester';
 
 export const tools = {
   temperature,
@@ -20,4 +21,5 @@ export const tools = {
   'json-formatter': jsonFormatter,
   'base64-converter': base64Converter,
   'jwt-decoder': jwtDecoder,
+  'regex-tester': regexTester,
 };
