@@ -34,13 +34,14 @@
         </g>
       </svg>
     </div>
+    <div class="vignette-hero"></div>
     <div class="relative z-20 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-center">
       <div class="w-full flex flex-col items-center justify-center text-center">
         <div
           class="relative mb-6 h-8 p-0.5 rounded-full flex gap-1.5 items-center border border-white/50 hover:bg-white/20 transition-colors duration-200 cursor-pointer"
         >
-          <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">Explore</span>
-          <span class="text-sm">Fast media & dev tools</span>
+          <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">Esplora</span>
+          <span class="text-sm">Strumenti veloci per i media e lo sviluppo</span>
           <ArrowRight size="16" class="mr-2" />
         </div>
         <h1 class="md:text-6xl text-3xl font-semibold text-center whitespace-nowrap">
@@ -58,7 +59,46 @@
       <div v-if="false" class="relative w-full h-[78px] my-10"></div>
     </div>
   </div>
-  <p v-for="index in 50" :key="index" class="opacity-0">p</p>
+  <section class="relative w-full px-6 py-16">
+    <div class="w-full max-w-[1100px] mx-auto flex flex-col gap-20">
+      <div class="w-full flex items-center justify-center text-center">
+        <h2 class="text-white text-4xl font-semibold">
+          Strumenti moderni per <br />
+          workflow veloci
+        </h2>
+      </div>
+      <div class="card-tools-data-container relative w-full grid md:grid-cols-4 grid-cols-1">
+        <div
+          v-for="tool in toolsData"
+          :key="tool.value"
+          class="card-tools-data relative w-full px-2.5 py-7 flex flex-col gap-2 text-center md:border-r md:last:border-r-0 md:border-b-0 border-b last:border-b-0 border-white/10 hover:bg-[#8E48FF]/20"
+        >
+          <h2 class="text-white md:text-3xl text-base font-semibold">{{ tool.title }}</h2>
+          <p class="text-white md:text-xl text-xs font-normal">{{ tool.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="relative w-full px-6 py-16">
+    <div class="w-full max-w-[1100px] mx-auto flex flex-col gap-8">
+      <div class="w-full flex items-center justify-start">
+        <h2 class="text-white text-4xl font-semibold">Tool più usati</h2>
+      </div>
+      <div class="w-full grid md:grid-cols-3 grid-cols-1 gap-4">
+        <div v-for="tool in toolsMostUsed" :key="tool.value" class="relative w-full h-[170px] px-6 py-3 rounded-lg bg-white overflow-hidden">
+          <div class="absolute z-0 top-0 right-[-100px] w-full h-full pointer-events-none">
+            <img src="/_resources/imgs/card_bg.webp" alt="background" draggable="false" class="w-full h-full object-cover" />
+          </div>
+          <div class="relative z-10 w-full h-full flex flex-col justify-between">
+            <div class="w-fit h-full max-h-11 flex items-center justify-center">
+              <component :is="tool.icon" color="black" />
+            </div>
+            <p class="max-w-[210px] text-black text-base font-medium">{{ tool.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -68,7 +108,7 @@ import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
 
 // ICONS
-import { ArrowRight } from '@lucide/vue';
+import { ArrowRight, Video as VideoIcon, Images, Shield } from '@lucide/vue';
 
 export default {
   name: 'Home',
@@ -78,10 +118,55 @@ export default {
 
     // ICONS
     ArrowRight,
+    VideoIcon,
+    Images,
+    Shield,
   },
   data() {
     return {
       tools,
+      toolsData: [
+        {
+          title: '20+',
+          value: '20plus',
+          description: 'Strumenti per media e sviluppo',
+        },
+        {
+          title: '100%',
+          value: '100percentage',
+          description: 'Elaborazione direttamente nel browser, senza upload.',
+        },
+        {
+          title: 'Fast',
+          value: 'fast',
+          description: 'Conversioni ottimizzate per ogni tipo di file.',
+        },
+        {
+          title: 'Privacy-first',
+          value: 'privacy-first',
+          description: 'I file restano sempre sul tuo dispositivo.',
+        },
+      ],
+      toolsMostUsed: [
+        {
+          title: 'Video',
+          value: 'video',
+          icon: VideoIcon,
+          description: 'Converti e comprimi video direttamente nel browser in pochi secondi.',
+        },
+        {
+          title: 'Images',
+          value: 'images',
+          icon: Images,
+          description: 'Trasforma e ottimizza immagini tra diversi formati in modo rapido.',
+        },
+        {
+          title: 'Shield',
+          value: 'shield',
+          icon: Shield,
+          description: 'Decodifica e analizza token JWT in tempo reale senza strumenti esterni.',
+        },
+      ],
     };
   },
 };
@@ -91,5 +176,16 @@ export default {
 .grid-bg {
   transform: translateX(-10px) scale(2.5);
   filter: brightness(0.2);
+}
+
+.vignette-hero {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: #080808;
+  background: linear-gradient(900deg, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 1) 100%);
 }
 </style>
