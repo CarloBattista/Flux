@@ -41,7 +41,7 @@
           class="relative mb-6 h-8 p-0.5 rounded-full flex gap-1.5 items-center border border-white/50 hover:bg-white/20 transition-colors duration-200 cursor-pointer"
         >
           <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">Esplora</span>
-          <span class="text-sm">Strumenti veloci per i media e lo sviluppo</span>
+          <span class="text-sm max-one-line">Strumenti veloci per i media e lo sviluppo</span>
           <ArrowRight size="16" class="mr-2" />
         </div>
         <h1 class="md:text-6xl text-3xl font-semibold text-center whitespace-nowrap">
