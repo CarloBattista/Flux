@@ -117,6 +117,7 @@ import {
   Binary,
   ShieldCheck,
   Regex,
+  Calendar,
 } from '@lucide/vue';
 
 export default {
@@ -140,6 +141,7 @@ export default {
     Binary,
     ShieldCheck,
     Regex,
+    Calendar,
   },
   data() {
     return {
@@ -158,7 +160,7 @@ export default {
         },
         devtools: {
           label: 'DevTools',
-          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder'], tools['regex-tester']],
+          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder'], tools['regex-tester'], tools['timestamp-converter']],
         },
       },
       burger: {
