@@ -1,6 +1,6 @@
 <template>
   <navigation />
-  <div class="relative w-full h-svh px-6">
+  <div class="relative w-full px-6">
     <div class="absolute z-0 top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
       <svg class="grid-bg w-full h-full" viewBox="0 0 772 880" fill="none" data-grid-size="64.33333333333333" style="">
         <g stroke="#8E48FF">
@@ -34,6 +34,7 @@
         </g>
       </svg>
     </div>
+    <div class="vignette-hero"></div>
     <div class="relative z-20 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-start md:pt-[10%] pt-[20%]">
       <div class="w-full flex flex-col items-center justify-center text-center">
         <h1 class="text-6xl font-semibold text-center whitespace-nowrap">Pricing</h1>
@@ -41,24 +42,42 @@
           Strumenti veloci e moderni per convertire immagini, video, audio, file e dati direttamente nel browser.
         </p>
       </div>
-      <div class="relative w-full max-w-[1024px] mx-auto mt-14">
+      <div class="relative w-full max-w-[768px] mx-auto mt-14">
         <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
-          <div v-for="plan in store.plans" :key="plan.id" class="card-plan w-full py-6 px-4" :class="{ 'plus-card': plan.name === 'Plus' }">
-            <h3 class="text-base mb-10">{{ plan.name }}</h3>
+          <div
+            v-for="plan in store.plans"
+            :key="plan.id"
+            class="card-plan w-full py-6 px-4"
+            :class="{ 'plus-card': plan.name === 'Plus', 'md:order-0 order-2': plan.name === 'Free' }"
+          >
+            <div class="w-full mb-10 flex gap-3 items-center">
+              <h3 class="text-2xl font-semibold">{{ plan.name }}</h3>
+              <span v-if="plan.name === 'Plus'" class="py-1 px-2 rounded-full text-sm font-medium border border-[#8E48FF] bg-[#8E48FF]/50"
+                >Scelta consigliata</span
+              >
+            </div>
             <div class="w-full mb-8 flex flex-col gap-2">
-              <div class="w-full flex items-baseline">
-                <h2 class="text-5xl font-semibold">{{ plan.price }}</h2>
-                <span class="text-base font-medium ml-2">{{ plan.type }}</span>
+              <div class="w-full flex items-end">
+                <div class="text-5xl font-semibold flex items-start">
+                  <span class="text-lg font-medium brightness-50">&euro;</span>{{ plan.price }}
+                </div>
+                <span class="text-base font-medium ml-2">/{{ plan.type }}</span>
               </div>
               <p>{{ plan.description }}</p>
             </div>
             <div class="w-full flex gap-2 items-center">
-              <hrButton variant="core-primary" label="Continua" class="w-full" />
+              <hrButton
+                size="large"
+                :variant="plan.name === 'Free' ? 'tertiary' : 'core-primary'"
+                :label="plan.name === 'Free' ? 'Il tuo piano attuale' : `Fai l'upgrade a ${plan.name}`"
+                :disabled="plan.name === 'Free'"
+                class="w-full"
+              />
             </div>
             <div class="w-full mt-16 flex flex-col">
-              <h2 class="text-base font-medium">What's included</h2>
+              <h2 class="text-base font-medium">Cosa include</h2>
               <div class="w-full mt-2 flex flex-col gap-1 text-sm font-normal">
-                <div v-for="feature in plan.features" :key="feature" class="flex gap-2 items-center">
+                <div v-for="feature in plan.features" :key="feature" class="px-4 flex gap-2 items-center">
                   <span>{{ feature }}</span>
                 </div>
               </div>
@@ -68,8 +87,7 @@
       </div>
     </div>
   </div>
-  <div class="relative w-full h-[300px]"></div>
-  <contentInfo />
+  <div class="relative w-full h-[150px]"></div>
 </template>
 
 <script>
@@ -78,14 +96,12 @@ import { store } from '../data/store';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
-import contentInfo from '../components/navigation/content-info.vue';
 
 export default {
   name: 'Pricing',
   components: {
     navigation,
     hrButton,
-    contentInfo,
   },
   data() {
     return {
@@ -109,9 +125,11 @@ export default {
   position: relative;
   border-radius: 16px;
   background-color: #1b1b1b;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .card-plan.plus-card {
-  background-color: #1b1b1b;
+  background: #1b1b1b;
+  background: linear-gradient(60deg, rgba(27, 27, 27, 1) 0%, rgba(67, 29, 128, 1) 100%);
 }
 </style>

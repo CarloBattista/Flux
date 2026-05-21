@@ -51,7 +51,7 @@
         <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">
           Strumenti veloci e moderni per convertire immagini, video, audio, file e dati direttamente nel browser.
         </p>
-        <div class="w-full mt-8 flex gap-2 items-center justify-center">
+        <div v-if="false" class="w-full mt-8 flex gap-2 items-center justify-center">
           <hrButton size="large" variant="core-primary" label="Vedi prezzi" />
           <hrButton size="large" variant="secondary" label="Inizia ora" />
         </div>
@@ -182,16 +182,5 @@ export default {
 .grid-bg {
   transform: translateX(-10px) scale(2.5);
   filter: brightness(0.2);
-}
-
-.vignette-hero {
-  position: absolute;
-  z-index: 10;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  background: #080808;
-  background: linear-gradient(900deg, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 1) 100%);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative z-999 bottom-0 left-0 w-full md:py-20 md:px-32 py-6 px-6 border-t border-white/10">
+  <div class="relative z-999 bottom-0 left-0 w-full mt-16 md:py-20 md:px-32 py-6 px-6 border-t border-white/10">
     <div class="w-full flex gap-6">
       <div class="w-[35%] h-full flex flex-none flex-col">
         <appLogo variant="white" class="relative w-fit h-7" />

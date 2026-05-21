@@ -3,7 +3,7 @@
     <div v-if="!loading && leftIcon" class="hr-button-icon left">
       <component :is="leftIcon" />
     </div>
-    <span v-if="!loading && label" class="hr-button-label whitespace-nowrap">{{ label }}</span>
+    <span v-if="!loading && label" class="hr-button-label font-medium whitespace-nowrap">{{ label }}</span>
     <div v-if="!loading && rightIcon" class="hr-button-icon right">
       <component :is="rightIcon" />
     </div>
