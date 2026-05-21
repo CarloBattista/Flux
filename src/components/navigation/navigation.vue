@@ -1,5 +1,8 @@
 <template>
-  <div class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center" :class="{ 'nav-active': viewedScrolled || burger.isOpen }">
+  <div
+    class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center"
+    :class="{ 'nav-active': viewedScrolled || burger.isOpen, 'nav-active-scrolled': viewedScrolled || burger.isOpen }"
+  >
     <div class="h-full flex flex-1 items-center justify-start">
       <RouterLink to="/">
         <appLogo class="relative h-5" />
@@ -37,25 +40,57 @@
   <Transition name="mobile-menu">
     <div v-if="burger.isOpen" class="fixed z-9998 top-14 left-0 w-full h-[calc(100vh-3.5rem)] bg-[#080808] md:hidden overflow-y-auto px-6 py-8">
       <div class="flex flex-col gap-8">
-        <RouterLink to="/" class="text-2xl font-semibold text-white" @click="burger.isOpen = false"> Home </RouterLink>
+        <template v-if="!burger.activeCategory">
+          <RouterLink to="/" class="text-2xl font-semibold text-white" @click="burger.isOpen = false"> Home </RouterLink>
 
-        <div v-for="(category, key) in categories" :key="key" class="flex flex-col gap-4">
-          <h3 class="text-white/50 text-xs font-bold uppercase tracking-wider">{{ category.label }}</h3>
-          <div class="grid grid-cols-1 gap-2">
-            <RouterLink
-              v-for="tool in category.tools"
-              :key="tool.metadata.slug"
-              :to="'/tool/' + tool.metadata.slug"
-              class="w-full h-14 p-3 rounded-2xl flex gap-4 items-center bg-white/5 hover:bg-white/10 transition-colors"
-              @click="burger.isOpen = false"
-            >
-              <div class="h-full aspect-square rounded-xl flex items-center justify-center bg-white/10 text-white/70">
-                <component :is="tool.metadata.icon" size="20" />
-              </div>
-              <span class="text-white font-medium">{{ tool.metadata.title }}</span>
-            </RouterLink>
+          <div
+            v-for="(category, key) in categories"
+            :key="key"
+            class="flex items-center justify-between group cursor-pointer"
+            @click="burger.activeCategory = key"
+          >
+            <span class="text-2xl font-semibold text-white group-hover:text-[#8e48ff] transition-colors">{{ category.label }}</span>
+            <ChevronRight class="text-white" />
           </div>
-        </div>
+        </template>
+        <template v-else>
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
+              <div class="flex gap-2 items-center">
+                <button
+                  @click="burger.activeCategory = null"
+                  type="button"
+                  class="relative h-11 aspect-square rounded-full flex items-center justify-center cursor-pointer"
+                >
+                  <ChevronLeft size="28" />
+                </button>
+                <h3 class="text-white text-3xl font-bold">{{ categories[burger.activeCategory].label }}</h3>
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <RouterLink
+                  v-for="tool in categories[burger.activeCategory].tools"
+                  :key="tool.metadata.slug"
+                  :to="'/tool/' + tool.metadata.slug"
+                  class="w-full h-14 p-3 rounded-2xl flex gap-4 items-center bg-white/5 hover:bg-white/10 transition-colors"
+                  @click="
+                    burger.isOpen = false;
+                    burger.activeCategory = null;
+                  "
+                >
+                  <div class="h-full aspect-square rounded-xl flex items-center justify-center bg-white/10 text-white/70">
+                    <component :is="tool.metadata.icon" size="20" />
+                  </div>
+                  <div class="w-full flex flex-row gap-2">
+                    <span class="text-white font-medium">{{ tool.metadata.title }}</span>
+                    <span v-if="tool.metadata.new" class="w-fit h-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]"
+                      >New</span
+                    >
+                  </div>
+                </RouterLink>
+              </div>
+            </div>
+          </div>
+        </template>
 
         <div v-if="false" class="flex flex-col gap-3 pt-4">
           <hrButton variant="primary" label="Vedi prezzi" class="w-full justify-center" />
@@ -86,7 +121,9 @@
             </div>
             <div class="w-full flex flex-row gap-2">
               <h2 class="text-white text-sm font-medium">{{ tool.metadata.title }}</h2>
-              <span v-if="tool.metadata.new" class="w-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]">New</span>
+              <span v-if="tool.metadata.new" class="w-fit h-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]"
+                >New</span
+              >
             </div>
           </RouterLink>
         </section>
@@ -104,6 +141,8 @@ import hrButton from '../button/hr-button.vue';
 // ICONS
 import {
   ChevronDown,
+  ChevronRight,
+  ChevronLeft,
   Image as ImageIcon,
   Video as VideoIcon,
   Thermometer,
@@ -131,6 +170,8 @@ export default {
 
     // ICONS
     ChevronDown,
+    ChevronRight,
+    ChevronLeft,
     ImageIcon,
     VideoIcon,
     Thermometer,
@@ -179,6 +220,7 @@ export default {
       },
       burger: {
         isOpen: false,
+        activeCategory: null,
       },
 
       dropdownTimer: null,
@@ -221,22 +263,36 @@ export default {
         this.viewedScrolled = false;
       }
     },
+    handleResize() {
+      if (window.innerWidth > 768) {
+        this.burger.isOpen = false;
+        this.burger.activeCategory = null;
+        document.body.classList.remove('overflow-hidden');
+      }
+    },
   },
   watch: {
-    'burger.isOpen'(val) {
-      if (val) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
+    'burger.isOpen': {
+      handler(value) {
+        if (value) {
+          document.body.classList.add('overflow-hidden');
+        } else {
+          document.body.classList.remove('overflow-hidden');
+          this.burger.activeCategory = null;
+        }
+      },
+      immediate: true,
     },
   },
   mounted() {
     this.handleScroll();
+    this.handleResize();
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>
@@ -248,9 +304,13 @@ export default {
   transition-timing-function: ease-in-out;
 }
 
-.nav-active {
+.nav-active:not(.nav-active-scrolled) {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(18px);
+}
+
+.nav-active-scrolled {
+  background-color: black;
 }
 
 .nav-item {
