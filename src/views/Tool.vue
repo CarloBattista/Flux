@@ -17,6 +17,7 @@
         <audioConverterUi v-else-if="tool.metadata.type === 'audio-converter'" :tool="tool" />
         <jsonFormatterUi v-else-if="tool.metadata.type === 'json-formatter'" :tool="tool" />
         <base64ConverterUi v-else-if="tool.metadata.type === 'base64-converter'" :tool="tool" />
+        <jwtDecoderUi v-else-if="tool.metadata.type === 'jwt-decoder'" :tool="tool" />
         <converterUi v-else :tool="tool" />
       </div>
       <div v-else class="text-center py-20">
@@ -37,6 +38,7 @@ import videoConverterUi from '../components/layout/video-converter-ui.vue';
 import audioConverterUi from '../components/layout/audio-converter-ui.vue';
 import jsonFormatterUi from '../components/layout/json-formatter-ui.vue';
 import base64ConverterUi from '../components/layout/base64-converter-ui.vue';
+import jwtDecoderUi from '../components/layout/jwt-decoder-ui.vue';
 
 export default {
   name: 'Tool',
@@ -48,6 +50,7 @@ export default {
     audioConverterUi,
     jsonFormatterUi,
     base64ConverterUi,
+    jwtDecoderUi,
   },
   computed: {
     tool() {

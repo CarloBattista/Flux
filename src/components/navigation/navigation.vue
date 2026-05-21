@@ -115,6 +115,7 @@ import {
   Headphones,
   Braces,
   Binary,
+  ShieldCheck,
 } from '@lucide/vue';
 
 export default {
@@ -136,6 +137,7 @@ export default {
     Headphones,
     Braces,
     Binary,
+    ShieldCheck,
   },
   data() {
     return {
@@ -154,7 +156,7 @@ export default {
         },
         devtools: {
           label: 'DevTools',
-          tools: [tools['json-formatter'], tools['base64-converter']],
+          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder']],
         },
       },
       burger: {
