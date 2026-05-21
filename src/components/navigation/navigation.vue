@@ -118,6 +118,7 @@ import {
   ShieldCheck,
   Regex,
   Calendar,
+  Fingerprint,
 } from '@lucide/vue';
 
 export default {
@@ -142,6 +143,7 @@ export default {
     ShieldCheck,
     Regex,
     Calendar,
+    Fingerprint,
   },
   data() {
     return {
@@ -160,7 +162,14 @@ export default {
         },
         devtools: {
           label: 'DevTools',
-          tools: [tools['json-formatter'], tools['base64-converter'], tools['jwt-decoder'], tools['regex-tester'], tools['timestamp-converter']],
+          tools: [
+            tools['json-formatter'],
+            tools['base64-converter'],
+            tools['jwt-decoder'],
+            tools['regex-tester'],
+            tools['timestamp-converter'],
+            tools['uuid-generator'],
+          ],
         },
       },
       burger: {

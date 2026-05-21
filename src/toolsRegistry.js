@@ -10,6 +10,7 @@ import base64Converter from './tools/base64_converter';
 import jwtDecoder from './tools/jwt_decoder';
 import regexTester from './tools/regex_tester';
 import timestampConverter from './tools/timestamp_converter';
+import uuidGenerator from './tools/uuid_generator';
 
 export const tools = {
   temperature,
@@ -24,4 +25,5 @@ export const tools = {
   'jwt-decoder': jwtDecoder,
   'regex-tester': regexTester,
   'timestamp-converter': timestampConverter,
+  'uuid-generator': uuidGenerator,
 };
