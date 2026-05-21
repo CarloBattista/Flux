@@ -9,13 +9,13 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-4 items-end bg-white/5 p-6 rounded-3xl border border-white/5">
+    <div class="flex flex-col gap-4">
       <div class="flex-1 min-w-[200px]">
         <hrSelect v-model="indent" label="Indentazione" :options="tool.config.indentationOptions" />
       </div>
       <div class="flex gap-2">
+        <hrButton variant="core-primary" label="Formatta" @click="handleFormat" />
         <hrButton variant="secondary" label="Minifica" @click="handleMinify" />
-        <hrButton variant="primary" label="Formatta" @click="handleFormat" />
       </div>
     </div>
   </div>

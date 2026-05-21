@@ -6,6 +6,7 @@ import imageConverter from './tools/image_converter';
 import videoConverter from './tools/video_converter';
 import audioConverter from './tools/audio_converter';
 import jsonFormatter from './tools/json_formatter';
+import base64Converter from './tools/base64_converter';
 
 export const tools = {
   temperature,
@@ -16,4 +17,5 @@ export const tools = {
   'video-converter': videoConverter,
   'audio-converter': audioConverter,
   'json-formatter': jsonFormatter,
+  'base64-converter': base64Converter,
 };

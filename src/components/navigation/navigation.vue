@@ -114,6 +114,7 @@ import {
   X as CloseIcon,
   Headphones,
   Braces,
+  Binary,
 } from '@lucide/vue';
 
 export default {
@@ -134,6 +135,7 @@ export default {
     CloseIcon,
     Headphones,
     Braces,
+    Binary,
   },
   data() {
     return {
@@ -152,7 +154,7 @@ export default {
         },
         devtools: {
           label: 'DevTools',
-          tools: [tools['json-formatter']],
+          tools: [tools['json-formatter'], tools['base64-converter']],
         },
       },
       burger: {
