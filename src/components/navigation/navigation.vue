@@ -40,6 +40,12 @@
       <hrButton v-if="false" variant="secondary" label="Inizia ora" />
     </div>
     <div
+      @click="store.searchBar.isOpen = !store.searchBar.isOpen"
+      class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
+    >
+      <SearchIcon />
+    </div>
+    <div
       @click="burger.isOpen = !burger.isOpen"
       class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer"
     >
