@@ -4,6 +4,7 @@ import velocity from './tools/velocity';
 import dataTransferRate from './tools/data_transfer_rate';
 import imageConverter from './tools/image_converter';
 import videoConverter from './tools/video_converter';
+import audioConverter from './tools/audio_converter';
 
 export const tools = {
   temperature,
@@ -12,4 +13,5 @@ export const tools = {
   'data-transfer-rate': dataTransferRate,
   'image-converter': imageConverter,
   'video-converter': videoConverter,
+  'audio-converter': audioConverter,
 };

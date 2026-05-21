@@ -106,7 +106,18 @@ import { tools } from '../../toolsRegistry';
 import hrButton from '../button/hr-button.vue';
 
 // ICONS
-import { ChevronDown, Image as ImageIcon, Video as VideoIcon, Thermometer, Clock, Gauge, Zap, Menu as MenuIcon, X as CloseIcon } from '@lucide/vue';
+import {
+  ChevronDown,
+  Image as ImageIcon,
+  Video as VideoIcon,
+  Thermometer,
+  Clock,
+  Gauge,
+  Zap,
+  Menu as MenuIcon,
+  X as CloseIcon,
+  Headphones,
+} from '@lucide/vue';
 
 export default {
   name: 'navigation',
@@ -123,6 +134,7 @@ export default {
     Zap,
     MenuIcon,
     CloseIcon,
+    Headphones,
   },
   data() {
     return {
@@ -133,7 +145,7 @@ export default {
       categories: {
         media: {
           label: 'Media',
-          tools: [tools['image-converter'], tools['video-converter']],
+          tools: [tools['image-converter'], tools['video-converter'], tools['audio-converter']],
         },
         units: {
           label: 'Unità',
