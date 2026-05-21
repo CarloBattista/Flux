@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+const APP_NAME = 'Flux';
+
 const routes = [
   // General
   {
@@ -28,7 +30,7 @@ router.beforeEach((to, from, next) => {
   if (pageTitle) {
     document.title = pageTitle;
   } else {
-    document.title = 'All Converters';
+    document.title = APP_NAME;
   }
   next();
 });
