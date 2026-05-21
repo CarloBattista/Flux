@@ -76,9 +76,6 @@ export default {
       return tools[slug] || null;
     },
   },
-  mounted() {
-    window.scrollTo(0, 0);
-  },
 };
 </script>
 

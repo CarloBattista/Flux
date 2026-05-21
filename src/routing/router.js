@@ -27,15 +27,9 @@ const routes = [
 
   // Legal
   {
-    path: '/privacy-policy',
-    name: 'privacy-policy',
-    component: () => import('../views/Legal/Privacy-policy.vue'),
-    props: true,
-  },
-  {
-    path: '/cookie',
-    name: 'cookie',
-    component: () => import('../views/Legal/Cookie.vue'),
+    path: '/legal/:slug',
+    name: 'legal',
+    component: () => import('../views/Legal/Legal.vue'),
     props: true,
   },
 ];
@@ -43,6 +37,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    // Riporta in alto la pagina ad ogni cambio di rotta
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
 router.beforeEach((to, from, next) => {

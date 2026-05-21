@@ -54,9 +54,9 @@
         <div class="w-full flex flex-none flex-col gap-3">
           <h2 class="footer-nav-head text-sm font-medium brightness-50">Legale</h2>
           <div class="w-full flex flex-col">
-            <RouterLink to="/privacy-policy" class="footer-nav">Privacy policy</RouterLink>
-            <RouterLink to="/cookie" class="footer-nav">Cookie</RouterLink>
-            <a href="#" target="_blank" class="footer-nav">Contattaci</a>
+            <RouterLink to="/legal/privacy-policy" class="footer-nav">Privacy policy</RouterLink>
+            <RouterLink to="/legal/cookie" class="footer-nav">Cookie</RouterLink>
+            <a v-if="false" href="#" target="_blank" class="footer-nav">Contattaci</a>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">

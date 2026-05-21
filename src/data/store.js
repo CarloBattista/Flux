@@ -31,4 +31,8 @@ export const store = reactive({
       ],
     },
   ],
+
+  searchBar: {
+    isOpen: false,
+  },
 });

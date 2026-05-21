@@ -23,6 +23,14 @@
         <span class="nav-label">{{ category.label }}</span>
         <ChevronDown size="18" class="nav-icon" />
       </div>
+      <div class="nav-item">
+        <div
+          @click="store.searchBar.isOpen = !store.searchBar.isOpen"
+          class="relative h-8 aspect-square rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
+        >
+          <SearchIcon size="18" class="nav-icon" />
+        </div>
+      </div>
     </div>
     <div class="h-full md:flex hidden flex-1 gap-3 items-center justify-end">
       <hrButton v-if="false" variant="primary" label="Vedi prezzi" />
@@ -134,6 +142,7 @@
 
 <script>
 import { tools } from '../../toolsRegistry';
+import { store } from '../../data/store';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
@@ -160,6 +169,7 @@ import {
   Fingerprint,
   Palette,
   ImageDown,
+  Search as SearchIcon,
 } from '@lucide/vue';
 
 export default {
@@ -189,9 +199,12 @@ export default {
     Fingerprint,
     Palette,
     ImageDown,
+    SearchIcon,
   },
   data() {
     return {
+      store,
+
       dropdown: {
         isOpen: false,
         menu: '',
@@ -264,6 +277,8 @@ export default {
       }
     },
     handleResize() {
+      if (!this.burger.isOpen) return;
+
       if (window.innerWidth > 768) {
         this.burger.isOpen = false;
         this.burger.activeCategory = null;
