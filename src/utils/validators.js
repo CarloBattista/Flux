@@ -1,3 +1,5 @@
+const minPasswordLength = 8;
+
 /**
  * Valida un indirizzo email utilizzando una espressione regolare.
  * @param {string} email - L'indirizzo email da validare.
@@ -14,5 +16,5 @@ export const isValidEmail = (email) => {
  * @returns {boolean} - True se la password è valida, false altrimenti.
  */
 export const isValidPassword = (password) => {
-  return password.length >= 8;
+  return password.length >= minPasswordLength;
 };
