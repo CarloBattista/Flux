@@ -1,5 +1,6 @@
 <template>
   <button :type="type" :disabled="disabled" class="hr-button" :class="['size-' + size, 'variant-' + variant]">
+    <span v-if="loading" class="loader"></span>
     <div v-if="!loading && leftIcon" class="hr-button-icon left">
       <component :is="leftIcon" />
     </div>
@@ -150,5 +151,39 @@ export default {
 .hr-button.variant-tertiary:not(:disabled):hover {
   background: #121212;
   background: linear-gradient(900deg, rgba(18, 18, 18, 1) 0%, rgba(25, 25, 25, 1) 100%);
+}
+
+/* LOADER */
+.loader {
+  height: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow:
+    16px 0 #fff,
+    -16px 0 #fff;
+  position: relative;
+  animation: flash 0.5s ease-out infinite alternate;
+}
+
+@keyframes flash {
+  0% {
+    background-color: #fff2;
+    box-shadow:
+      16px 0 #fff2,
+      -16px 0 #fff;
+  }
+  50% {
+    background-color: #fff;
+    box-shadow:
+      16px 0 #fff2,
+      -16px 0 #fff2;
+  }
+  100% {
+    background-color: #fff2;
+    box-shadow:
+      16px 0 #fff,
+      -16px 0 #fff2;
+  }
 }
 </style>

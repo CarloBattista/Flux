@@ -3,6 +3,36 @@ import { createRouter, createWebHistory } from 'vue-router';
 const APP_NAME = 'Flux';
 
 const routes = [
+  // Onboarding
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/Onboarding/Signup.vue'),
+    meta: { requiresGuest: true },
+    props: true,
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    component: () => import('../views/Onboarding/Signin.vue'),
+    meta: { requiresGuest: true },
+    props: true,
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('../views/Onboarding/Reset-password.vue'),
+    meta: { requiresGuest: true },
+    props: true,
+  },
+  {
+    path: '/new-password',
+    name: 'new-password',
+    component: () => import('../views/Onboarding/New-password.vue'),
+    meta: { requiresGuest: true },
+    props: true,
+  },
+
   // General
   {
     path: '/',
