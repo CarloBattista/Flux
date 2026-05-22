@@ -32,7 +32,15 @@
             <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Inserisci la tua password" />
             <RouterLink to="/reset-password" class="ml-auto text-sm text-white hover:underline">Dimenticato la password?</RouterLink>
           </div>
-          <hrButton size="large" variant="core-primary" label="Continua" :loading="field.loading" :disabled="!isFormValid" class="w-full mt-10" />
+          <hrButton
+            @click="actionSignin"
+            size="large"
+            variant="core-primary"
+            label="Continua"
+            :loading="field.loading"
+            :disabled="!isFormValid"
+            class="w-full mt-10"
+          />
         </form>
       </div>
     </div>
@@ -40,6 +48,10 @@
 </template>
 
 <script>
+import { supabase } from '../../services/supabase';
+import { authStore } from '../../data/authStore';
+import { getProfile } from '../../api/auth';
+
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { VALIDATION_ERRORS } from '../../utils/constants';
 
@@ -56,6 +68,8 @@ export default {
   },
   data() {
     return {
+      authStore,
+
       field: {
         data: {
           email: '',
@@ -87,6 +101,40 @@ export default {
         this.field.error.password = VALIDATION_ERRORS.PASSWORD_TOO_SHORT;
       } else {
         this.field.error.password = null;
+      }
+    },
+
+    async actionSignin() {
+      if (!this.isFormValid) {
+        return;
+      }
+
+      this.data.loading = true;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: this.field.data.email,
+          password: this.field.data.password,
+        });
+
+        if (error) throw error;
+
+        authStore.user = data.user;
+        authStore.session = data.session;
+        authStore.isAuthenticated = true;
+        localStorage.setItem('isAuthenticated', true);
+
+        await getProfile();
+
+        this.$router.push({ name: 'home' });
+      } catch (e) {
+        console.error(e);
+
+        if (e.code === 'email_not_confirmed') {
+          this.$router.push({ name: 'confirm-email' });
+        }
+      } finally {
+        this.data.loading = false;
       }
     },
   },

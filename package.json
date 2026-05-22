@@ -15,6 +15,7 @@
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
     "@lucide/vue": "^1.16.0",
+    "@supabase/supabase-js": "^2.106.1",
     "@tailwindcss/vite": "^4.3.0",
     "heic2any": "^0.0.4",
     "marked": "^18.0.4",
