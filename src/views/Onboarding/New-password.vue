@@ -33,7 +33,15 @@
               placeholder="Conferma nuova password"
             />
           </div>
-          <hrButton size="large" variant="core-primary" label="Continua" :loading="field.loading" :disabled="!isFormValid" class="w-full mt-10" />
+          <hrButton
+            type="submit"
+            size="large"
+            variant="core-primary"
+            label="Continua"
+            :loading="field.loading"
+            :disabled="!isFormValid"
+            class="w-full mt-10"
+          />
         </form>
       </div>
     </div>

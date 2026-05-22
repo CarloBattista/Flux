@@ -30,8 +30,23 @@
           <div class="w-full flex flex-col gap-4">
             <hrInput v-model="field.data.email" :error="field.error.email" type="email" placeholder="Inserisci indirizzo email" />
             <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Crea la tua password" />
+            <hrInput
+              v-model="field.data.confirmPassword"
+              :error="field.error.confirmPassword"
+              type="password"
+              placeholder="Conferma la tua password"
+            />
           </div>
-          <hrButton size="large" variant="core-primary" label="Continua" :loading="field.loading" :disabled="!isFormValid" class="w-full mt-10" />
+          <hrButton
+            @click="actionSignup"
+            type="submit"
+            size="large"
+            variant="core-primary"
+            label="Continua"
+            :loading="field.loading"
+            :disabled="!isFormValid"
+            class="w-full mt-10"
+          />
         </form>
       </div>
     </div>
@@ -39,6 +54,8 @@
 </template>
 
 <script>
+import { supabase } from '../../services/supabase';
+import { authStore } from '../../data/authStore';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { VALIDATION_ERRORS } from '../../utils/constants';
 
@@ -59,10 +76,12 @@ export default {
         data: {
           email: '',
           password: '',
+          confirmPassword: '',
         },
         error: {
           email: null,
           password: null,
+          confirmPassword: null,
         },
         loading: false,
       },
@@ -86,6 +105,41 @@ export default {
         this.field.error.password = VALIDATION_ERRORS.PASSWORD_TOO_SHORT;
       } else {
         this.field.error.password = null;
+      }
+    },
+    validateConfirmPassword() {
+      if (this.field.data.confirmPassword && this.field.data.confirmPassword !== this.field.data.password) {
+        this.field.error.confirmPassword = VALIDATION_ERRORS.PASSWORD_MISMATCH;
+      } else {
+        this.field.error.confirmPassword = null;
+      }
+    },
+
+    async actionSignup() {
+      if (!this.isFormValid) {
+        return;
+      }
+
+      this.field.loading = true;
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: this.field.data.email,
+          password: this.field.data.password,
+        });
+
+        if (error) throw error;
+
+        authStore.user = data.user;
+        authStore.session = data.session;
+        authStore.isAuthenticated = true;
+        localStorage.setItem('isAuthenticated', true);
+
+        this.$router.push({ name: 'confirm-email' });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.field.loading = false;
       }
     },
   },

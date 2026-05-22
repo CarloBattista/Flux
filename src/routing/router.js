@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { authMiddleware } from './middleware/authMiddleware';
 
 const APP_NAME = 'Flux';
 
@@ -83,6 +84,8 @@ const router = createRouter({
     }
   },
 });
+
+router.beforeEach(authMiddleware);
 
 router.beforeEach((to, from, next) => {
   const pageTitle = to.meta.title;

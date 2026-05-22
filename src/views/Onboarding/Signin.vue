@@ -34,6 +34,7 @@
           </div>
           <hrButton
             @click="actionSignin"
+            type="submit"
             size="large"
             variant="core-primary"
             label="Continua"
@@ -109,7 +110,7 @@ export default {
         return;
       }
 
-      this.data.loading = true;
+      this.field.loading = true;
 
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -134,7 +135,7 @@ export default {
           this.$router.push({ name: 'confirm-email' });
         }
       } finally {
-        this.data.loading = false;
+        this.field.loading = false;
       }
     },
   },

@@ -54,7 +54,7 @@
             Se non ricevi nessuna email o hai dubbi sull'indirizzo email di accesso scrivi ad <b>assistenza@flux.com</b>
           </p>
           <RouterLink to="/signin">
-            <hrButton size="large" variant="secondary" label="Accedi" class="w-full mt-10" />
+            <hrButton type="submit" size="large" variant="secondary" label="Accedi" class="w-full mt-10" />
           </RouterLink>
         </div>
       </div>
