@@ -31,7 +31,7 @@
           >
             <SearchIcon size="18" class="nav-icon" />
           </div>
-          <hrButtonShortcut icon="⌘ K" />
+          <hrButtonShortcut :icon="store.isMac ? '⌘ K' : 'Ctrl K'" />
         </div>
       </div>
     </div>

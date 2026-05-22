@@ -225,7 +225,8 @@ export default {
   methods: {
     handleGlobalKeydown(e) {
       // Toggle search bar with Cmd+K (Mac) or Ctrl+K (Windows/Linux)
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      const isModifierPressed = this.store.isMac ? e.metaKey : e.ctrlKey;
+      if (isModifierPressed && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         this.store.searchBar.isOpen = !this.store.searchBar.isOpen;
       }

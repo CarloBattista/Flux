@@ -35,4 +35,6 @@ export const store = reactive({
   searchBar: {
     isOpen: false,
   },
+
+  isMac: typeof window !== 'undefined' ? /Mac|iPod|iPhone|iPad/.test(navigator.platform) : false,
 });
