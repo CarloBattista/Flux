@@ -23,37 +23,74 @@
             </button>
           </div>
         </div>
-
         <!-- Results Area -->
         <div class="max-h-[400px] overflow-y-auto custom-scrollbar">
-          <div class="w-full px-4 pt-4">
-            <h2 class="text-white text-sm font-semibold brightness-50">Risultati di ricerca</h2>
+          <div class="w-full px-4 pt-4 pb-2">
+            <h2 class="text-white text-sm font-semibold brightness-50">
+              {{ searchQuery ? 'Risultati di ricerca' : 'Tutti gli strumenti' }}
+            </h2>
           </div>
           <div v-if="filteredTools.length > 0" class="p-2">
-            <RouterLink
-              v-for="(tool, index) in filteredTools"
-              :key="tool.metadata.slug"
-              :to="'/tool/' + tool.metadata.slug"
-              class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
-              :class="[selectedIndex === index ? 'hover:bg-white/15' : 'hover:bg-white/5']"
-              @click="store.searchBar.isOpen = false"
-              @mouseenter="selectedIndex = index"
-            >
-              <div
-                class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
-                :class="[selectedIndex === index ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
-              >
-                <component :is="tool.metadata.icon" size="18" />
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2">
-                  <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
-                  <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
+            <!-- Grouped View (No Search) -->
+            <template v-if="!searchQuery">
+              <div v-for="(category, catId) in categories" :key="catId" class="mb-4 last:mb-0">
+                <div class="px-3 py-2">
+                  <span class="text-[10px] font-bold text-white/30 uppercase tracking-wider">{{ category.label }}</span>
                 </div>
-                <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
+                <RouterLink
+                  v-for="tool in category.tools"
+                  :key="tool.metadata.slug"
+                  :to="'/tool/' + tool.metadata.slug"
+                  class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
+                  :class="[allTools.indexOf(tool) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                  @click="store.searchBar.isOpen = false"
+                  @mouseenter="selectedIndex = allTools.indexOf(tool)"
+                >
+                  <div
+                    class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
+                    :class="[allTools.indexOf(tool) === selectedIndex ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
+                  >
+                    <component :is="tool.metadata.icon" size="18" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
+                      <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
+                    </div>
+                    <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
+                  </div>
+                  <ChevronRight v-if="allTools.indexOf(tool) === selectedIndex" size="18" class="text-white/70" />
+                </RouterLink>
               </div>
-              <ChevronRight v-if="selectedIndex === index" size="18" class="text-white/70" />
-            </RouterLink>
+            </template>
+
+            <!-- Flat View (With Search) -->
+            <template v-else>
+              <RouterLink
+                v-for="(tool, index) in filteredTools"
+                :key="tool.metadata.slug"
+                :to="'/tool/' + tool.metadata.slug"
+                class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
+                :class="[selectedIndex === index ? 'bg-white/10' : 'hover:bg-white/5']"
+                @click="store.searchBar.isOpen = false"
+                @mouseenter="selectedIndex = index"
+              >
+                <div
+                  class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
+                  :class="[selectedIndex === index ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
+                >
+                  <component :is="tool.metadata.icon" size="18" />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
+                    <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
+                  </div>
+                  <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
+                </div>
+                <ChevronRight v-if="selectedIndex === index" size="18" class="text-white/70" />
+              </RouterLink>
+            </template>
           </div>
           <div v-else class="p-12 text-center">
             <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -63,7 +100,6 @@
             <p class="text-white/30 text-sm mt-1">Prova con parole chiave diverse</p>
           </div>
         </div>
-
         <!-- Footer -->
         <div class="px-6 py-3 bg-black/20 border-t border-white/10 flex items-center justify-between text-[11px] text-white/30">
           <div class="flex items-center gap-4">
@@ -145,11 +181,38 @@ export default {
       store,
       searchQuery: '',
       selectedIndex: 0,
+      categories: {
+        media: {
+          label: 'Media',
+          tools: [tools['image-converter'], tools['image-compressor'], tools['video-converter'], tools['video-compressor'], tools['audio-converter']],
+        },
+        units: {
+          label: 'Unità',
+          tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
+        },
+        devtools: {
+          label: 'DevTools',
+          tools: [
+            tools['json-formatter'],
+            tools['base64-converter'],
+            tools['jwt-decoder'],
+            tools['regex-tester'],
+            tools['timestamp-converter'],
+            tools['uuid-generator'],
+            tools['color-picker-converter'],
+          ],
+        },
+      },
     };
   },
   computed: {
     allTools() {
-      return Object.values(tools);
+      // Return tools in the order defined by categories
+      const orderedTools = [];
+      Object.values(this.categories).forEach((category) => {
+        orderedTools.push(...category.tools);
+      });
+      return orderedTools;
     },
     filteredTools() {
       if (!this.searchQuery) return this.allTools;
