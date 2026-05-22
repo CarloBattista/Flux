@@ -17,7 +17,7 @@
             @keydown.enter="selectTool"
           />
           <div class="flex items-center gap-2">
-            <hrButtonShortcut icon="ESC" class="hidden md:block" />
+            <hrButtonShortcut icon="ESC" class="hidden md:flex" />
             <button @click="store.searchBar.isOpen = false" class="p-1 hover:bg-white/5 rounded-lg transition-colors">
               <CloseIcon class="text-white/40" size="20" />
             </button>
@@ -26,30 +26,33 @@
 
         <!-- Results Area -->
         <div class="max-h-[400px] overflow-y-auto custom-scrollbar">
+          <div class="w-full px-4 pt-4">
+            <h2 class="text-white text-sm font-semibold brightness-50">Risultati di ricerca</h2>
+          </div>
           <div v-if="filteredTools.length > 0" class="p-2">
             <RouterLink
               v-for="(tool, index) in filteredTools"
               :key="tool.metadata.slug"
               :to="'/tool/' + tool.metadata.slug"
-              class="w-full flex items-center gap-4 p-3 rounded-2xl transition-all duration-200"
-              :class="[selectedIndex === index ? 'bg-[#8e48ff] shadow-lg shadow-[#8e48ff]/20' : 'hover:bg-white/5']"
+              class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
+              :class="[selectedIndex === index ? 'hover:bg-white/15' : 'hover:bg-white/5']"
               @click="store.searchBar.isOpen = false"
               @mouseenter="selectedIndex = index"
             >
               <div
-                class="h-12 w-12 rounded-xl flex items-center justify-center shrink-0"
+                class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
                 :class="[selectedIndex === index ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
               >
-                <component :is="tool.metadata.icon" size="24" />
+                <component :is="tool.metadata.icon" size="18" />
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2">
-                  <span class="text-white font-semibold truncate">{{ tool.metadata.title }}</span>
+                  <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
                   <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
                 </div>
-                <p class="text-white/40 text-sm truncate">{{ tool.metadata.description }}</p>
+                <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
               </div>
-              <ChevronRight v-if="selectedIndex === index" size="20" class="text-white/70" />
+              <ChevronRight v-if="selectedIndex === index" size="18" class="text-white/70" />
             </RouterLink>
           </div>
           <div v-else class="p-12 text-center">
@@ -64,8 +67,8 @@
         <!-- Footer -->
         <div class="px-6 py-3 bg-black/20 border-t border-white/10 flex items-center justify-between text-[11px] text-white/30">
           <div class="flex items-center gap-4">
-            <hrButtonShortcut icon="↑↓" label="Naviga" />
-            <hrButtonShortcut icon="Enter" label="Seleziona" />
+            <hrButtonShortcut icon="↑↓" label="Naviga" class="hidden md:flex" />
+            <hrButtonShortcut icon="Enter" label="Seleziona" class="hidden md:flex" />
           </div>
           <div class="flex items-center gap-1.5">
             <span>Powered by Flux</span>
