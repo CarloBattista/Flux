@@ -36,8 +36,10 @@
       </div>
     </div>
     <div class="h-full md:flex hidden flex-1 gap-3 items-center justify-end">
-      <hrButton v-if="false" variant="primary" label="Vedi prezzi" />
-      <hrButton v-if="false" variant="secondary" label="Inizia ora" />
+      <hrButton v-if="false" size="small" variant="secondary" label="Vedi prezzi" />
+      <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
+        <hrButton size="small" variant="core-primary" label="Inizia ora" />
+      </RouterLink>
     </div>
     <div
       @click="store.searchBar.isOpen = !store.searchBar.isOpen"
@@ -109,9 +111,11 @@
           </div>
         </template>
 
-        <div v-if="false" class="flex flex-col gap-3 pt-4">
-          <hrButton variant="primary" label="Vedi prezzi" class="w-full justify-center" />
-          <hrButton variant="secondary" label="Inizia ora" class="w-full justify-center" />
+        <div class="flex flex-col gap-3 pt-4">
+          <hrButton v-if="false" variant="secondary" label="Vedi prezzi" class="w-full" />
+          <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
+            <hrButton variant="core-primary" label="Inizia ora" class="w-full" />
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -152,6 +156,7 @@
 <script>
 import { tools } from '../../toolsRegistry';
 import { store } from '../../data/store';
+import { authStore } from '../../data/authStore';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
@@ -215,6 +220,7 @@ export default {
   data() {
     return {
       store,
+      authStore,
 
       dropdown: {
         isOpen: false,

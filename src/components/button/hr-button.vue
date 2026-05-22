@@ -13,7 +13,7 @@
 
 <script>
 // ICONS
-import { Check, Copy } from '@lucide/vue';
+import { Check, Copy, Star } from '@lucide/vue';
 
 export default {
   name: 'hr-button',
@@ -21,6 +21,7 @@ export default {
     // ICONS
     Check,
     Copy,
+    Star,
   },
   props: {
     type: {
