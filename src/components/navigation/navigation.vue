@@ -40,11 +40,6 @@
       <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
         <hrButton size="small" variant="core-primary" label="Inizia ora" />
       </RouterLink>
-      <RouterLink v-else to="/profile/overview" class="nav-item">
-        <div class="h-8 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-          <UserIcon size="18" class="text-white" />
-        </div>
-      </RouterLink>
     </div>
     <div
       @click="store.searchBar.isOpen = !store.searchBar.isOpen"
@@ -59,6 +54,11 @@
       <MenuIcon v-if="!burger.isOpen" />
       <CloseIcon v-else />
     </div>
+    <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
+      <div class="h-8 ml-2 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+        <UserIcon size="18" class="text-white" />
+      </div>
+    </RouterLink>
   </div>
 
   <Transition name="mobile-menu">

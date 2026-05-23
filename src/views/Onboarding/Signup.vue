@@ -56,6 +56,7 @@
 <script>
 import { supabase } from '../../services/supabase';
 import { authStore } from '../../data/authStore';
+import { getProfile } from '../../api/auth';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { VALIDATION_ERRORS } from '../../utils/constants';
 
@@ -134,6 +135,8 @@ export default {
         authStore.session = data.session;
         authStore.isAuthenticated = true;
         localStorage.setItem('isAuthenticated', true);
+
+        await getProfile();
 
         this.$router.push({ name: 'confirm-email' });
       } catch (e) {

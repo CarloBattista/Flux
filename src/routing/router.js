@@ -23,7 +23,6 @@ const routes = [
     path: '/confirm-email',
     name: 'confirm-email',
     component: () => import('../views/Onboarding/Confirm-email.vue'),
-    meta: { requiresGuest: true },
     props: true,
   },
   {

@@ -65,10 +65,7 @@
             <div class="w-full flex flex-col gap-4">
               <listContainer>
                 <RouterLink to="/profile">
-                  <listItem
-                    :firstLine="authStore.profile?.username || 'Aggiungi nome utente'"
-                    :secondLine="authStore.user?.email || 'Aggiungi email'"
-                  />
+                  <listItem firstLine="Nome utente" :secondLine="authStore.profile?.username || 'Aggiungi nome utente'" />
                 </RouterLink>
               </listContainer>
             </div>

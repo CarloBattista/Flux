@@ -1,5 +1,5 @@
 <template>
-  <div class="hr-input-wrapper" :class="{ disabled }">
+  <div class="hr-input-wrapper" :class="{ disabled, 'has-error': error }">
     <label v-if="label" :for="id" class="hr-input-label">{{ label }}</label>
     <div class="hr-input-container">
       <div v-if="leftIcon" class="hr-input-icon left">
@@ -19,6 +19,9 @@
         <component :is="rightIcon" size="18" />
       </div>
     </div>
+    <div v-if="error" class="w-full px-2 flex gap-2 items-center">
+      <p class="text-red-500 text-sm font-medium">{{ error }}</p>
+    </div>
   </div>
 </template>
 
@@ -27,21 +30,22 @@ export default {
   name: 'hr-input',
   props: {
     modelValue: [String, Number],
-    label: String,
+    id: {
+      type: String,
+      default: () => `hr-input-${Math.random().toString(36).substr(2, 9)}`,
+    },
     type: {
       type: String,
       default: 'text',
     },
+    leftIcon: [Object, Function, String],
+    rightIcon: [Object, Function, String],
+    label: String,
     placeholder: String,
+    error: String,
     disabled: {
       type: Boolean,
       default: false,
-    },
-    leftIcon: [Object, Function, String],
-    rightIcon: [Object, Function, String],
-    id: {
-      type: String,
-      default: () => `hr-input-${Math.random().toString(36).substr(2, 9)}`,
     },
   },
   emits: ['update:modelValue'],
@@ -87,6 +91,11 @@ export default {
 .hr-input:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+.hr-input-wrapper.has-error .hr-input {
+  background-color: rgba(255, 0, 0, 0.05);
+  border-color: rgba(255, 0, 0, 0.5);
 }
 
 .hr-input:focus {

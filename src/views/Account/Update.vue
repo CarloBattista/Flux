@@ -168,7 +168,7 @@ export default {
     },
     isFormValid() {
       if (this.updateType === 'username') {
-        return this.field.data.username && this.field.data.username.length >= 3;
+        return this.field.data.username && this.field.data.username.length >= 3 && this.field.data.username !== authStore.profile?.username;
       }
       if (this.updateType === 'email') {
         return isValidEmail(this.field.data.newEmail);
@@ -243,7 +243,11 @@ export default {
         }
 
         if (result.error) {
-          console.error(result.error);
+          if (this.updateType === 'username' && result.error.code === '23505') {
+            this.field.error.username = 'Questo username è già stato preso';
+          } else {
+            console.error(result.error);
+          }
         } else {
           this.$router.push('/profile');
         }

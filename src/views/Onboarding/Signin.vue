@@ -130,12 +130,10 @@ export default {
         localStorage.setItem('isAuthenticated', true);
 
         await getProfile();
-
-        this.$router.push({ name: 'home' });
       } catch (e) {
         console.error(e);
 
-        if (e.code === 'email_not_confirmed') {
+        if (e.code === 'email_not_confirmed' || e.message === 'Email not confirmed') {
           this.$router.push({ name: 'confirm-email' });
         } else if (e.code === 'invalid_credentials') {
           this.field.error.general = VALIDATION_ERRORS.INVALID_CREDENTIALS;

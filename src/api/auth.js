@@ -65,7 +65,11 @@ export async function getProfile() {
 
     if (error) throw error;
 
-    authStore.profile = data;
+    if (!data) {
+      await createProfile(userId);
+    } else {
+      authStore.profile = data;
+    }
   } catch (e) {
     console.error(e);
   } finally {
@@ -84,6 +88,43 @@ export async function logout() {
     clearAuth();
   } catch (e) {
     console.error(e);
+  }
+}
+
+export async function checkHaveProfile(userId) {
+  const targetUserId = userId || authStore.user?.id;
+
+  try {
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', targetUserId).single();
+
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
+  }
+}
+
+export async function createProfile(userId) {
+  const targetUserId = userId || authStore.user?.id;
+
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .insert({
+        id: targetUserId,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    authStore.profile = data;
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
   }
 }
 
