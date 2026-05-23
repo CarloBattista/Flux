@@ -74,7 +74,7 @@
                 <RouterLink to="/update/password">
                   <listItem firstLine="Password" secondLine="•••••••••••" />
                 </RouterLink>
-                <RouterLink to="/update/phone">
+                <RouterLink v-if="false" to="/update/phone">
                   <listItem firstLine="Numero di telefono" :secondLine="authStore.user?.phone || 'Aggiungi telefono'" />
                 </RouterLink>
               </listContainer>
@@ -83,7 +83,7 @@
               <h2 class="text-xl font-medium">Impostazioni</h2>
               <listContainer>
                 <RouterLink to="/update/language">
-                  <listItem icon="Languages" firstLine="Lingua" secondLine="Italiano" />
+                  <listItem icon="Languages" firstLine="Lingua" :secondLine="formatLanguage(authStore.profile?.lang)" />
                 </RouterLink>
               </listContainer>
             </div>
@@ -96,6 +96,7 @@
 
 <script>
 import { authStore } from '../../data/authStore';
+import { formatLanguage } from '../../utils/format';
 
 import navigation from '../../components/navigation/navigation.vue';
 import listContainer from '../../components/list/list-container.vue';
@@ -123,6 +124,9 @@ export default {
     return {
       authStore,
     };
+  },
+  methods: {
+    formatLanguage,
   },
 };
 </script>

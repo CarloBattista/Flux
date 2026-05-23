@@ -86,6 +86,9 @@
                   <listItem icon="LockKeyhole" secondLine="Modifica la password" />
                 </RouterLink>
               </listContainer>
+              <listContainer>
+                <listItem @click="handleLogout" type="destructive" icon="DoorOpen" secondLine="Esci dal tuo account" />
+              </listContainer>
             </div>
           </div>
         </div>
@@ -96,6 +99,7 @@
 
 <script>
 import { authStore } from '../../data/authStore';
+import { logout } from '../../api/auth';
 
 import navigation from '../../components/navigation/navigation.vue';
 import listContainer from '../../components/list/list-container.vue';
@@ -123,6 +127,13 @@ export default {
     return {
       authStore,
     };
+  },
+  methods: {
+    async handleLogout() {
+      if (confirm('Seiuro di voler uscire dal tuo account?')) {
+        await logout();
+      }
+    },
   },
 };
 </script>

@@ -32,9 +32,9 @@
                 <h2 class="text-white text-3xl font-semibold">{{ updateTitle }}</h2>
               </div>
             </div>
-            <form @submit.prevent class="w-full">
+            <form @submit.prevent="handleSubmit" class="w-full">
               <div v-if="updateType === 'username'" class="w-full flex flex-col gap-4">
-                <hrInput v-model="field.data.username" :error="field.error.username" type="text" placeholder="Username" />
+                <hrInput v-model="field.data.username" :error="field.error.username" type="text" placeholder="Username" @input="validateUsername" />
               </div>
               <div v-else-if="updateType === 'email'" class="w-full flex flex-col gap-4">
                 <hrInput
@@ -49,22 +49,30 @@
                   :error="field.error.newEmail"
                   type="email"
                   placeholder="Inserisci il tuo nuovo indirizzo email"
+                  @input="validateEmail"
                 />
               </div>
               <div v-else-if="updateType === 'password'" class="w-full flex flex-col gap-4">
-                <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Nuova password" />
+                <hrInput
+                  v-model="field.data.password"
+                  :error="field.error.password"
+                  type="password"
+                  placeholder="Nuova password"
+                  @input="validatePassword"
+                />
                 <hrInput
                   v-model="field.data.confirmPassword"
                   :error="field.error.confirmPassword"
                   type="password"
                   placeholder="Conferma nuova password"
+                  @input="validateConfirmPassword"
                 />
               </div>
               <div v-else-if="updateType === 'phone'" class="w-full flex flex-col gap-4">
-                <hrInput v-model="field.data.phone" :error="field.error.phone" type="tel" placeholder="Numero di telefono" />
+                <hrInput v-model="field.data.phone" :error="field.error.phone" type="tel" placeholder="Numero di telefono" @input="validatePhone" />
               </div>
               <div v-else-if="updateType === 'language'" class="w-full flex flex-col gap-4">
-                <hrSelect v-model="field.data.language" :error="field.error.language" />
+                <hrSelect v-model="field.data.language" :options="authStore.languages" :error="field.error.language" />
               </div>
               <hrButton
                 type="submit"
@@ -85,6 +93,9 @@
 
 <script>
 import { authStore } from '../../data/authStore';
+import { updateEmail, updatePassword, updatePhone, updateProfile } from '../../api/auth';
+import { isValidEmail, isValidPassword } from '../../utils/validators';
+import { VALIDATION_ERRORS } from '../../utils/constants';
 
 import navigation from '../../components/navigation/navigation.vue';
 import loader from '../../components/global/loader.vue';
@@ -118,7 +129,7 @@ export default {
           newEmail: '',
           password: '',
           confirmPassword: '',
-          language: '',
+          language: 'it',
         },
         error: {
           username: null,
@@ -155,6 +166,93 @@ export default {
       }
       return 'Aggiorna i tuoi dati';
     },
+    isFormValid() {
+      if (this.updateType === 'username') {
+        return this.field.data.username && this.field.data.username.length >= 3;
+      }
+      if (this.updateType === 'email') {
+        return isValidEmail(this.field.data.newEmail);
+      }
+      if (this.updateType === 'password') {
+        return isValidPassword(this.field.data.password) && this.field.data.confirmPassword === this.field.data.password;
+      }
+      if (this.updateType === 'phone') {
+        return this.field.data.phone && this.field.data.phone.length >= 8;
+      }
+      if (this.updateType === 'language') {
+        return !!this.field.data.language;
+      }
+      return false;
+    },
+  },
+  methods: {
+    validateUsername() {
+      if (this.field.data.username && this.field.data.username.length < 3) {
+        this.field.error.username = 'Lo username deve contenere almeno 3 caratteri';
+      } else {
+        this.field.error.username = null;
+      }
+    },
+    validateEmail() {
+      if (this.field.data.newEmail && !isValidEmail(this.field.data.newEmail)) {
+        this.field.error.newEmail = VALIDATION_ERRORS.EMAIL_INVALID;
+      } else {
+        this.field.error.newEmail = null;
+      }
+    },
+    validatePassword() {
+      if (this.field.data.password && !isValidPassword(this.field.data.password)) {
+        this.field.error.password = VALIDATION_ERRORS.PASSWORD_TOO_SHORT;
+      } else {
+        this.field.error.password = null;
+      }
+      this.validateConfirmPassword();
+    },
+    validateConfirmPassword() {
+      if (this.field.data.confirmPassword && this.field.data.confirmPassword !== this.field.data.password) {
+        this.field.error.confirmPassword = VALIDATION_ERRORS.PASSWORD_MISMATCH;
+      } else {
+        this.field.error.confirmPassword = null;
+      }
+    },
+    validatePhone() {
+      if (this.field.data.phone && this.field.data.phone.length < 8) {
+        this.field.error.phone = VALIDATION_ERRORS.PHONE_INVALID;
+      } else {
+        this.field.error.phone = null;
+      }
+    },
+
+    async handleSubmit() {
+      if (!this.isFormValid) return;
+
+      this.field.loading = true;
+      let result = { error: null };
+
+      try {
+        if (this.updateType === 'username') {
+          result = await updateProfile({ username: this.field.data.username });
+        } else if (this.updateType === 'email') {
+          result = await updateEmail(this.field.data.newEmail);
+        } else if (this.updateType === 'password') {
+          result = await updatePassword(this.field.data.password);
+        } else if (this.updateType === 'phone') {
+          result = await updatePhone(this.field.data.phone);
+        } else if (this.updateType === 'language') {
+          result = await updateProfile({ lang: this.field.data.language });
+        }
+
+        if (result.error) {
+          console.error(result.error);
+        } else {
+          this.$router.push('/profile');
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.field.loading = false;
+      }
+    },
   },
   mounted() {
     if (this.updateType === 'username' && authStore.profile?.username) {
@@ -162,6 +260,12 @@ export default {
     }
     if (this.updateType === 'email' && authStore.user?.email) {
       this.field.data.currentEmail = authStore.user?.email || '';
+    }
+    if (this.updateType === 'phone' && authStore.user?.phone) {
+      this.field.data.phone = authStore.user?.phone || '';
+    }
+    if (this.updateType === 'language' && authStore.profile?.lang) {
+      this.field.data.language = authStore.profile?.lang || 'it';
     }
   },
 };

@@ -40,7 +40,7 @@
       <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
         <hrButton size="small" variant="core-primary" label="Inizia ora" />
       </RouterLink>
-      <RouterLink v-else to="/profile" class="nav-item">
+      <RouterLink v-else to="/profile/overview" class="nav-item">
         <div class="h-8 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
           <UserIcon size="18" class="text-white" />
         </div>

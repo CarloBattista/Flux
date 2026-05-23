@@ -79,10 +79,76 @@ export async function logout() {
 
     if (error) throw error;
 
-    clearAuth();
-
     window.location.href = '/signin';
+
+    clearAuth();
   } catch (e) {
     console.error(e);
+  }
+}
+
+export async function updateEmail(newEmail) {
+  if (!authStore.user) return;
+
+  try {
+    const { data, error } = await supabase.auth.updateUser({ email: newEmail });
+
+    if (error) throw error;
+
+    authStore.user = data.user;
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
+  }
+}
+
+export async function updatePassword(newPassword) {
+  if (!authStore.user) return;
+
+  try {
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) throw error;
+
+    authStore.user = data.user;
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
+  }
+}
+
+export async function updatePhone(newPhone) {
+  if (!authStore.user) return;
+
+  try {
+    const { data, error } = await supabase.auth.updateUser({ phone: newPhone });
+
+    if (error) throw error;
+
+    authStore.user = data.user;
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
+  }
+}
+
+export async function updateProfile(updates) {
+  if (!authStore.user) return;
+
+  const userId = authStore.user.id;
+
+  try {
+    const { data, error } = await supabase.from('profiles').update(updates).eq('id', userId).select().single();
+
+    if (error) throw error;
+
+    authStore.profile = data;
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
   }
 }

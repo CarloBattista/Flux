@@ -1,5 +1,5 @@
 <template>
-  <div class="li-item relative w-full p-4 rounded-[10px] flex gap-2.5 items-center">
+  <div class="li-item relative w-full p-4 rounded-[10px] flex gap-2.5 items-center" :class="'type-' + type">
     <div v-if="icon" class="h-full flex items-center justify-center">
       <component :is="icon" size="20" />
     </div>
@@ -15,7 +15,7 @@
 
 <script>
 // ICONS
-import { ChevronRight, Languages, LockKeyhole, CreditCard } from '@lucide/vue';
+import { ChevronRight, Languages, LockKeyhole, CreditCard, DoorOpen } from '@lucide/vue';
 
 export default {
   name: 'list-item',
@@ -25,8 +25,14 @@ export default {
     Languages,
     LockKeyhole,
     CreditCard,
+    DoorOpen,
   },
   props: {
+    type: {
+      type: String,
+      default: 'default',
+      validator: (val) => ['default', 'destructive'].includes(val),
+    },
     icon: String,
     firstLine: String,
     secondLine: String,
@@ -52,5 +58,10 @@ export default {
 
 .li-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.li-item.type-destructive:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: rgba(244, 67, 54, 0.8);
 }
 </style>

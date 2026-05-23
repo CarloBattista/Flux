@@ -5,4 +5,17 @@ export const authStore = reactive({
   session: null,
   profile: null,
   isAuthenticated: false,
+
+  languages: [
+    {
+      id: 0,
+      label: 'Italiano',
+      value: 'it',
+    },
+    {
+      id: 1,
+      label: 'English',
+      value: 'en',
+    },
+  ],
 });

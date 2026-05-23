@@ -30,6 +30,9 @@
           <div class="w-full flex flex-col gap-4">
             <hrInput v-model="field.data.email" :error="field.error.email" type="email" placeholder="Inserisci indirizzo email" />
             <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Inserisci la tua password" />
+            <div v-if="field.error.general" class="w-full px-2 flex gap-2 items-center">
+              <p class="text-red-500 text-sm font-medium">{{ field.error.general }}</p>
+            </div>
             <RouterLink to="/reset-password" class="ml-auto text-sm text-white hover:underline">Dimenticato la password?</RouterLink>
           </div>
           <hrButton
@@ -79,6 +82,7 @@ export default {
         error: {
           email: null,
           password: null,
+          general: null,
         },
         loading: false,
       },
@@ -133,6 +137,8 @@ export default {
 
         if (e.code === 'email_not_confirmed') {
           this.$router.push({ name: 'confirm-email' });
+        } else if (e.code === 'invalid_credentials') {
+          this.field.error.general = VALIDATION_ERRORS.INVALID_CREDENTIALS;
         }
       } finally {
         this.field.loading = false;
