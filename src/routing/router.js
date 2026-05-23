@@ -60,6 +60,30 @@ const routes = [
     path: '/tool/:slug',
     name: 'tool',
     component: () => import('../views/Tool.vue'),
+    // meta: { requiresAuth: true },
+    props: true,
+  },
+
+  // Account
+  {
+    path: '/profile/overview',
+    name: 'overview',
+    component: () => import('../views/Account/Overview.vue'),
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/Account/Profile.vue'),
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: '/update/:slug',
+    name: 'update',
+    component: () => import('../views/Account/Update.vue'),
+    meta: { requiresAuth: true },
     props: true,
   },
 
