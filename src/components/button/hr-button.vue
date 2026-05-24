@@ -55,6 +55,7 @@ export default {
 <style scoped>
 .hr-button {
   position: relative;
+  min-width: 60px;
   gap: 8px;
   border-radius: 12px;
   outline: none;
