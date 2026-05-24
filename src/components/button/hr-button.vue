@@ -97,10 +97,30 @@ export default {
   min-width: 36px;
 }
 
+.hr-button.size-small .hr-button-icon svg {
+  height: 16px;
+  width: 16px;
+}
+
+.hr-button.size-small .hr-button-label {
+  font-size: 14px;
+}
+
 .hr-button.size-default {
   padding: 8px 16px;
   height: 40px;
   min-width: 40px;
+}
+
+.hr-button.size-default .hr-button-icon svg,
+.hr-button.size-large .hr-button-icon svg {
+  height: 20px;
+  width: 20px;
+}
+
+.hr-button.size-default .hr-button-label,
+.hr-button.size-large .hr-button-label {
+  font-size: 1rem;
 }
 
 .hr-button.size-large {
