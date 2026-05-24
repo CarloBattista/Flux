@@ -33,6 +33,34 @@
           <div v-if="filteredTools.length > 0" class="p-2">
             <!-- Grouped View (No Search) -->
             <template v-if="!searchQuery">
+              <!-- Favorites Tools section -->
+              <div v-if="favoritesTools.length > 0" class="mb-4">
+                <div class="px-3 py-2">
+                  <span class="text-[10px] text-white/30 font-bold uppercase tracking-wider">Preferiti</span>
+                </div>
+                <RouterLink
+                  v-for="(tool, index) in favoritesTools"
+                  :key="'favorite-' + tool.metadata.slug"
+                  :to="'/tool/' + tool.metadata.slug"
+                  @click="
+                    store.searchBar.isOpen = false;
+                    actionHandleTool(tool);
+                  "
+                >
+                  <cardTool
+                    :keyCard="index"
+                    :selectedIndex="selectedfavoriteIndex"
+                    :icon="tool.metadata.icon"
+                    :firstLine="tool.metadata.title"
+                    :secondLine="tool.metadata.description"
+                    :badge="tool.metadata.new"
+                    :action="true"
+                    @mouseenter="selectedfavoriteIndex = index"
+                    :class="[index === selectedfavoriteIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                  />
+                </RouterLink>
+              </div>
+
               <!-- Recent Tools Section -->
               <div v-if="recentTools.length > 0" class="mb-4">
                 <div class="px-3 py-2">
@@ -171,6 +199,7 @@ export default {
       store,
       searchQuery: '',
       selectedIndex: 0,
+      selectedfavoriteIndex: null,
       categories: {
         media: {
           label: 'Media',

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed z-9999 top-17 left-0 w-full flex flex-col justify-center items-center pointer-events-none">
+  <div class="fixed z-999999 top-17 left-0 w-full flex flex-col justify-center items-center pointer-events-none">
     <TransitionGroup name="toast" tag="div" class="w-full flex flex-col items-center">
       <tlToast
         v-for="toast in toasts"
