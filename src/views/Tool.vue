@@ -253,6 +253,13 @@ export default {
     },
   },
   methods: {
+    handleMetadata() {
+      if (!this.tool) return;
+
+      document.title = `${this.tool.metadata.title} - Flux`;
+      document.description = this.tool.metadata.description;
+    },
+
     async toggleFavorite() {
       if (!authStore.isAuthenticated) {
         this.$router.push('/signin');
@@ -280,7 +287,7 @@ export default {
     tool: {
       handler(newTool) {
         if (newTool) {
-          document.title = `${newTool.metadata.title} - Flux`;
+          this.handleMetadata();
           handleTool(newTool);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
