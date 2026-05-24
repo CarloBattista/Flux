@@ -35,30 +35,26 @@
         </div>
       </div>
     </div>
-    <div class="h-full md:flex hidden flex-1 gap-3 items-center justify-end">
-      <hrButton v-if="false" size="small" variant="secondary" label="Vedi prezzi" />
-      <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
-        <hrButton size="small" variant="core-primary" label="Inizia ora" />
+    <div class="h-full flex flex-1 gap-1 items-center justify-end">
+      <div
+        @click="store.searchBar.isOpen = !store.searchBar.isOpen"
+        class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
+      >
+        <SearchIcon />
+      </div>
+      <div
+        @click="burger.isOpen = !burger.isOpen"
+        class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer"
+      >
+        <MenuIcon v-if="!burger.isOpen" />
+        <CloseIcon v-else />
+      </div>
+      <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
+        <div class="h-8 ml-1 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+          <UserIcon size="18" class="text-white" />
+        </div>
       </RouterLink>
     </div>
-    <div
-      @click="store.searchBar.isOpen = !store.searchBar.isOpen"
-      class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
-    >
-      <SearchIcon />
-    </div>
-    <div
-      @click="burger.isOpen = !burger.isOpen"
-      class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer"
-    >
-      <MenuIcon v-if="!burger.isOpen" />
-      <CloseIcon v-else />
-    </div>
-    <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
-      <div class="h-8 ml-2 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-        <UserIcon size="18" class="text-white" />
-      </div>
-    </RouterLink>
   </div>
 
   <Transition name="mobile-menu">

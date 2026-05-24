@@ -42,28 +42,22 @@
                   v-for="(tool, index) in recentTools"
                   :key="'recent-' + tool.metadata.slug"
                   :to="'/tool/' + tool.metadata.slug"
-                  class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
-                  :class="[index === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
                   @click="
                     store.searchBar.isOpen = false;
                     actionHandleTool(tool);
                   "
-                  @mouseenter="selectedIndex = index"
                 >
-                  <div
-                    class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
-                    :class="[index === selectedIndex ? 'bg-[#8e48ff]/20 text-[#8e48ff]' : 'bg-white/5 text-white/70']"
-                  >
-                    <component :is="tool.metadata.icon" size="18" />
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2">
-                      <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
-                      <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
-                    </div>
-                    <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
-                  </div>
-                  <ChevronRight v-if="index === selectedIndex" size="18" class="text-white/70" />
+                  <cardTool
+                    :keyCard="index"
+                    :selectedIndex="selectedIndex"
+                    :icon="tool.metadata.icon"
+                    :firstLine="tool.metadata.title"
+                    :secondLine="tool.metadata.description"
+                    :badge="tool.metadata.new"
+                    :action="true"
+                    @mouseenter="selectedIndex = index"
+                    :class="[index === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                  />
                 </RouterLink>
               </div>
 
@@ -72,31 +66,25 @@
                   <span class="text-[10px] font-bold text-white/30 uppercase tracking-wider">{{ category.label }}</span>
                 </div>
                 <RouterLink
-                  v-for="tool in category.tools"
+                  v-for="(tool, index) in category.tools"
                   :key="tool.metadata.slug"
                   :to="'/tool/' + tool.metadata.slug"
-                  class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
-                  :class="[navigationTools.indexOf(tool) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
                   @click="
                     store.searchBar.isOpen = false;
                     actionHandleTool(tool);
                   "
-                  @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
                 >
-                  <div
-                    class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
-                    :class="[navigationTools.indexOf(tool) === selectedIndex ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
-                  >
-                    <component :is="tool.metadata.icon" size="18" />
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2">
-                      <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
-                      <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
-                    </div>
-                    <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
-                  </div>
-                  <ChevronRight v-if="navigationTools.indexOf(tool) === selectedIndex" size="18" class="text-white/70" />
+                  <cardTool
+                    :keyCard="index"
+                    :selectedIndex="selectedIndex"
+                    :icon="tool.metadata.icon"
+                    :firstLine="tool.metadata.title"
+                    :secondLine="tool.metadata.description"
+                    :badge="tool.metadata.new"
+                    :action="navigationTools.indexOf(tool) === selectedIndex"
+                    @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
+                    :class="[navigationTools.indexOf(tool) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                  />
                 </RouterLink>
               </div>
             </template>
@@ -107,28 +95,22 @@
                 v-for="(tool, index) in filteredTools"
                 :key="tool.metadata.slug"
                 :to="'/tool/' + tool.metadata.slug"
-                class="w-full flex items-center gap-4 p-2 rounded-2xl transition-all duration-200"
-                :class="[selectedIndex === index ? 'bg-white/10' : 'hover:bg-white/5']"
                 @click="
                   store.searchBar.isOpen = false;
                   actionHandleTool(tool);
                 "
-                @mouseenter="selectedIndex = index"
               >
-                <div
-                  class="h-8 aspect-square rounded-xl flex items-center justify-center shrink-0"
-                  :class="[selectedIndex === index ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70']"
-                >
-                  <component :is="tool.metadata.icon" size="18" />
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2">
-                    <span class="text-white text-base font-semibold truncate">{{ tool.metadata.title }}</span>
-                    <span v-if="tool.metadata.new" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
-                  </div>
-                  <p class="text-white/40 text-xs truncate">{{ tool.metadata.description }}</p>
-                </div>
-                <ChevronRight v-if="selectedIndex === index" size="18" class="text-white/70" />
+                <cardTool
+                  :keyCard="index"
+                  :selectedIndex="selectedIndex"
+                  :icon="tool.metadata.icon"
+                  :firstLine="tool.metadata.title"
+                  :secondLine="tool.metadata.description"
+                  :badge="tool.metadata.new"
+                  :action="navigationTools.indexOf(tool) === selectedIndex"
+                  @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
+                  :class="[selectedIndex === index ? 'bg-white/10' : 'hover:bg-white/5']"
+                />
               </RouterLink>
             </template>
           </div>
@@ -169,53 +151,20 @@ import { store } from '../../data/store';
 import { getRecentTools, handleTool } from '../../api/userTools';
 
 import hrButtonShortcut from '../button/hr-button-shortcut.vue';
+import cardTool from '../card/card-tool.vue';
 
 // ICONS
-import {
-  Search as SearchIcon,
-  X as CloseIcon,
-  ChevronRight,
-  Image as ImageIcon,
-  Video as VideoIcon,
-  Thermometer,
-  Clock,
-  Gauge,
-  Zap,
-  Headphones,
-  Braces,
-  Binary,
-  ShieldCheck,
-  Regex,
-  Calendar,
-  Fingerprint,
-  Palette,
-  ImageDown,
-} from '@lucide/vue';
+import { Search as SearchIcon, X as CloseIcon } from '@lucide/vue';
 
 export default {
   name: 'hr-searchbar',
   components: {
     hrButtonShortcut,
+    cardTool,
 
     // ICONS
     SearchIcon,
     CloseIcon,
-    ChevronRight,
-    ImageIcon,
-    VideoIcon,
-    Thermometer,
-    Clock,
-    Gauge,
-    Zap,
-    Headphones,
-    Braces,
-    Binary,
-    ShieldCheck,
-    Regex,
-    Calendar,
-    Fingerprint,
-    Palette,
-    ImageDown,
   },
   data() {
     return {
