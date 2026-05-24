@@ -253,6 +253,11 @@ export default {
       // Map slugs to actual tool objects from registry, limiting to 4
       return this.store.recentTools.data.map((item) => tools[item.tool_slug]).filter((tool) => !!tool);
     },
+    favoritesTools() {
+      if (!this.store.favorites.data) return [];
+
+      return this.store.favorites.data.map((item) => tools[item.tool_slug]).filter((tool) => !!tool);
+    },
     navigationTools() {
       // Tools list used for keyboard navigation index
       if (!this.searchQuery) {

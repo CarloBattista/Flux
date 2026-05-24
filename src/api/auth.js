@@ -1,6 +1,7 @@
 import { supabase } from '../services/supabase';
 import { authStore } from '../data/authStore';
 import { toast } from '../utils/toast';
+import { getFavorites } from './favorites';
 
 function clearAuth() {
   authStore.user = null;
@@ -71,6 +72,8 @@ export async function getProfile() {
     } else {
       authStore.profile = data;
     }
+
+    await getFavorites();
   } catch (e) {
     console.error(e);
   } finally {

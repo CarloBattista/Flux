@@ -43,6 +43,16 @@
             <p v-if="tool.metadata.description" class="md:text-lg text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
               {{ tool.metadata.description }}
             </p>
+            <div class="w-full flex items-center justify-center">
+              <hrButton
+                @click="toggleFavorite"
+                :variant="isFavorite ? 'core-primary' : 'secondary'"
+                :leftIcon="isFavorite ? 'StarOff' : 'Star'"
+                :label="isFavorite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'"
+                :loading="favorite.loading"
+                class="w-fit"
+              />
+            </div>
           </div>
         </div>
 
@@ -85,8 +95,11 @@
 </template>
 
 <script>
+import { authStore } from '../data/authStore';
+import { store } from '../data/store';
 import { tools } from '../toolsRegistry';
 import { handleTool } from '../api/userTools';
+import { addFavorite, deleteFavorite } from '../api/favorites';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
@@ -166,6 +179,7 @@ export default {
   },
   data() {
     return {
+      store,
       categories: {
         media: {
           label: 'Media',
@@ -187,6 +201,10 @@ export default {
             tools['color-picker-converter'],
           ],
         },
+      },
+
+      favorite: {
+        loading: false,
       },
     };
   },
@@ -227,6 +245,35 @@ export default {
     relatedTools() {
       if (!this.category || !this.tool) return [];
       return this.category.tools.filter((t) => t.metadata.slug !== this.tool.metadata.slug).slice(0, 3);
+    },
+    isFavorite() {
+      if (!this.store.favorites.data || !this.tool) return false;
+
+      return this.store.favorites.data.some((f) => f.tool_slug === this.tool.metadata.slug);
+    },
+  },
+  methods: {
+    async toggleFavorite() {
+      if (!authStore.isAuthenticated) {
+        this.$router.push('/signin');
+        return;
+      }
+
+      const slug = this.tool.metadata.slug;
+
+      this.favorite.loading = true;
+
+      try {
+        if (this.isFavorite) {
+          await deleteFavorite(slug);
+        } else {
+          await addFavorite(slug);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.favorite.loading = false;
+      }
     },
   },
   watch: {

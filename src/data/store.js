@@ -36,6 +36,11 @@ export const store = reactive({
     isOpen: false,
   },
 
+  favorites: {
+    data: [],
+    error: null,
+    loading: false,
+  },
   recentTools: {
     data: [],
     error: null,
