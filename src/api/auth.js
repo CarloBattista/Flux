@@ -1,5 +1,6 @@
 import { supabase } from '../services/supabase';
 import { authStore } from '../data/authStore';
+import { toast } from '../utils/toast';
 
 function clearAuth() {
   authStore.user = null;
@@ -137,6 +138,7 @@ export async function updateEmail(newEmail) {
     if (error) throw error;
 
     authStore.user = data.user;
+    toast.light('Email aggiornata con successo!', { showIcon: false, closable: false });
     return { data, error: null };
   } catch (e) {
     console.error(e);
@@ -153,6 +155,7 @@ export async function updatePassword(newPassword) {
     if (error) throw error;
 
     authStore.user = data.user;
+    toast.light('Password aggiornata con successo!', { showIcon: false, closable: false });
     return { data, error: null };
   } catch (e) {
     console.error(e);
@@ -169,6 +172,7 @@ export async function updatePhone(newPhone) {
     if (error) throw error;
 
     authStore.user = data.user;
+    toast.light('Numero di telefono aggiornato con successo!', { showIcon: false, closable: false });
     return { data, error: null };
   } catch (e) {
     console.error(e);
@@ -187,6 +191,7 @@ export async function updateProfile(updates) {
     if (error) throw error;
 
     authStore.profile = data;
+    toast.light('Profilo aggiornato con successo!', { showIcon: false, closable: false });
     return { data, error: null };
   } catch (e) {
     console.error(e);
