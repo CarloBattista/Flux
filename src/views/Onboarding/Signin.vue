@@ -130,6 +130,7 @@ export default {
         localStorage.setItem('isAuthenticated', true);
 
         await getProfile();
+        this.$router.push({ name: 'home' });
       } catch (e) {
         console.error(e);
 

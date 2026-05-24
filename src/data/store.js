@@ -1,6 +1,7 @@
 import { reactive } from 'vue';
 
 export const store = reactive({
+  isMac: typeof window !== 'undefined' ? /Mac|iPod|iPhone|iPad/.test(navigator.platform) : false,
   plans: [
     {
       id: 0,
@@ -31,10 +32,13 @@ export const store = reactive({
       ],
     },
   ],
-
   searchBar: {
     isOpen: false,
   },
 
-  isMac: typeof window !== 'undefined' ? /Mac|iPod|iPhone|iPad/.test(navigator.platform) : false,
+  recentTools: {
+    data: [],
+    error: null,
+    loading: false,
+  },
 });

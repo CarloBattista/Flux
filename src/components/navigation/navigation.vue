@@ -99,6 +99,7 @@
                   @click="
                     burger.isOpen = false;
                     burger.activeCategory = null;
+                    actionHandleTool(tool);
                   "
                 >
                   <div class="h-full aspect-square rounded-xl flex items-center justify-center bg-white/10 text-white/70">
@@ -140,7 +141,10 @@
             :key="tool.metadata.slug"
             :to="'/tool/' + tool.metadata.slug"
             class="w-full h-12 p-2 rounded-2xl flex gap-3 items-center bg-black hover:bg-white/15 transition-colors duration-100 cursor-pointer"
-            @click="dropdown.isOpen = false"
+            @click="
+              dropdown.isOpen = false;
+              actionHandleTool(tool);
+            "
           >
             <div class="h-full aspect-square rounded-xl flex flex-none items-center justify-center bg-white/10 text-white/70">
               <component :is="tool.metadata.icon" size="18" />
@@ -162,6 +166,7 @@
 import { tools } from '../../toolsRegistry';
 import { store } from '../../data/store';
 import { authStore } from '../../data/authStore';
+import { handleTool } from '../../api/userTools';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
@@ -308,6 +313,11 @@ export default {
         this.burger.activeCategory = null;
         document.body.classList.remove('overflow-hidden');
       }
+    },
+    actionHandleTool(tool) {
+      if (!tool) return;
+
+      handleTool(tool);
     },
   },
   watch: {
