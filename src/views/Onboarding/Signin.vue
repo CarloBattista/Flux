@@ -21,19 +21,30 @@
           <appLogo variant="white" class="relative w-fit h-6" />
           <div class="w-full mt-6 flex flex-col gap-3 items-center text-center">
             <h2 class="text-white text-3xl font-semibold">Ciaooo, bentornato!</h2>
-            <span class="text-gray-400 text-base font-normal">
-              La prima volta qui? <RouterLink to="/signup" class="text-white hover:underline">Registrati qui gratis!</RouterLink>
-            </span>
           </div>
         </div>
         <form @submit.prevent class="w-full">
           <div class="w-full flex flex-col gap-4">
-            <hrInput v-model="field.data.email" :error="field.error.email" type="email" placeholder="Inserisci indirizzo email" />
-            <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Inserisci la tua password" />
+            <hrInput
+              v-model="field.data.email"
+              type="email"
+              :error="field.error.email"
+              placeholder="Inserisci indirizzo email"
+              :disabled="field.emailExists"
+            />
+            <hrInput
+              v-if="field.emailExists"
+              v-model="field.data.password"
+              type="password"
+              :error="field.error.password"
+              placeholder="Inserisci password"
+            />
             <div v-if="field.error.general" class="w-full px-2 flex gap-2 items-center">
               <p class="text-red-500 text-sm font-medium">{{ field.error.general }}</p>
             </div>
-            <RouterLink to="/reset-password" class="ml-auto text-sm text-white hover:underline">Dimenticato la password?</RouterLink>
+            <RouterLink v-if="field.emailExists" to="/reset-password" class="text-white text-sm font-medium text-end hover:underline"
+              >Hai dimenticato la password?</RouterLink
+            >
           </div>
           <hrButton
             @click="actionSignin"
@@ -54,7 +65,7 @@
 <script>
 import { supabase } from '../../services/supabase';
 import { authStore } from '../../data/authStore';
-import { getProfile } from '../../api/auth';
+import { checkEmailExists, getProfile } from '../../api/auth';
 
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { VALIDATION_ERRORS } from '../../utils/constants';
@@ -84,12 +95,16 @@ export default {
           password: null,
           general: null,
         },
+        emailExists: false,
         loading: false,
       },
     };
   },
   computed: {
     isFormValid() {
+      if (!this.field.emailExists) {
+        return isValidEmail(this.field.data.email);
+      }
       return isValidEmail(this.field.data.email) && isValidPassword(this.field.data.password);
     },
   },
@@ -115,30 +130,48 @@ export default {
       }
 
       this.field.loading = true;
+      this.field.error.general = null;
 
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: this.field.data.email,
-          password: this.field.data.password,
-        });
+        if (!this.field.emailExists) {
+          const { data, error } = await checkEmailExists(this.field.data.email);
 
-        if (error) throw error;
+          if (error) throw error;
 
-        authStore.user = data.user;
-        authStore.session = data.session;
-        authStore.isAuthenticated = true;
-        localStorage.setItem('isAuthenticated', true);
+          if (data.exists) {
+            this.field.emailExists = true;
+          } else {
+            this.$router.push({
+              name: 'signup',
+              query: { email: this.field.data.email },
+            });
+          }
+        } else {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: this.field.data.email,
+            password: this.field.data.password,
+          });
 
-        await getProfile();
-        this.$router.push({ name: 'home' });
+          if (error) {
+            if (error.message.includes('Email not confirmed')) {
+              this.$router.push({ name: 'confirm-email' });
+              return;
+            }
+            throw error;
+          }
+
+          authStore.user = data.user;
+          authStore.session = data.session;
+          authStore.isAuthenticated = true;
+          localStorage.setItem('isAuthenticated', true);
+
+          await getProfile();
+
+          this.$router.push({ name: 'home' });
+        }
       } catch (e) {
         console.error(e);
-
-        if (e.code === 'email_not_confirmed' || e.message === 'Email not confirmed') {
-          this.$router.push({ name: 'confirm-email' });
-        } else if (e.code === 'invalid_credentials') {
-          this.field.error.general = VALIDATION_ERRORS.INVALID_CREDENTIALS;
-        }
+        this.field.error.general = e.message;
       } finally {
         this.field.loading = false;
       }

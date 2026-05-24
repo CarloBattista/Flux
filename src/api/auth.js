@@ -198,3 +198,18 @@ export async function updateProfile(updates) {
     return { data: null, error: e };
   }
 }
+
+export async function checkEmailExists(email) {
+  try {
+    const { data, error } = await supabase.functions.invoke('check-email', {
+      body: { email },
+    });
+
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (e) {
+    console.error(e);
+    return { data: null, error: e };
+  }
+}

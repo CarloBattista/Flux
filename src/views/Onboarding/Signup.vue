@@ -9,11 +9,11 @@
     <div class="relative z-10 w-full md:max-w-[45%] h-full px-6">
       <div class="absolute top-4 md:left-2 left-6">
         <RouterLink
-          to="/"
+          to="/signin"
           type="button"
           class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white/70 transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
         >
-          <span class="text-xs font-bold">Torna alla home</span>
+          <span class="text-xs font-bold">Torna indietro</span>
         </RouterLink>
       </div>
       <div class="w-full h-full sm:max-w-[400px] mx-auto flex flex-col items-center justify-center">
@@ -28,7 +28,13 @@
         </div>
         <form @submit.prevent class="w-full">
           <div class="w-full flex flex-col gap-4">
-            <hrInput v-model="field.data.email" :error="field.error.email" type="email" placeholder="Inserisci indirizzo email" />
+            <hrInput
+              v-if="!field.data.email"
+              v-model="field.data.email"
+              :error="field.error.email"
+              type="email"
+              placeholder="Inserisci indirizzo email"
+            />
             <hrInput v-model="field.data.password" :error="field.error.password" type="password" placeholder="Crea la tua password" />
             <hrInput
               v-model="field.data.confirmPassword"
@@ -145,6 +151,11 @@ export default {
         this.field.loading = false;
       }
     },
+  },
+  mounted() {
+    if (this.$route.query.email) {
+      this.field.data.email = this.$route.query.email;
+    }
   },
 };
 </script>
