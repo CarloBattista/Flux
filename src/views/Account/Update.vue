@@ -240,6 +240,7 @@ export default {
           result = await updatePhone(this.field.data.phone);
         } else if (this.updateType === 'language') {
           result = await updateProfile({ lang: this.field.data.language });
+          document.documentElement.lang = this.field.data.language;
         }
 
         if (result.error) {

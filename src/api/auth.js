@@ -74,6 +74,7 @@ export async function getProfile() {
     }
 
     await getFavorites();
+    document.documentElement.lang = authStore.profile?.lang;
   } catch (e) {
     console.error(e);
   } finally {
