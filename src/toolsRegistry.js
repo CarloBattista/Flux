@@ -8,6 +8,7 @@ import audioConverter from './tools/audio_converter';
 import jsonFormatter from './tools/json_formatter';
 import base64Converter from './tools/base64_converter';
 import jwtDecoder from './tools/jwt_decoder';
+import jwtEncoder from './tools/jwt_encoder';
 import regexTester from './tools/regex_tester';
 import timestampConverter from './tools/timestamp_converter';
 import uuidGenerator from './tools/uuid_generator';
@@ -26,6 +27,7 @@ export const tools = {
   'json-formatter': jsonFormatter,
   'base64-converter': base64Converter,
   'jwt-decoder': jwtDecoder,
+  'jwt-encoder': jwtEncoder,
   'regex-tester': regexTester,
   'timestamp-converter': timestampConverter,
   'uuid-generator': uuidGenerator,

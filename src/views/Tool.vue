@@ -114,6 +114,7 @@ import videoCompressorUi from '../components/layout/video-compressor-ui.vue';
 import jsonFormatterUi from '../components/layout/json-formatter-ui.vue';
 import base64ConverterUi from '../components/layout/base64-converter-ui.vue';
 import jwtDecoderUi from '../components/layout/jwt-decoder-ui.vue';
+import jwtEncoderUi from '../components/layout/jwt-encoder-ui.vue';
 import regexTesterUi from '../components/layout/regex-tester-ui.vue';
 import timestampConverterUi from '../components/layout/timestamp-converter-ui.vue';
 import uuidGeneratorUi from '../components/layout/uuid-generator-ui.vue';
@@ -132,6 +133,7 @@ import {
   Braces,
   Binary,
   ShieldCheck,
+  ShieldAlert,
   Regex,
   Calendar,
   Fingerprint,
@@ -154,6 +156,7 @@ export default {
     jsonFormatterUi,
     base64ConverterUi,
     jwtDecoderUi,
+    jwtEncoderUi,
     regexTesterUi,
     timestampConverterUi,
     uuidGeneratorUi,
@@ -171,6 +174,7 @@ export default {
     Braces,
     Binary,
     ShieldCheck,
+    ShieldAlert,
     Regex,
     Calendar,
     Fingerprint,
@@ -225,6 +229,7 @@ export default {
         'json-formatter': 'jsonFormatterUi',
         'base64-converter': 'base64ConverterUi',
         'jwt-decoder': 'jwtDecoderUi',
+        'jwt-encoder': 'jwtEncoderUi',
         'regex-tester': 'regexTesterUi',
         'timestamp-converter': 'timestampConverterUi',
         'uuid-generator': 'uuidGeneratorUi',

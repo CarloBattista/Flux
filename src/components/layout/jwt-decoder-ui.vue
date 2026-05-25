@@ -12,15 +12,28 @@
         <div v-if="error" class="text-red-400 text-sm font-medium">{{ error }}</div>
       </div>
 
-      <div v-if="expirationInfo" class="p-4 rounded-xl border border-white/10 bg-white/5 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div :class="['w-3 h-3 rounded-full', expirationInfo.isExpired ? 'bg-red-500' : 'bg-green-500']"></div>
-          <span class="text-sm text-gray-300">
-            {{ expirationInfo.isExpired ? 'Scaduto il:' : 'Scade il:' }}
-            <span class="font-medium text-white">{{ expirationInfo.expirationDate }}</span>
-          </span>
+      <div
+        v-if="expirationInfo || algorithm"
+        class="p-4 rounded-xl border border-white/10 bg-white/5 flex items-center justify-between gap-4 flex-wrap"
+      >
+        <div class="flex items-center gap-6">
+          <div v-if="algorithm" class="flex flex-col">
+            <span class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Algoritmo</span>
+            <span class="text-sm font-mono text-[#8e48ff]">{{ algorithm }}</span>
+          </div>
+
+          <div v-if="expirationInfo" class="flex items-center gap-3">
+            <div :class="['w-2 h-2 rounded-full', expirationInfo.isExpired ? 'bg-red-500' : 'bg-green-500']"></div>
+            <span class="text-sm text-gray-300">
+              {{ expirationInfo.isExpired ? 'Scaduto il:' : 'Scade il:' }}
+              <span class="font-medium text-white">{{ expirationInfo.expirationDate }}</span>
+            </span>
+          </div>
         </div>
-        <div v-if="!expirationInfo.isExpired" class="text-xs text-gray-400">Scade tra circa {{ formatTimeLeft(expirationInfo.timeLeft) }}</div>
+
+        <div v-if="expirationInfo && !expirationInfo.isExpired" class="text-xs text-gray-400">
+          Scade tra circa {{ formatTimeLeft(expirationInfo.timeLeft) }}
+        </div>
       </div>
 
       <div v-if="decoded" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,6 +80,7 @@ export default {
       decoded: null,
       expirationInfo: null,
       error: null,
+      algorithm: null,
     };
   },
   methods: {
@@ -75,16 +89,19 @@ export default {
       if (!this.token.trim()) {
         this.decoded = null;
         this.expirationInfo = null;
+        this.algorithm = null;
         return;
       }
 
       const result = this.tool.decodeJWT(this.token.trim());
       if (result.success && result.data) {
         this.decoded = result.data;
+        this.algorithm = this.decoded.header.alg || 'N/A';
         this.expirationInfo = this.tool.getExpirationInfo(this.decoded.payload);
       } else {
         this.decoded = null;
         this.expirationInfo = null;
+        this.algorithm = null;
         this.error = result.error || 'Token non valido';
       }
     },
