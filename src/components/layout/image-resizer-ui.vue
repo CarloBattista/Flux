@@ -12,34 +12,38 @@
       <template #loading>
         <div class="w-full h-full space-y-4 flex flex-col items-center justify-center">
           <div class="animate-spin rounded-full h-16 w-16 border-4 border-white border-b-[#8e48ff] mx-auto"></div>
-          <p class="text-white font-bold">{{ isReading ? 'Lettura immagine...' : 'Ridimensionamento in corso...' }}</p>
+          <p class="text-white font-bold">{{ isReading ? 'Lettura immagine...' : 'Elaborazione in corso...' }}</p>
         </div>
       </template>
 
       <template #preview>
         <div class="space-y-4 w-full flex flex-col items-center">
-          <!-- Contenitore Preview con Aspect Ratio Reale -->
+          <!-- Area di Ritaglio Interattiva -->
           <div
-            class="relative overflow-hidden rounded-lg shadow-2xl bg-black/40 border border-white/10 transition-all duration-300"
-            :style="{
-              width: '100%',
-              maxWidth: '320px',
-              aspectRatio: `${targetWidth} / ${targetHeight}`,
-            }"
+            ref="cropContainer"
+            class="relative overflow-hidden rounded-lg shadow-2xl bg-black/40 border border-white/10 select-none cursor-move group"
+            :style="{ width: '100%', maxWidth: '400px' }"
+            @mousedown.stop="startDrag"
+            @touchstart.stop.prevent="startDrag"
+            @click.stop
           >
-            <img
-              ref="previewImg"
-              :src="previewUrl"
-              class="w-full h-full transition-all duration-300"
-              :class="fitMode === 'cover' ? 'object-cover' : 'object-fill'"
-              @load="onImageLoaded"
-            />
+            <!-- Immagine Base -->
+            <img ref="previewImg" :src="previewUrl" class="w-full h-auto pointer-events-none opacity-50" @load="onImageLoaded" />
 
-            <!-- Overlay Info -->
+            <!-- Crop Box (Luce) -->
+            <div class="absolute border-2 border-[#8e48ff] shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] z-10 pointer-events-none" :style="cropBoxStyle">
+              <!-- Indicatori angoli -->
+              <div class="absolute -top-1 -left-1 w-2 h-2 bg-[#8e48ff]"></div>
+              <div class="absolute -top-1 -right-1 w-2 h-2 bg-[#8e48ff]"></div>
+              <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-[#8e48ff]"></div>
+              <div class="absolute -bottom-1 -right-1 w-2 h-2 bg-[#8e48ff]"></div>
+            </div>
+
+            <!-- Tooltip Istruzioni -->
             <div
-              class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] text-white font-mono border border-white/10"
+              class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#8e48ff] text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20"
             >
-              {{ targetWidth }}x{{ targetHeight }}px
+              Trascina per scegliere l'area
             </div>
           </div>
 
@@ -67,32 +71,11 @@
         </div>
       </div>
 
-      <!-- Fit Mode Selection -->
-      <div class="space-y-3">
-        <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Modalità Adattamento</label>
-        <div class="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
-          <button
-            @click="fitMode = 'cover'"
-            class="flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all"
-            :class="fitMode === 'cover' ? 'bg-[#8e48ff] text-white shadow-lg' : 'text-gray-400 hover:text-white'"
-          >
-            Copri (Ritaglia)
-          </button>
-          <button
-            @click="fitMode = 'fill'"
-            class="flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all"
-            :class="fitMode === 'fill' ? 'bg-[#8e48ff] text-white shadow-lg' : 'text-gray-400 hover:text-white'"
-          >
-            Distorci
-          </button>
-        </div>
-      </div>
-
       <!-- Custom Dimensions -->
       <div class="space-y-4">
         <div class="flex items-end gap-4">
           <div class="flex-1">
-            <hr-input v-model.number="targetWidth" type="number" label="Larghezza (px)" @input="onWidthChange" />
+            <hr-input v-model.number="targetWidth" type="number" label="Larghezza Output (px)" @input="onWidthChange" />
           </div>
           <div class="flex items-center justify-center pb-3">
             <button
@@ -106,7 +89,7 @@
             </button>
           </div>
           <div class="flex-1">
-            <hr-input v-model.number="targetHeight" type="number" label="Altezza (px)" @input="onHeightChange" />
+            <hr-input v-model.number="targetHeight" type="number" label="Altezza Output (px)" @input="onHeightChange" />
           </div>
         </div>
       </div>
@@ -116,7 +99,7 @@
           @click="resizeImage"
           size="large"
           variant="core-primary"
-          label="Scarica Immagine"
+          label="Ritaglia e Scarica"
           :disabled="isResizing || !imageReady || !targetWidth || !targetHeight"
           class="w-full"
         />
@@ -151,13 +134,60 @@ export default {
       imageReady: false,
       originalWidth: 0,
       originalHeight: 0,
-      targetWidth: 100, // Default non-zero for aspect ratio
-      targetHeight: 100,
+      targetWidth: 1080,
+      targetHeight: 1080,
       aspectRatio: 1,
       maintainAspectRatio: true,
       selectedPresetLabel: 'Custom',
-      fitMode: 'cover', // 'cover' (crop) or 'fill' (stretch)
+
+      // Crop State (values from 0 to 1)
+      cropX: 0.5, // Percentuale centro X
+      cropY: 0.5, // Percentuale centro Y
+      isDragging: false,
+      lastMouseX: 0,
+      lastMouseY: 0,
     };
+  },
+  computed: {
+    cropBoxStyle() {
+      if (!this.imageReady) return {};
+
+      const targetRatio = this.targetWidth / this.targetHeight;
+      const imgRatio = this.originalWidth / this.originalHeight;
+
+      let width, height;
+      if (imgRatio > targetRatio) {
+        height = 100;
+        width = (targetRatio / imgRatio) * 100;
+      } else {
+        width = 100;
+        height = (imgRatio / targetRatio) * 100;
+      }
+
+      // Clamp X and Y center to keep box inside
+      const halfW = width / 2;
+      const halfH = height / 2;
+      const centerX = Math.max(halfW, Math.min(100 - halfW, this.cropX * 100));
+      const centerY = Math.max(halfH, Math.min(100 - halfH, this.cropY * 100));
+
+      return {
+        width: `${width}%`,
+        height: `${height}%`,
+        left: `${centerX - halfW}%`,
+        top: `${centerY - halfH}%`,
+      };
+    },
+    cropImgStyle() {
+      // Per far coincidere l'immagine nitida nel crop box con l'immagine di sfondo
+      const style = this.cropBoxStyle;
+      if (!style.left) return {};
+
+      return {
+        width: `${(100 / parseFloat(style.width)) * 100}%`,
+        left: `-${(parseFloat(style.left) / parseFloat(style.width)) * 100}%`,
+        top: `-${(parseFloat(style.top) / parseFloat(style.height)) * 100}%`,
+      };
+    },
   },
   methods: {
     async setFile(file) {
@@ -183,6 +213,9 @@ export default {
         this.targetHeight = this.originalHeight;
       }
       this.imageReady = true;
+      // Initialize crop coordinates only if they are not already set (e.g., first load)
+      if (this.cropX === undefined || this.cropX === 0.5) this.cropX = 0.5;
+      if (this.cropY === undefined || this.cropY === 0.5) this.cropY = 0.5;
     },
     applyPreset(preset) {
       this.selectedPresetLabel = preset.label;
@@ -190,7 +223,6 @@ export default {
         this.targetWidth = preset.width;
         this.targetHeight = preset.height;
         this.maintainAspectRatio = false;
-        this.fitMode = 'cover'; // Default to cover for social presets
       } else {
         this.targetWidth = this.originalWidth;
         this.targetHeight = this.originalHeight;
@@ -199,9 +231,7 @@ export default {
     },
     toggleAspectRatio() {
       this.maintainAspectRatio = !this.maintainAspectRatio;
-      if (this.maintainAspectRatio) {
-        this.onWidthChange();
-      }
+      if (this.maintainAspectRatio) this.onWidthChange();
     },
     onWidthChange() {
       this.selectedPresetLabel = 'Custom';
@@ -215,15 +245,39 @@ export default {
         this.targetWidth = Math.round(this.targetHeight * this.aspectRatio);
       }
     },
-    reset() {
-      this.selectedFile = null;
-      this.previewUrl = null;
-      this.imageReady = false;
-      this.isReading = false;
-      this.selectedPresetLabel = 'Custom';
-      if (this.$refs.dropzone && this.$refs.dropzone.$refs.fileInput) {
-        this.$refs.dropzone.$refs.fileInput.value = '';
-      }
+    startDrag(e) {
+      this.isDragging = true;
+      const event = e.touches ? e.touches[0] : e;
+      this.lastMouseX = event.clientX;
+      this.lastMouseY = event.clientY;
+
+      window.addEventListener('mousemove', this.handleDrag);
+      window.addEventListener('touchmove', this.handleDrag, { passive: false });
+      window.addEventListener('mouseup', this.stopDrag);
+      window.addEventListener('touchend', this.stopDrag);
+    },
+    handleDrag(e) {
+      if (!this.isDragging) return;
+      if (e.type === 'touchmove') e.preventDefault();
+
+      const event = e.touches ? e.touches[0] : e;
+      const rect = this.$refs.cropContainer.getBoundingClientRect();
+
+      const deltaX = (event.clientX - this.lastMouseX) / rect.width;
+      const deltaY = (event.clientY - this.lastMouseY) / rect.height;
+
+      this.cropX = Math.max(0, Math.min(1, this.cropX + deltaX));
+      this.cropY = Math.max(0, Math.min(1, this.cropY + deltaY));
+
+      this.lastMouseX = event.clientX;
+      this.lastMouseY = event.clientY;
+    },
+    stopDrag() {
+      this.isDragging = false;
+      window.removeEventListener('mousemove', this.handleDrag);
+      window.removeEventListener('touchmove', this.handleDrag);
+      window.removeEventListener('mouseup', this.stopDrag);
+      window.removeEventListener('touchend', this.stopDrag);
     },
     async resizeImage() {
       if (!this.imageReady) return;
@@ -242,44 +296,50 @@ export default {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
-        if (this.fitMode === 'cover') {
-          // Logic for center crop (object-cover)
-          const imgRatio = img.naturalWidth / img.naturalHeight;
-          const targetRatio = this.targetWidth / this.targetHeight;
-          let drawWidth, drawHeight, offsetX, offsetY;
+        // Calcolo coordinate reali sull'immagine originale basate sul box di crop
+        const targetRatio = this.targetWidth / this.targetHeight;
+        const imgRatio = this.originalWidth / this.originalHeight;
 
-          if (imgRatio > targetRatio) {
-            drawHeight = img.naturalHeight;
-            drawWidth = img.naturalHeight * targetRatio;
-            offsetX = (img.naturalWidth - drawWidth) / 2;
-            offsetY = 0;
-          } else {
-            drawWidth = img.naturalWidth;
-            drawHeight = img.naturalWidth / targetRatio;
-            offsetX = 0;
-            offsetY = (img.naturalHeight - drawHeight) / 2;
-          }
-          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight, 0, 0, this.targetWidth, this.targetHeight);
+        let cropWidth, cropHeight;
+        if (imgRatio > targetRatio) {
+          cropHeight = this.originalHeight;
+          cropWidth = this.originalHeight * targetRatio;
         } else {
-          // Logic for stretch (object-fill)
-          ctx.drawImage(img, 0, 0, this.targetWidth, this.targetHeight);
+          cropWidth = this.originalWidth;
+          cropHeight = this.originalWidth / targetRatio;
         }
+
+        const x = this.cropX * this.originalWidth - cropWidth / 2;
+        const y = this.cropY * this.originalHeight - cropHeight / 2;
+
+        // Clamping per sicurezza
+        const safeX = Math.max(0, Math.min(this.originalWidth - cropWidth, x));
+        const safeY = Math.max(0, Math.min(this.originalHeight - cropHeight, y));
+
+        ctx.drawImage(img, safeX, safeY, cropWidth, cropHeight, 0, 0, this.targetWidth, this.targetHeight);
 
         const fileName = this.selectedFile.name.split('.')[0];
         const extension = this.selectedFile.name.split('.').pop();
-        const mimeType = this.selectedFile.type || 'image/png';
-
         canvas.toBlob(
           (blob) => {
             this.downloadFile(blob, `${fileName}_${this.targetWidth}x${this.targetHeight}.${extension}`);
             this.isResizing = false;
           },
-          mimeType,
+          this.selectedFile.type || 'image/png',
           0.95
         );
       } catch (error) {
-        console.error('Errore ridimensionamento:', error);
+        console.error('Errore:', error);
         this.isResizing = false;
+      }
+    },
+    reset() {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      this.imageReady = false;
+      this.selectedPresetLabel = 'Custom';
+      if (this.$refs.dropzone && this.$refs.dropzone.$refs.fileInput) {
+        this.$refs.dropzone.$refs.fileInput.value = '';
       }
     },
     downloadFile(blob, name) {

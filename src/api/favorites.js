@@ -7,7 +7,11 @@ export async function getFavorites() {
   if (!authStore.profile) return;
 
   try {
-    const { data, error } = await supabase.from('favorites').select('*').eq('profile_id', authStore.profile.id);
+    const { data, error } = await supabase
+      .from('favorites')
+      .select('*')
+      .eq('profile_id', authStore.profile.id)
+      .order('created_at', { ascending: false });
 
     if (error) throw error;
 
