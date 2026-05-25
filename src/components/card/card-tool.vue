@@ -39,6 +39,7 @@ import {
   Fingerprint,
   Palette,
   ImageDown,
+  Maximize,
 } from '@lucide/vue';
 
 export default {
@@ -61,6 +62,7 @@ export default {
     Fingerprint,
     Palette,
     ImageDown,
+    Maximize,
   },
   props: {
     keyCard: String,

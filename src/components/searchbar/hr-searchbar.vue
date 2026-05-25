@@ -211,6 +211,7 @@ export default {
             tools['video-to-gif'],
             tools['video-watermark'],
             tools['audio-converter'],
+            tools['image-resizer'],
           ],
         },
         units: {

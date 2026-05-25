@@ -61,7 +61,7 @@ export default {
       }
     },
     resetUnits() {
-      if (this.tool) {
+      if (this.tool && this.tool.config && this.tool.config.units) {
         this.from = this.tool.config.units[0];
         this.to = this.tool.config.units[1] || this.tool.config.units[0];
         this.autoConvert();

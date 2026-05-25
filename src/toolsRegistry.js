@@ -14,6 +14,7 @@ import timestampConverter from './tools/timestamp_converter';
 import uuidGenerator from './tools/uuid_generator';
 import colorPickerConverter from './tools/color_picker_converter';
 import imageCompressor from './tools/image_compressor';
+import imageResizer from './tools/image_resizer';
 import videoCompressor from './tools/video_compressor';
 import videoToGif from './tools/video_to_gif';
 import videoWatermark from './tools/video_watermark';
@@ -35,6 +36,7 @@ export const tools = {
   'uuid-generator': uuidGenerator,
   'color-picker-converter': colorPickerConverter,
   'image-compressor': imageCompressor,
+  'image-resizer': imageResizer,
   'video-compressor': videoCompressor,
   'video-to-gif': videoToGif,
   'video-watermark': videoWatermark,

@@ -121,6 +121,7 @@ import uuidGeneratorUi from '../components/layout/uuid-generator-ui.vue';
 import colorPickerConverterUi from '../components/layout/color-picker-converter-ui.vue';
 import videoToGifUi from '../components/layout/video-to-gif-ui.vue';
 import videoWatermarkUi from '../components/layout/video-watermark-ui.vue';
+import imageResizerUi from '../components/layout/image-resizer-ui.vue';
 
 // ICONS
 import {
@@ -141,6 +142,7 @@ import {
   Fingerprint,
   Palette,
   ImageDown,
+  Maximize,
 } from '@lucide/vue';
 
 export default {
@@ -165,6 +167,7 @@ export default {
     colorPickerConverterUi,
     videoToGifUi,
     videoWatermarkUi,
+    imageResizerUi,
 
     // ICONS
     ChevronRight,
@@ -184,6 +187,7 @@ export default {
     Fingerprint,
     Palette,
     ImageDown,
+    Maximize,
   },
   data() {
     return {
@@ -240,6 +244,7 @@ export default {
         'color-picker-converter': 'colorPickerConverterUi',
         'video-to-gif': 'videoToGifUi',
         'video-watermark': 'videoWatermarkUi',
+        'image-resizer-tool': 'imageResizerUi',
       };
 
       return typeMap[this.tool.metadata.type] || 'converterUi';

@@ -193,6 +193,7 @@ import {
   ImageDown,
   Search as SearchIcon,
   User as UserIcon,
+  Maximize,
 } from '@lucide/vue';
 
 export default {
@@ -226,6 +227,7 @@ export default {
     ImageDown,
     SearchIcon,
     UserIcon,
+    Maximize,
   },
   data() {
     return {
@@ -247,6 +249,7 @@ export default {
             tools['video-to-gif'],
             tools['video-watermark'],
             tools['audio-converter'],
+            tools['image-resizer'],
           ],
         },
         units: {
