@@ -203,7 +203,15 @@ export default {
       categories: {
         media: {
           label: 'Media',
-          tools: [tools['image-converter'], tools['image-compressor'], tools['video-converter'], tools['video-compressor'], tools['audio-converter']],
+          tools: [
+            tools['image-converter'],
+            tools['image-compressor'],
+            tools['video-converter'],
+            tools['video-compressor'],
+            tools['video-to-gif'],
+            tools['video-watermark'],
+            tools['audio-converter'],
+          ],
         },
         units: {
           label: 'Unità',
@@ -215,6 +223,7 @@ export default {
             tools['json-formatter'],
             tools['base64-converter'],
             tools['jwt-decoder'],
+            tools['jwt-encoder'],
             tools['regex-tester'],
             tools['timestamp-converter'],
             tools['uuid-generator'],
