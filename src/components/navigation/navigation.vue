@@ -245,6 +245,7 @@ export default {
             tools['video-converter'],
             tools['video-compressor'],
             tools['video-to-gif'],
+            tools['video-watermark'],
             tools['audio-converter'],
           ],
         },
