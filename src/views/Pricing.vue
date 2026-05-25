@@ -43,10 +43,13 @@
         </p>
       </div>
       <div class="relative w-full max-w-[768px] mx-auto mt-14">
-        <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
+        <div v-if="store.plans.loading" class="w-full flex items-center justify-center">
+          <loader />
+        </div>
+        <div v-else class="grid md:grid-cols-2 grid-cols-1 gap-6">
           <div
-            v-for="plan in store.plans"
-            :key="plan.id"
+            v-for="plan in store.plans.data"
+            :key="plan.slug"
             class="card-plan w-full py-6 px-4"
             :class="{ 'plus-card': plan.name === 'Plus', 'md:order-0 order-2': plan.name === 'Free' }"
           >
@@ -61,7 +64,7 @@
                 <div class="text-5xl font-semibold flex items-start">
                   <span class="text-lg font-medium brightness-50">&euro;</span>{{ plan.price }}
                 </div>
-                <span class="text-base font-medium ml-2">/{{ plan.type }}</span>
+                <span class="text-base font-medium ml-2">/{{ plan.interval }}</span>
               </div>
               <p>{{ plan.description }}</p>
             </div>
@@ -74,10 +77,10 @@
                 class="w-full"
               />
             </div>
-            <div class="w-full mt-16 flex flex-col">
+            <div v-if="plan.features" class="w-full mt-16 flex flex-col">
               <h2 class="text-base font-medium">Cosa include</h2>
               <div class="w-full mt-2 flex flex-col gap-1 text-sm font-normal">
-                <div v-for="feature in plan.features" :key="feature" class="px-4 flex gap-2 items-center">
+                <div v-for="feature in plan?.features" :key="feature" class="px-4 flex gap-2 items-center">
                   <span>{{ feature }}</span>
                 </div>
               </div>
@@ -91,23 +94,29 @@
 </template>
 
 <script>
+import { getPlans } from '../api/plans';
 import { tools } from '../toolsRegistry';
 import { store } from '../data/store';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
+import loader from '../components/global/loader.vue';
 
 export default {
   name: 'Pricing',
   components: {
     navigation,
     hrButton,
+    loader,
   },
   data() {
     return {
       tools,
       store,
     };
+  },
+  async mounted() {
+    await getPlans();
   },
 };
 </script>

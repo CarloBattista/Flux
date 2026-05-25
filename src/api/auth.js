@@ -1,5 +1,6 @@
 import { supabase } from '../services/supabase';
 import { authStore } from '../data/authStore';
+import { getSubscription } from './subscription';
 import { toast } from '../utils/toast';
 import { getFavorites } from './favorites';
 
@@ -73,6 +74,7 @@ export async function getProfile() {
       authStore.profile = data;
     }
 
+    await getSubscription();
     await getFavorites();
     document.documentElement.lang = authStore.profile?.lang;
   } catch (e) {

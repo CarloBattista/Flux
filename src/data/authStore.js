@@ -6,6 +6,11 @@ export const authStore = reactive({
   profile: null,
   isAuthenticated: false,
 
+  subscription: {
+    data: {},
+    error: null,
+    loading: false,
+  },
   languages: [
     {
       id: 0,
