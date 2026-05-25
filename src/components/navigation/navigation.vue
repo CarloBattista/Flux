@@ -239,7 +239,14 @@ export default {
       categories: {
         media: {
           label: 'Media',
-          tools: [tools['image-converter'], tools['image-compressor'], tools['video-converter'], tools['video-compressor'], tools['audio-converter']],
+          tools: [
+            tools['image-converter'],
+            tools['image-compressor'],
+            tools['video-converter'],
+            tools['video-compressor'],
+            tools['video-to-gif'],
+            tools['audio-converter'],
+          ],
         },
         units: {
           label: 'Unità',

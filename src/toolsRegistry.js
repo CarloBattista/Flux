@@ -15,6 +15,7 @@ import uuidGenerator from './tools/uuid_generator';
 import colorPickerConverter from './tools/color_picker_converter';
 import imageCompressor from './tools/image_compressor';
 import videoCompressor from './tools/video_compressor';
+import videoToGif from './tools/video_to_gif';
 
 export const tools = {
   temperature,
@@ -34,4 +35,5 @@ export const tools = {
   'color-picker-converter': colorPickerConverter,
   'image-compressor': imageCompressor,
   'video-compressor': videoCompressor,
+  'video-to-gif': videoToGif,
 };

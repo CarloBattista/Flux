@@ -119,6 +119,7 @@ import regexTesterUi from '../components/layout/regex-tester-ui.vue';
 import timestampConverterUi from '../components/layout/timestamp-converter-ui.vue';
 import uuidGeneratorUi from '../components/layout/uuid-generator-ui.vue';
 import colorPickerConverterUi from '../components/layout/color-picker-converter-ui.vue';
+import videoToGifUi from '../components/layout/video-to-gif-ui.vue';
 
 // ICONS
 import {
@@ -161,6 +162,7 @@ export default {
     timestampConverterUi,
     uuidGeneratorUi,
     colorPickerConverterUi,
+    videoToGifUi,
 
     // ICONS
     ChevronRight,
@@ -234,6 +236,7 @@ export default {
         'timestamp-converter': 'timestampConverterUi',
         'uuid-generator': 'uuidGeneratorUi',
         'color-picker-converter': 'colorPickerConverterUi',
+        'video-to-gif': 'videoToGifUi',
       };
 
       return typeMap[this.tool.metadata.type] || 'converterUi';
