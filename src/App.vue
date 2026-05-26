@@ -16,10 +16,13 @@
     <hrSearchbar />
   </div>
   <Analytics />
+  <SpeedInsights />
 </template>
 
 <script>
 import { Analytics } from '@vercel/analytics/vue';
+import { SpeedInsights } from '@vercel/speed-insights/vue';
+
 import { getAuthUser } from './api/auth';
 import { authStore } from './data/authStore';
 import { store } from './data/store';
@@ -33,6 +36,7 @@ export default {
   name: 'App',
   components: {
     Analytics,
+    SpeedInsights,
     tlToastContainer,
     hrSearchbar,
   },

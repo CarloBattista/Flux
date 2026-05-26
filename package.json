@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.106.1",
     "@tailwindcss/vite": "^4.3.0",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "heic2any": "^0.0.4",
     "marked": "^18.0.4",
     "tailwindcss": "^4.3.0",
