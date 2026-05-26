@@ -3,5 +3,6 @@ export default {
   title: 'Convertitore di Tempo',
   description: 'Converti unità di tempo da nanosecondi a secoli con precisione.',
   icon: 'Clock',
+  access: 'free',
   new: false,
 };

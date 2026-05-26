@@ -4,5 +4,6 @@ export default {
   description: 'Converti timestamp Unix in date leggibili e viceversa.',
   icon: 'Calendar',
   type: 'timestamp-converter',
+  access: 'free',
   new: true,
 };

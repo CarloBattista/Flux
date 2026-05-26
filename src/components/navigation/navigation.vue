@@ -36,6 +36,9 @@
       </div>
     </div>
     <div class="h-full flex flex-1 gap-1 items-center justify-end">
+      <RouterLink v-if="!isSubscribed" to="/pricing">
+        <hrButton size="small" variant="core-primary" label="Abbonati ora" class="mr-4" />
+      </RouterLink>
       <div
         @click="store.searchBar.isOpen = !store.searchBar.isOpen"
         class="relative h-10 aspect-square rounded-2xl md:hidden flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors duration-200"
@@ -101,11 +104,10 @@
                   <div class="h-full aspect-square rounded-xl flex items-center justify-center bg-white/10 text-white/70">
                     <component :is="tool.metadata.icon" size="20" />
                   </div>
-                  <div class="w-full flex flex-row gap-2">
-                    <span class="text-white font-medium">{{ tool.metadata.title }}</span>
-                    <span v-if="tool.metadata.new" class="w-fit h-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]"
-                      >New</span
-                    >
+                  <div class="w-full min-w-0 flex flex-row gap-2">
+                    <span class="text-white font-medium max-one-line">{{ tool.metadata.title }}</span>
+                    <hrBadge v-if="tool.metadata.new" variant="success" label="New" />
+                    <hrBadge v-if="tool.metadata.access === 'plus'" variant="plus" label="Plus" />
                   </div>
                 </RouterLink>
               </div>
@@ -145,11 +147,10 @@
             <div class="h-full aspect-square rounded-xl flex flex-none items-center justify-center bg-white/10 text-white/70">
               <component :is="tool.metadata.icon" size="18" />
             </div>
-            <div class="w-full flex flex-row gap-2">
-              <h2 class="text-white text-sm font-medium">{{ tool.metadata.title }}</h2>
-              <span v-if="tool.metadata.new" class="w-fit h-fit bg-green-600/40 text-green-400 text-xs font-medium py-0.5 px-1 rounded-[6px]"
-                >New</span
-              >
+            <div class="w-full min-w-0 flex flex-row items-center gap-2">
+              <h2 class="text-white text-sm font-medium max-one-line">{{ tool.metadata.title }}</h2>
+              <hrBadge v-if="tool.metadata.new" variant="success" label="New" />
+              <hrBadge v-if="tool.metadata.access === 'plus'" variant="plus" label="Plus" />
             </div>
           </RouterLink>
         </section>
@@ -160,13 +161,16 @@
 
 <script>
 import { tools } from '../../toolsRegistry';
+import { categories } from '../../data/categories';
 import { store } from '../../data/store';
 import { authStore } from '../../data/authStore';
 import { handleTool } from '../../api/userTools';
+import { isSubscribed } from '../../api/subscription';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
 import hrButtonShortcut from '../button/hr-button-shortcut.vue';
+import hrBadge from '../badge/hr-badge.vue';
 
 // ICONS
 import {
@@ -202,6 +206,7 @@ export default {
     appLogo,
     hrButton,
     hrButtonShortcut,
+    hrBadge,
 
     // ICONS
     ChevronDown,
@@ -233,42 +238,11 @@ export default {
     return {
       store,
       authStore,
+      categories,
 
       dropdown: {
         isOpen: false,
         menu: '',
-      },
-      categories: {
-        media: {
-          label: 'Media',
-          tools: [
-            tools['image-converter'],
-            tools['image-compressor'],
-            tools['video-converter'],
-            tools['video-compressor'],
-            tools['video-to-gif'],
-            tools['video-watermark'],
-            tools['audio-converter'],
-            tools['image-resizer'],
-          ],
-        },
-        units: {
-          label: 'Unità',
-          tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
-        },
-        devtools: {
-          label: 'DevTools',
-          tools: [
-            tools['json-formatter'],
-            tools['base64-converter'],
-            tools['jwt-decoder'],
-            tools['jwt-encoder'],
-            tools['regex-tester'],
-            tools['timestamp-converter'],
-            tools['uuid-generator'],
-            tools['color-picker-converter'],
-          ],
-        },
       },
       burger: {
         isOpen: false,
@@ -280,6 +254,9 @@ export default {
     };
   },
   computed: {
+    isSubscribed() {
+      return isSubscribed();
+    },
     currentCategory() {
       return this.categories[this.dropdown.menu] || null;
     },

@@ -82,7 +82,7 @@ export default {
     hrButton,
     hrDropzone,
   },
-  props: { tool: Object },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       selectedFile: null,
@@ -100,6 +100,11 @@ export default {
   },
   methods: {
     setFile(file) {
+      if (!this.access) {
+        this.$router.push({ name: 'pricing' });
+        return;
+      }
+
       this.videoReady = false;
       this.isReading = true;
       this.selectedFile = file;

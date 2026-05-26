@@ -4,5 +4,6 @@ export default {
   description: 'Testa le tue espressioni regolari in tempo reale.',
   type: 'regex-tester',
   icon: 'Regex',
+  access: 'free',
   new: true,
 };

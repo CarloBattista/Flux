@@ -4,5 +4,6 @@ export default {
   description: 'Ridimensiona le tue immagini con preset social o dimensioni personalizzate mantenendo le proporzioni.',
   type: 'image-resizer-tool',
   icon: 'Maximize',
+  access: 'plus',
   new: true,
 };

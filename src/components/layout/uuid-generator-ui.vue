@@ -50,9 +50,7 @@ export default {
     hrButton,
     hrButtonCopy,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       outputText: '',
@@ -65,6 +63,11 @@ export default {
   },
   methods: {
     handleGenerate() {
+      if (!this.access) {
+        this.$router.push({ name: 'pricing' });
+        return;
+      }
+
       const validCount = Math.max(1, Math.min(100, parseInt(this.count) || 1));
       this.count = validCount;
 

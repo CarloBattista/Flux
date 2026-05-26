@@ -79,6 +79,13 @@ const routes = [
     props: true,
   },
   {
+    path: '/profile/subscription',
+    name: 'subscription',
+    component: () => import('../views/Account/Subscription.vue'),
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
     path: '/update/:slug',
     name: 'update',
     component: () => import('../views/Account/Update.vue'),

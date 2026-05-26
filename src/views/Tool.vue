@@ -26,12 +26,9 @@
             class="relative h-16 aspect-square rounded-3xl bg-white/5 flex items-center justify-center text-[#8e48ff] shadow-xl shadow-[#8e48ff]/5 border border-white/10"
           >
             <component :is="tool.metadata.icon" size="32" stroke-width="1.5" />
-            <span
-              v-if="tool.metadata.new"
-              class="absolute top-0 right-1.5 translate-x-[50%] translate-y-[-50%] bg-green-600/20 text-green-400 text-xs font-bold px-2.5 py-1 rounded-full border border-green-600/30"
-            >
-              NEW
-            </span>
+            <div v-if="tool.metadata.new" class="absolute top-0 right-1.5 translate-x-[50%] translate-y-[-50%]">
+              <hrBadge size="md" variant="success" label="New" />
+            </div>
           </div>
 
           <div class="flex flex-col gap-3">
@@ -39,6 +36,7 @@
               <h1 class="md:text-4xl text-2xl font-extrabold text-white sm:text-5xl tracking-tight">
                 {{ tool.metadata.title }}
               </h1>
+              <hrBadge v-if="tool.metadata.access === 'plus'" size="md" variant="plus" label="Plus" />
             </div>
             <p v-if="tool.metadata.description" class="md:text-lg text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
               {{ tool.metadata.description }}
@@ -58,7 +56,7 @@
 
         <!-- Tool UI -->
         <div class="min-h-[400px]">
-          <component :is="toolComponent" :tool="tool" />
+          <component :is="toolComponent" :tool="tool" :access="canAccessTool" />
         </div>
 
         <!-- Related Tools -->
@@ -98,11 +96,14 @@
 import { authStore } from '../data/authStore';
 import { store } from '../data/store';
 import { tools } from '../toolsRegistry';
+import { categories } from '../data/categories';
+import { canAccessTool } from '../utils/accessTool';
 import { handleTool } from '../api/userTools';
 import { addFavorite, deleteFavorite } from '../api/favorites';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
+import hrBadge from '../components/badge/hr-badge.vue';
 
 // UI
 import converterUi from '../components/layout/converter-ui.vue';
@@ -150,6 +151,7 @@ export default {
   components: {
     navigation,
     hrButton,
+    hrBadge,
 
     converterUi,
     imageConverterUi,
@@ -192,28 +194,7 @@ export default {
   data() {
     return {
       store,
-      categories: {
-        media: {
-          label: 'Media',
-          tools: [tools['image-converter'], tools['image-compressor'], tools['video-converter'], tools['video-compressor'], tools['audio-converter']],
-        },
-        units: {
-          label: 'Unità',
-          tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
-        },
-        devtools: {
-          label: 'DevTools',
-          tools: [
-            tools['json-formatter'],
-            tools['base64-converter'],
-            tools['jwt-decoder'],
-            tools['regex-tester'],
-            tools['timestamp-converter'],
-            tools['uuid-generator'],
-            tools['color-picker-converter'],
-          ],
-        },
-      },
+      categories,
 
       favorite: {
         loading: false,
@@ -224,6 +205,9 @@ export default {
     tool() {
       const slug = this.$route.params.slug;
       return tools[slug] || null;
+    },
+    canAccessTool() {
+      return canAccessTool(this.tool);
     },
     toolComponent() {
       if (!this.tool) return 'converterUi';

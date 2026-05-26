@@ -64,7 +64,7 @@ export async function getProfile() {
   authStore.profileLoading = true;
 
   try {
-    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    const { data, error } = await supabase.from('profiles').select('*, subscriptions(*)').eq('id', userId).maybeSingle();
 
     if (error) throw error;
 

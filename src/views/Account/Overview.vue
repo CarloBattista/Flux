@@ -72,13 +72,27 @@
             <div class="w-full flex flex-col gap-4">
               <h2 class="text-xl font-medium">I miei abbonamenti</h2>
               <listContainer>
-                <listItem secondLine="Gestisci abbonamento" />
+                <div v-if="isSubscribed" class="w-full p-4 flex flex-col gap-2">
+                  <h2 class="w-fit px-3 py-1 rounded-lg text-lg font-medium border border-[#8e48ff] bg-[#8e48ff]/40">
+                    <span class="uppercase">{{ authStore.subscription.data?.plan.charAt(0) }}</span
+                    >{{ authStore.subscription.data?.plan.slice(1, authStore.subscription.data?.plan.length) }}
+                  </h2>
+                  <p v-if="authStore.subscription.data?.current_period_start" class="text-sm font-normal">
+                    Data del prossimo pagamento: <span class="font-semibold">{{ authStore.subscription.data?.current_period_start }}</span>
+                  </p>
+                  <p v-if="authStore.subscription.data?.cancel_at_period_end" class="text-sm font-normal">
+                    L'abbonamento scadrà alla fine del periodo corrente
+                  </p>
+                </div>
+                <RouterLink to="/profile/subscription">
+                  <listItem secondLine="Gestisci abbonamento" />
+                </RouterLink>
               </listContainer>
             </div>
             <div class="w-full flex flex-col gap-4">
               <h2 class="text-xl font-medium">Collegamenti rapidi</h2>
               <listContainer>
-                <listItem icon="CreditCard" secondLine="Controlla cronologia pagamenti" />
+                <listItem v-if="false" icon="CreditCard" secondLine="Controlla cronologia pagamenti" />
                 <RouterLink to="/update/password">
                   <listItem icon="LockKeyhole" secondLine="Modifica la password" />
                 </RouterLink>
@@ -97,6 +111,7 @@
 <script>
 import { authStore } from '../../data/authStore';
 import { logout } from '../../api/auth';
+import { isSubscribed } from '../../api/subscription';
 
 import navigation from '../../components/navigation/navigation.vue';
 import listContainer from '../../components/list/list-container.vue';
@@ -124,6 +139,11 @@ export default {
     return {
       authStore,
     };
+  },
+  computed: {
+    isSubscribed() {
+      return isSubscribed();
+    },
   },
   methods: {
     async handleLogout() {

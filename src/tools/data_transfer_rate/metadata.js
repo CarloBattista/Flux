@@ -3,5 +3,6 @@ export default {
   title: 'Velocità di Trasmissione',
   description: 'Converti unità di velocità di trasmissione dati come bps, Mbps, GB/s e altro.',
   icon: 'Zap',
+  access: 'free',
   new: true,
 };

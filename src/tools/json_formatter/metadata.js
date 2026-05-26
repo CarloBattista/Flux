@@ -4,5 +4,6 @@ export default {
   description: 'Formata i tuoi file JSON direttamente nel tuo browser.',
   type: 'json-formatter',
   icon: 'Braces',
+  access: 'free',
   new: true,
 };

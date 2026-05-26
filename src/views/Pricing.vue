@@ -70,9 +70,11 @@
             </div>
             <div class="w-full flex gap-2 items-center">
               <hrButton
+                @click="handleSubscription(plan)"
                 size="large"
                 :variant="plan.name === 'Free' ? 'tertiary' : 'core-primary'"
                 :label="plan.name === 'Free' ? 'Il tuo piano attuale' : `Fai l'upgrade a ${plan.name}`"
+                :loading="plan.loading"
                 :disabled="plan.name === 'Free'"
                 class="w-full"
               />
@@ -94,9 +96,12 @@
 </template>
 
 <script>
+import { authStore } from '../data/authStore';
 import { getPlans } from '../api/plans';
 import { tools } from '../toolsRegistry';
 import { store } from '../data/store';
+
+import { createCheckoutSession } from '../api/subscription';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
@@ -111,9 +116,36 @@ export default {
   },
   data() {
     return {
+      authStore,
       tools,
       store,
     };
+  },
+  methods: {
+    async handleSubscription(plan) {
+      if (plan.loading || !plan || plan.name === 'Free') return;
+
+      if (!this.authStore.isAuthenticated) {
+        this.$router.push({ name: 'signin', query: { redirect: 'pricing' } });
+        return;
+      }
+
+      plan.loading = true;
+
+      try {
+        const { data, error } = await createCheckoutSession(plan.stripe_price_id);
+
+        if (error) throw error;
+
+        if (data?.url) {
+          window.location.href = data.url;
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        plan.loading = false;
+      }
+    },
   },
   async mounted() {
     await getPlans();

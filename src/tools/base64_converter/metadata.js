@@ -4,5 +4,6 @@ export default {
   description: 'Codifica e decodifica testi in formato Base64 in modo rapido e sicuro.',
   type: 'base64-converter',
   icon: 'Binary',
+  access: 'free',
   new: true,
 };

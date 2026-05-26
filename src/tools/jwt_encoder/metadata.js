@@ -4,5 +4,6 @@ export default {
   description: 'Genera i tuoi JSON Web Tokens (JWT) in locale fornendo header, payload e chiave segreta.',
   type: 'jwt-encoder',
   icon: 'ShieldAlert',
+  access: 'free',
   new: true,
 };

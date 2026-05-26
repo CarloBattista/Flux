@@ -4,5 +4,6 @@ export default {
   description: 'Aggiungi un logo o un immagine come watermark ai tuoi video in modo semplice e veloce.',
   type: 'video-watermark',
   icon: 'VideoIcon',
+  access: 'plus',
   new: true,
 };

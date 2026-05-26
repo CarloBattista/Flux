@@ -78,7 +78,7 @@ export default {
     hrSlider,
     hrButton,
   },
-  props: { tool: Object },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       selectedFile: null,

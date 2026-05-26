@@ -4,5 +4,6 @@ export default {
   description: 'Converti le tue immagini in vari formati (PNG, JPG, WEBP) direttamente nel tuo browser in modo sicuro.',
   type: 'file-converter',
   icon: 'ImageIcon',
+  access: 'free',
   new: true,
 };

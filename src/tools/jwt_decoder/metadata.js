@@ -4,5 +4,6 @@ export default {
   description: 'Decodifica i tuoi JSON Web Tokens (JWT) in locale, senza inviare dati al server.',
   type: 'jwt-decoder',
   icon: 'ShieldCheck',
+  access: 'free',
   new: true,
 };

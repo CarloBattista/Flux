@@ -71,9 +71,7 @@ export default {
     hrTextarea,
     hrButtonCopy,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       token: '',

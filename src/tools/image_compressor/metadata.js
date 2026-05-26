@@ -4,5 +4,6 @@ export default {
   description: 'Comprimi le tue immagini riducendone il peso senza perdere qualità visiva significativa.',
   type: 'image-tool',
   icon: 'ImageDown',
+  access: 'free',
   new: true,
 };

@@ -70,9 +70,7 @@ export default {
     hrButton,
     hrButtonCopy,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       timestampInput: '',

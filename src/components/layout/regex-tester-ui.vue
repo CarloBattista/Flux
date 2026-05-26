@@ -56,9 +56,7 @@ export default {
     hrInput,
     hrTextarea,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       pattern: '',

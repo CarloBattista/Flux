@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative w-full mb-0 border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center hover:border-[#8e48ff] transition-colors cursor-pointer"
-    :class="{ 'pointer-events-none': disabled, 'border-green-400 hover:border-green-400 bg-black': success }"
+    :class="{ 'pointer-events-none opacity-50': disabled, 'border-green-400 hover:border-green-400 bg-black': success }"
     @click="!disabled && $refs.fileInput.click()"
     @dragover.prevent
     @drop.prevent="handleDrop"

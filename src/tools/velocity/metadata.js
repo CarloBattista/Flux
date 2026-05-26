@@ -3,5 +3,6 @@ export default {
   title: 'Convertitore di Velocità',
   description: 'Converti unità di velocità come km/h, mph, nodi e altro.',
   icon: 'Gauge',
+  access: 'free',
   new: false,
 };

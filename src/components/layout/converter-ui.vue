@@ -43,9 +43,7 @@ export default {
     hrInput,
     hrSelect,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       value: 0,

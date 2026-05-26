@@ -67,7 +67,7 @@ export default {
     hrDropzone,
     hrButton,
   },
-  props: { tool: Object },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       selectedFile: null,

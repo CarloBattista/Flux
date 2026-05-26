@@ -69,9 +69,7 @@ export default {
     hrSelect,
     hrButtonCopy,
   },
-  props: {
-    tool: Object,
-  },
+  props: { tool: Object, access: Boolean },
   data() {
     return {
       selectedAlgorithm: 'HS256',
