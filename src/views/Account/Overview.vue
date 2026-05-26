@@ -80,7 +80,7 @@
                   <p v-if="authStore.subscription.data?.cancel_at_period_end" class="text-sm font-normal">
                     L'abbonamento scadrà alla fine del periodo corrente
                   </p>
-                  <p v-if="authStore.profile.beta_access" class="text-sm font-normal">Al momento sei un utente Plus per accesso beta di Flux</p>
+                  <p v-if="store.featureFlags?.beta_access" class="text-sm font-normal">Al momento sei un utente Plus per accesso beta di Flux</p>
                 </div>
                 <RouterLink to="/profile/subscription">
                   <listItem secondLine="Gestisci abbonamento" />
@@ -108,6 +108,7 @@
 
 <script>
 import { authStore } from '../../data/authStore';
+import { store } from '../../data/store';
 import { logout } from '../../api/auth';
 import { isSubscribed } from '../../api/subscription';
 
@@ -136,6 +137,7 @@ export default {
   data() {
     return {
       authStore,
+      store,
     };
   },
   computed: {
@@ -147,7 +149,7 @@ export default {
 
       if (this.authStore.profile.subscription?.plan === 'plus') return 'Plus';
 
-      if (this.authStore.profile?.beta_access) return 'Plus';
+      if (this.store.featureFlags?.beta_access) return 'Plus';
 
       return 'Free';
     },

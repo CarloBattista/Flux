@@ -1,5 +1,5 @@
 <template>
-  <div class="li-item relative w-full p-4 rounded-[10px] flex gap-2.5 items-center" :class="'type-' + type">
+  <div class="li-item relative w-full p-4 rounded-[10px] flex gap-2.5 items-center" :class="['type-' + type, { disabled: disabled }]">
     <div v-if="icon" class="h-full flex items-center justify-center">
       <component :is="icon" size="20" />
     </div>
@@ -44,6 +44,10 @@ export default {
       type: String,
       default: 'ChevronRight',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -56,11 +60,17 @@ export default {
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.li-item:hover {
+.li-item.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.li-item:not(.disabled):hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.li-item.type-destructive:hover {
+.li-item.type-destructive:not(.disabled):hover {
   background-color: rgba(244, 67, 54, 0.1);
   color: rgba(244, 67, 54, 0.8);
 }

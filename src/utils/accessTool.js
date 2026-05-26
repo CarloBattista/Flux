@@ -1,4 +1,5 @@
 import { authStore } from '../data/authStore';
+import { store } from '../data/store';
 
 export function canAccessTool(tool) {
   // Accesso libero se non è richiesto il piano Plus
@@ -8,7 +9,7 @@ export function canAccessTool(tool) {
 
   // Verifica abbonamento attivo o accesso beta per i tool Plus
   const isSubscribed = authStore.subscription?.data?.status === 'active';
-  const isBeta = authStore.profile?.beta_access === true;
+  const isBeta = store.featureFlags?.beta_access === true;
 
   return isSubscribed || isBeta;
 }

@@ -1,5 +1,6 @@
 import { supabase } from '../services/supabase';
 import { authStore } from '../data/authStore';
+import { store } from '../data/store';
 
 export async function getSubscription() {
   if (!authStore.profile) return;
@@ -67,7 +68,7 @@ export function isSubscribed() {
   if (!authStore.profile) return false;
 
   // Se l'utente ha l'accesso beta attivo, lo consideriamo come abbonato Plus
-  if (authStore.profile?.beta_access) return true;
+  if (store.featureFlags?.beta_access) return true;
 
   return authStore.subscription?.data?.status === 'active';
 }

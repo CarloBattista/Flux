@@ -68,7 +68,7 @@
                 <RouterLink v-if="false" to="/profile">
                   <listItem secondLine="Controlla cronoologia pagamenti" />
                 </RouterLink>
-                <listItem @click="handleManagePayment" secondLine="Gestisci metodo di pagamento" />
+                <listItem @click="handleManagePayment" secondLine="Gestisci metodo di pagamento" :disabled="true" />
               </listContainer>
               <listContainer v-if="isSubscribed && !authStore.profile.beta_access">
                 <listItem @click="handleCancelSubscription" type="destructive" secondLine="Annulla abbonamento" />
@@ -83,6 +83,7 @@
 
 <script>
 import { authStore } from '../../data/authStore';
+import { store } from '../../data/store';
 import { logout } from '../../api/auth';
 import { isSubscribed, cancelSubscription, createPortalSession } from '../../api/subscription';
 
@@ -111,6 +112,7 @@ export default {
   data() {
     return {
       authStore,
+      store,
     };
   },
   computed: {
@@ -120,6 +122,8 @@ export default {
   },
   methods: {
     async handleManagePayment() {
+      if (this.store.featureFlags?.beta_access.value) return;
+
       const { data } = await createPortalSession();
 
       if (data?.url) {
@@ -129,6 +133,8 @@ export default {
       }
     },
     async handleCancelSubscription() {
+      if (this.store.featureFlags?.beta_access.value) return;
+
       if (confirm('Seiuro di voler annullare il tuo abbonamento?')) {
         await cancelSubscription();
       }

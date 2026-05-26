@@ -6,6 +6,7 @@ export const store = reactive({
     isOpen: false,
   },
 
+  featureFlags: {},
   plans: {
     data: [],
     error: null,

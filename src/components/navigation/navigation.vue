@@ -55,7 +55,7 @@
         <MenuIcon v-if="!burger.isOpen" />
         <CloseIcon v-else />
       </div>
-      <hrBadge v-if="authStore.profile?.beta_access" variant="beta" label="BETA" />
+      <hrBadge v-if="store.featureFlags?.beta_access" variant="beta" label="BETA" />
       <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
         <div class="h-8 ml-1 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
           <UserIcon size="18" class="text-white" />
