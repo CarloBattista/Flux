@@ -47,8 +47,8 @@
         <div class="w-full flex flex-none flex-col gap-3">
           <h2 class="footer-nav-head text-sm font-medium brightness-50">Azienda</h2>
           <div class="w-full flex flex-col">
-            <a href="#" target="_blank" class="footer-nav">Chi siamo</a>
-            <a href="#" target="_blank" class="footer-nav">Sicurezza</a>
+            <RouterLink to="/legal/about-us" class="footer-nav">Chi siamo</RouterLink>
+            <RouterLink to="/legal/security" class="footer-nav">Sicurezza</RouterLink>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">
