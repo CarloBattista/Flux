@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /profile
+Disallow: /signin
+Disallow: /signup
+
+Sitemap: https://fluxtools.site/sitemap.xml
