@@ -11,7 +11,8 @@
         <span v-if="firstLine" class="text-white font-semibold truncate" :class="{ 'text-base': type === 'large', 'text-sm': type === 'mini' }">{{
           firstLine
         }}</span>
-        <span v-if="badge" class="bg-green-600/40 text-green-400 text-[10px] font-bold py-0.5 px-1.5 rounded-md">NEW</span>
+        <hrBadge v-if="badgeNew" variant="success" label="New" />
+        <hrBadge v-if="badgePlus" variant="plus" label="Plus" />
       </div>
       <p v-if="secondLine" class="text-white/40 text-xs truncate">{{ secondLine }}</p>
     </div>
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+import hrBadge from '../badge/hr-badge.vue';
+
 // ICONS
 import {
   ChevronRight,
@@ -45,6 +48,9 @@ import {
 export default {
   name: 'card-tool',
   components: {
+    hrBadge,
+
+    // ICONS
     ChevronRight,
     ImageIcon,
     VideoIcon,
@@ -74,7 +80,11 @@ export default {
     icon: String,
     firstLine: String,
     secondLine: String,
-    badge: {
+    badgeNew: {
+      type: Boolean,
+      default: false,
+    },
+    badgePlus: {
       type: Boolean,
       default: false,
     },

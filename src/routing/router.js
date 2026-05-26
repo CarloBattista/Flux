@@ -53,6 +53,12 @@ const routes = [
     component: () => import('../views/Pricing.vue'),
     props: true,
   },
+  {
+    path: '/category/:slug',
+    name: 'category',
+    component: () => import('../views/Category.vue'),
+    props: true,
+  },
 
   // Tools
   {

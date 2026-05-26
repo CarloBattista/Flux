@@ -11,7 +11,7 @@
             </li>
             <li v-if="category" class="flex items-center space-x-2">
               <ChevronRight size="14" />
-              <span class="hover:text-white transition-colors cursor-default">{{ category.label }}</span>
+              <RouterLink :to="'/category/' + category.slug" class="hover:text-white transition-colors">{{ category.label }}</RouterLink>
             </li>
             <li class="flex items-center space-x-2">
               <ChevronRight size="14" />
@@ -237,7 +237,10 @@ export default {
       if (!this.tool) return null;
       for (const key in this.categories) {
         if (this.categories[key].tools.some((t) => t.metadata.slug === this.tool.metadata.slug)) {
-          return this.categories[key];
+          return {
+            ...this.categories[key],
+            slug: key
+          };
         }
       }
       return null;

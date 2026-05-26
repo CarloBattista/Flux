@@ -53,7 +53,8 @@
                     :icon="tool.metadata.icon"
                     :firstLine="tool.metadata.title"
                     :secondLine="tool.metadata.description"
-                    :badge="tool.metadata.new"
+                    :badgeNew="tool.metadata.new"
+                    :badgePlus="tool.metadata.access === 'plus'"
                     :action="true"
                     @mouseenter="selectedfavoriteIndex = index"
                     :class="[index === selectedfavoriteIndex ? 'bg-white/10' : 'hover:bg-white/5']"
@@ -81,7 +82,8 @@
                     :icon="tool.metadata.icon"
                     :firstLine="tool.metadata.title"
                     :secondLine="tool.metadata.description"
-                    :badge="tool.metadata.new"
+                    :badgeNew="tool.metadata.new"
+                    :badgePlus="tool.metadata.access === 'plus'"
                     :action="true"
                     @mouseenter="selectedIndex = index"
                     :class="[index === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
@@ -108,7 +110,8 @@
                     :icon="tool.metadata.icon"
                     :firstLine="tool.metadata.title"
                     :secondLine="tool.metadata.description"
-                    :badge="tool.metadata.new"
+                    :badgeNew="tool.metadata.new"
+                    :badgePlus="tool.metadata.access === 'plus'"
                     :action="navigationTools.indexOf(tool) === selectedIndex"
                     @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
                     :class="[navigationTools.indexOf(tool) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
@@ -134,7 +137,8 @@
                   :icon="tool.metadata.icon"
                   :firstLine="tool.metadata.title"
                   :secondLine="tool.metadata.description"
-                  :badge="tool.metadata.new"
+                  :badgeNew="tool.metadata.new"
+                  :badgePlus="tool.metadata.access === 'plus'"
                   :action="navigationTools.indexOf(tool) === selectedIndex"
                   @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
                   :class="[selectedIndex === index ? 'bg-white/10' : 'hover:bg-white/5']"
@@ -175,6 +179,7 @@
 
 <script>
 import { tools } from '../../toolsRegistry';
+import { categories } from '../../data/categories';
 import { store } from '../../data/store';
 import { getRecentTools, handleTool } from '../../api/userTools';
 
@@ -197,41 +202,10 @@ export default {
   data() {
     return {
       store,
+      categories,
       searchQuery: '',
       selectedIndex: 0,
       selectedfavoriteIndex: null,
-      categories: {
-        media: {
-          label: 'Media',
-          tools: [
-            tools['image-converter'],
-            tools['image-compressor'],
-            tools['video-converter'],
-            tools['video-compressor'],
-            tools['video-to-gif'],
-            tools['video-watermark'],
-            tools['audio-converter'],
-            tools['image-resizer'],
-          ],
-        },
-        units: {
-          label: 'Unità',
-          tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
-        },
-        devtools: {
-          label: 'DevTools',
-          tools: [
-            tools['json-formatter'],
-            tools['base64-converter'],
-            tools['jwt-decoder'],
-            tools['jwt-encoder'],
-            tools['regex-tester'],
-            tools['timestamp-converter'],
-            tools['uuid-generator'],
-            tools['color-picker-converter'],
-          ],
-        },
-      },
       maxRecentTools: 4,
     };
   },
