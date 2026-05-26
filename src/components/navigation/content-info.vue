@@ -62,7 +62,7 @@
         <div class="w-full flex flex-none flex-col gap-3">
           <h2 class="footer-nav-head text-sm font-medium brightness-50">Risorse</h2>
           <div class="w-full flex flex-col">
-            <a href="#" target="_blank" class="footer-nav">Centro assistenza</a>
+            <a v-if="false" href="#" target="_blank" class="footer-nav">Centro assistenza</a>
             <RouterLink to="/pricing" class="footer-nav">Prezzi</RouterLink>
           </div>
         </div>
