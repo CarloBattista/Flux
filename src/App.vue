@@ -1,4 +1,5 @@
 <template>
+  <Analytics />
   <div
     v-if="store.featureFlags.maintenance_mode?.is_active"
     class="sticky z-999999 top-0 left-0 w-full px-6 md:py-3 py-4 flex md:flex-row flex-col md:items-center items-start justify-center bg-[#161616]"
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import { Analytics } from '@vercel/analytics/vue';
+
 import { getAuthUser } from './api/auth';
 import { authStore } from './data/authStore';
 import { store } from './data/store';
@@ -30,6 +33,7 @@ import hrSearchbar from './components/searchbar/hr-searchbar.vue';
 export default {
   name: 'App',
   components: {
+    Analytics,
     tlToastContainer,
     hrSearchbar,
   },
