@@ -1,52 +1,52 @@
 # Flux — Online Media & DevTools
 
-Flux è una piattaforma all-in-one progettata per offrire strumenti di elaborazione file e utility per sviluppatori, con un focus assoluto sulla **privacy** e sulla **velocità**.
+Flux is an all-in-one platform designed to offer file processing tools and developer utilities, with an absolute focus on **privacy** and **speed**.
 
-## 🚀 Filosofia "Client-Side First"
+## 🚀 "Client-Side First" Philosophy
 
-A differenza dei convertitori online tradizionali, Flux elabora la maggior parte dei dati direttamente nel browser dell'utente. Questo significa:
+Unlike traditional online converters, Flux processes most data directly in the user's browser. This means:
 
-- **Privacy Totale:** I tuoi file non lasciano mai il tuo computer.
-- **Velocità Estrema:** Nessun tempo di attesa per l'upload o il download dai server.
-- **Sicurezza:** Zero rischi di data breach sui tuoi file sensibili.
+- **Total Privacy:** Your files never leave your computer.
+- **Extreme Speed:** No waiting for uploads or downloads from servers.
+- **Security:** Zero risk of data breaches on your sensitive files.
 
-## 🛠 Strumenti Inclusi
+## 🛠 Included Tools
 
-Flux offre una vasta gamma di tool suddivisi per categorie:
+Flux offers a wide range of tools divided by category:
 
 ### 🎥 Media Tools
 
-- Conversione e compressione immagini (WebP, PNG, JPG).
-- Elaborazione video (MP4, GIF, Watermark).
-- Tool audio e ridimensionamento avanzato.
+- Image conversion and compression (WebP, PNG, JPG).
+- Video processing (MP4, GIF, Watermark).
+- Audio tools and advanced resizing.
 
 ### ⚙️ DevTools
 
-- Formattazione JSON e encoding/decoding Base64.
-- Gestione JWT (Encoder & Decoder).
-- Tester Regex e generatori UUID/Timestamp.
+- JSON formatting and Base64 encoding/decoding.
+- JWT management (Encoder & Decoder).
+- Regex Tester and UUID/Timestamp generators.
 - Color Picker & Converter.
 
 ### 📐 Unit Converters
 
-- Conversioni rapide per temperatura, tempo, velocità e data transfer rate.
+- Quick conversions for temperature, time, velocity, and data transfer rate.
 
-## 💎 Piano Plus
+## 💎 Plus Plan
 
-Flux offre un'esperienza premium per gli utenti avanzati tramite un sistema di abbonamento gestito in modo sicuro:
+Flux offers a premium experience for power users through a securely managed subscription system:
 
-- Accesso a strumenti esclusivi ad alte prestazioni.
-- Gestione trasparente del profilo e dei pagamenti tramite **Stripe**.
-- Sincronizzazione dei preferiti su più dispositivi tramite **Supabase**.
+- Access to exclusive high-performance tools.
+- Transparent profile and payment management via **Stripe**.
+- Synchronization of favorites across multiple devices via **Supabase**.
 
-## 🛡 Sicurezza e Infrastruttura
+## 🛡 Security and Infrastructure
 
-La piattaforma si appoggia a partner leader del settore per garantire affidabilità e protezione:
+The platform relies on industry-leading partners to ensure reliability and protection:
 
-- **Autenticazione:** Gestita da Supabase Auth.
-- **Pagamenti:** Processati in modo sicuro da Stripe (PCI-DSS compliant).
-- **Infrastruttura:** Edge Functions scalabili per operazioni cloud-native.
+- **Authentication:** Managed by Supabase Auth.
+- **Payments:** Securely processed by Stripe (PCI-DSS compliant).
+- **Infrastructure:** Scalable Edge Functions for cloud-native operations.
 
 ---
 
-_Flux è un progetto indipendente sviluppato con passione per rendere il web un posto più produttivo e sicuro._
+_Flux is an independent project developed with passion to make the web a more productive and secure place._
