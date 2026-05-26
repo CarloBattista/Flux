@@ -40,9 +40,17 @@ export default {
   },
   methods: {
     async loadMarkdown() {
-      const filePath = Object.keys(markdownFiles).find((path) => path.includes(`/${this.slug}/`));
+      const files = Object.keys(markdownFiles).filter((path) => path.includes(`/${this.slug}/`));
 
-      if (filePath) {
+      if (files.length > 0) {
+        // Ordiniamo i file per data (formato DD-MM-YY) decrescente
+        const sortedFiles = files.sort((a, b) => {
+          const dateA = a.split('/').pop().replace('.md', '').split('-').reverse().join('');
+          const dateB = b.split('/').pop().replace('.md', '').split('-').reverse().join('');
+          return dateB.localeCompare(dateA);
+        });
+
+        const filePath = sortedFiles[0];
         try {
           this.content = await markdownFiles[filePath]();
         } catch (error) {
