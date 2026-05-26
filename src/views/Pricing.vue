@@ -73,9 +73,9 @@
                 @click="handleSubscription(plan)"
                 size="large"
                 :variant="plan.name === 'Free' ? 'tertiary' : 'core-primary'"
-                :label="plan.name === 'Free' ? 'Il tuo piano attuale' : `Fai l'upgrade a ${plan.name}`"
+                :label="buttonLabel(plan)"
                 :loading="plan.loading"
-                :disabled="plan.name === 'Free'"
+                :disabled="buttonDisabled(plan)"
                 class="w-full"
               />
             </div>
@@ -122,13 +122,51 @@ export default {
     };
   },
   methods: {
+    buttonDisabled(plan) {
+      if (!plan.active) return true;
+
+      const isSubscribed = authStore.subscription?.data?.status === 'active';
+
+      if (plan.name === 'Plus') {
+        return isSubscribed;
+      }
+
+      if (plan.name === 'Free') {
+        return !isSubscribed;
+      }
+
+      return false;
+    },
+    buttonLabel(plan) {
+      const isSubscribed = authStore.subscription?.data?.status === 'active';
+
+      if (plan.name === 'Plus') {
+        // eslint-disable-next-line quotes
+        return isSubscribed ? 'Il tuo piano attuale' : "Fai l'upgrade a Plus";
+      }
+
+      if (plan.name === 'Free') {
+        return isSubscribed ? 'Annulla abbonamento' : 'Il tuo piano attuale';
+      }
+
+      return 'Seleziona piano';
+    },
+
     async handleSubscription(plan) {
-      if (plan.loading || !plan || plan.name === 'Free') return;
+      const isSubscribed = authStore.subscription?.data?.status === 'active';
 
       if (!this.authStore.isAuthenticated) {
         this.$router.push({ name: 'signin', query: { redirect: 'pricing' } });
         return;
       }
+
+      // Se l'utente è abbonato e clicca sul piano Free (Annulla abbonamento)
+      if (isSubscribed && plan.name === 'Free') {
+        this.$router.push({ name: 'subscription' });
+        return;
+      }
+
+      if (plan.loading || !plan || plan.name === 'Free') return;
 
       plan.loading = true;
 
