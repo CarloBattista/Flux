@@ -18,6 +18,7 @@
     "@stripe/stripe-js": "^9.6.0",
     "@supabase/supabase-js": "^2.106.1",
     "@tailwindcss/vite": "^4.3.0",
+    "@vercel/analytics": "^2.0.1",
     "heic2any": "^0.0.4",
     "marked": "^18.0.4",
     "tailwindcss": "^4.3.0",
