@@ -5,7 +5,7 @@
       :success="imageReady"
       :has-file="!!selectedFile"
       :loading="isReading || isResizing"
-      :disabled="isResizing || isReading"
+      :disabled="isResizing || isReading || !access"
       @file-selected="setFile"
       ref="dropzone"
     >
@@ -191,6 +191,11 @@ export default {
   },
   methods: {
     async setFile(file) {
+      if (!this.access) {
+        this.$router.push({ name: 'pricing' });
+        return;
+      }
+
       this.imageReady = false;
       this.isReading = true;
       this.selectedFile = file;

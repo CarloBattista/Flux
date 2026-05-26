@@ -61,8 +61,15 @@
             </div>
             <div class="w-full mb-8 flex flex-col gap-2">
               <div class="w-full flex items-end">
-                <div class="text-5xl font-semibold flex items-start">
-                  <span class="text-lg font-medium brightness-50">&euro;</span>{{ plan.price }}
+                <div class="relative text-5xl font-semibold flex items-start">
+                  <div
+                    v-if="authStore.profile?.beta_access && plan.name === 'Plus'"
+                    class="absolute z-50 top-1/2 translate-y-[-50%] -rotate-12 w-full h-1 bg-[#8E48FF]"
+                  ></div>
+                  <span class="text-lg font-medium brightness-50">&euro;</span>
+                  <span class="relative z-10" :class="{ 'brightness-75': authStore.profile?.beta_access && plan.name === 'Plus' }">{{
+                    plan.price
+                  }}</span>
                 </div>
                 <span class="text-base font-medium ml-2">/{{ plan.interval }}</span>
               </div>
@@ -125,22 +132,26 @@ export default {
     buttonDisabled(plan) {
       if (!plan.active) return true;
 
-      const isSubscribed = authStore.subscription?.data?.status === 'active';
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || authStore.profile?.beta_access === true;
+      const isBeta = authStore.profile?.beta_access === true;
 
       if (plan.name === 'Plus') {
         return isSubscribed;
       }
 
       if (plan.name === 'Free') {
-        return !isSubscribed;
+        // Se è beta, il pulsante "Il tuo piano attuale" (che diventerebbe annulla) deve essere disabilitato
+        return !isSubscribed || isBeta;
       }
 
       return false;
     },
     buttonLabel(plan) {
-      const isSubscribed = authStore.subscription?.data?.status === 'active';
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || authStore.profile?.beta_access === true;
+      const isBeta = authStore.profile?.beta_access === true;
 
       if (plan.name === 'Plus') {
+        if (isBeta) return 'Accesso Beta Attivo';
         // eslint-disable-next-line quotes
         return isSubscribed ? 'Il tuo piano attuale' : "Fai l'upgrade a Plus";
       }
@@ -153,15 +164,17 @@ export default {
     },
 
     async handleSubscription(plan) {
-      const isSubscribed = authStore.subscription?.data?.status === 'active';
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || authStore.profile?.beta_access === true;
+      const isBeta = authStore.profile?.beta_access === true;
 
       if (!this.authStore.isAuthenticated) {
         this.$router.push({ name: 'signin', query: { redirect: 'pricing' } });
         return;
       }
 
-      // Se l'utente è abbonato e clicca sul piano Free (Annulla abbonamento)
+      // Se l'utente è abbonato o ha accesso beta e clicca sul piano Free
       if (isSubscribed && plan.name === 'Free') {
+        if (isBeta) return; // Gli utenti beta non devono annullare nulla tramite UI di sottoscrizione
         this.$router.push({ name: 'subscription' });
         return;
       }

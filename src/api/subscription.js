@@ -64,7 +64,10 @@ export async function createPortalSession() {
 }
 
 export function isSubscribed() {
-  if (!authStore.profile) return;
+  if (!authStore.profile) return false;
+
+  // Se l'utente ha l'accesso beta attivo, lo consideriamo come abbonato Plus
+  if (authStore.profile?.beta_access) return true;
 
   return authStore.subscription?.data?.status === 'active';
 }

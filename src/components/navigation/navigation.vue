@@ -36,8 +36,11 @@
       </div>
     </div>
     <div class="h-full flex flex-1 gap-1 items-center justify-end">
-      <RouterLink v-if="!isSubscribed" to="/pricing">
+      <RouterLink v-if="!isSubscribed && false" to="/pricing">
         <hrButton size="small" variant="core-primary" label="Abbonati ora" class="mr-4" />
+      </RouterLink>
+      <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
+        <hrButton size="small" variant="core-primary" label="Accedi" class="mr-4" />
       </RouterLink>
       <div
         @click="store.searchBar.isOpen = !store.searchBar.isOpen"
@@ -52,6 +55,7 @@
         <MenuIcon v-if="!burger.isOpen" />
         <CloseIcon v-else />
       </div>
+      <hrBadge v-if="authStore.profile?.beta_access" variant="beta" label="BETA" />
       <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
         <div class="h-8 ml-1 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
           <UserIcon size="18" class="text-white" />
@@ -118,7 +122,7 @@
         <div class="flex flex-col gap-3 pt-4">
           <hrButton v-if="false" variant="secondary" label="Vedi prezzi" class="w-full" />
           <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
-            <hrButton variant="core-primary" label="Inizia ora" class="w-full" />
+            <hrButton variant="core-primary" label="Accedi" class="w-full" />
           </RouterLink>
         </div>
       </div>
@@ -160,7 +164,6 @@
 </template>
 
 <script>
-import { tools } from '../../toolsRegistry';
 import { categories } from '../../data/categories';
 import { store } from '../../data/store';
 import { authStore } from '../../data/authStore';

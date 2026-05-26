@@ -70,7 +70,7 @@
                 </RouterLink>
                 <listItem @click="handleManagePayment" secondLine="Gestisci metodo di pagamento" />
               </listContainer>
-              <listContainer v-if="isSubscribed">
+              <listContainer v-if="isSubscribed && !authStore.profile.beta_access">
                 <listItem @click="handleCancelSubscription" type="destructive" secondLine="Annulla abbonamento" />
               </listContainer>
             </div>

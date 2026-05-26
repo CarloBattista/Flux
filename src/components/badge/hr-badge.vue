@@ -14,7 +14,7 @@ export default {
     variant: {
       type: String,
       default: 'primary',
-      validator: (val) => ['primary', 'secondary', 'success', 'danger', 'warning', 'plus'].includes(val),
+      validator: (val) => ['primary', 'secondary', 'success', 'danger', 'warning', 'plus', 'beta'].includes(val),
     },
     label: String,
   },
@@ -58,5 +58,13 @@ export default {
   color: #fff;
   box-shadow: 0 0 15px rgba(255, 138, 0, 0.3);
   filter: hue-rotate(235deg);
+}
+
+.hr-badge.variant-beta {
+  background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #8e48ff 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+  filter: hue-rotate(150deg);
 }
 </style>

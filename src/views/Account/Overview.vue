@@ -73,16 +73,14 @@
               <h2 class="text-xl font-medium">I miei abbonamenti</h2>
               <listContainer>
                 <div v-if="isSubscribed" class="w-full p-4 flex flex-col gap-2">
-                  <h2 class="w-fit px-3 py-1 rounded-lg text-lg font-medium border border-[#8e48ff] bg-[#8e48ff]/40">
-                    <span class="uppercase">{{ authStore.subscription.data?.plan.charAt(0) }}</span
-                    >{{ authStore.subscription.data?.plan.slice(1, authStore.subscription.data?.plan.length) }}
-                  </h2>
-                  <p v-if="authStore.subscription.data?.current_period_start" class="text-sm font-normal">
-                    Data del prossimo pagamento: <span class="font-semibold">{{ authStore.subscription.data?.current_period_start }}</span>
+                  <h2 class="w-fit px-3 py-1 rounded-lg text-lg font-medium border border-[#8e48ff] bg-[#8e48ff]/40">{{ planLabel }}</h2>
+                  <p v-if="authStore.subscription.data?.next_payment_date" class="text-sm font-normal">
+                    Data del prossimo pagamento: <span class="font-semibold">{{ authStore.subscription.data?.next_payment_date }}</span>
                   </p>
                   <p v-if="authStore.subscription.data?.cancel_at_period_end" class="text-sm font-normal">
                     L'abbonamento scadrà alla fine del periodo corrente
                   </p>
+                  <p v-if="authStore.profile.beta_access" class="text-sm font-normal">Al momento siamo in accesso beta</p>
                 </div>
                 <RouterLink to="/profile/subscription">
                   <listItem secondLine="Gestisci abbonamento" />
@@ -143,6 +141,13 @@ export default {
   computed: {
     isSubscribed() {
       return isSubscribed();
+    },
+    planLabel() {
+      if (!this.authStore.profile) return;
+
+      if (this.authStore.profile.subscription?.plan === 'plus') return 'Plus';
+
+      return 'Free';
     },
   },
   methods: {
