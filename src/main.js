@@ -4,10 +4,6 @@ import App from './App.vue';
 
 import router from './routing/router';
 
-import { inject } from '@vercel/analytics';
-
-inject();
-
 const app = createApp(App);
 app.use(router);
 app.mount('#app');
