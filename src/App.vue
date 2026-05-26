@@ -15,9 +15,11 @@
     <tlToastContainer />
     <hrSearchbar />
   </div>
+  <Analytics />
 </template>
 
 <script>
+import { Analytics } from '@vercel/analytics/vue';
 import { getAuthUser } from './api/auth';
 import { authStore } from './data/authStore';
 import { store } from './data/store';
@@ -30,6 +32,7 @@ import hrSearchbar from './components/searchbar/hr-searchbar.vue';
 export default {
   name: 'App',
   components: {
+    Analytics,
     tlToastContainer,
     hrSearchbar,
   },
