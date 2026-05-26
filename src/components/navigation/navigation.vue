@@ -3,10 +3,11 @@
     class="nav fixed z-9999 top-0 left-0 w-full h-14 px-6 flex items-center"
     :class="{ 'nav-active': viewedScrolled || burger.isOpen, 'nav-active-scrolled': viewedScrolled || burger.isOpen }"
   >
-    <div class="h-full flex flex-1 items-center justify-start">
+    <div class="h-full flex flex-1 gap-3 items-center justify-start">
       <RouterLink to="/">
         <appLogo class="relative h-5" />
       </RouterLink>
+      <hrBadge v-if="store.featureFlags?.beta_access" variant="beta" label="BETA" />
     </div>
     <div class="h-full md:flex hidden gap-6 items-center justify-center">
       <RouterLink to="/" class="nav-item">
@@ -55,7 +56,6 @@
         <MenuIcon v-if="!burger.isOpen" />
         <CloseIcon v-else />
       </div>
-      <hrBadge v-if="store.featureFlags?.beta_access" variant="beta" label="BETA" />
       <RouterLink v-if="authStore.isAuthenticated" to="/profile/overview" class="nav-item">
         <div class="h-8 ml-1 aspect-square rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
           <UserIcon size="18" class="text-white" />
