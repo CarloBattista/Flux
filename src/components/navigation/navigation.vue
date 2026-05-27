@@ -7,7 +7,7 @@
       <RouterLink to="/">
         <appLogo class="relative h-5" />
       </RouterLink>
-      <hrBadge v-if="store.featureFlags?.beta_access" variant="beta" label="BETA" />
+      <hrBadge v-if="store.featureFlags?.beta_access?.value" variant="beta" label="BETA" />
     </div>
     <div class="h-full md:flex hidden gap-6 items-center justify-center">
       <RouterLink to="/" class="nav-item">

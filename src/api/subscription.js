@@ -68,7 +68,7 @@ export function isSubscribed() {
   if (!authStore.profile) return false;
 
   // Se l'utente ha l'accesso beta attivo, lo consideriamo come abbonato Plus
-  if (store.featureFlags?.beta_access) return true;
+  if (store.featureFlags?.beta_access?.value) return true;
 
   return authStore.subscription?.data?.status === 'active';
 }

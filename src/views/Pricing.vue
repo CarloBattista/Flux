@@ -63,11 +63,11 @@
               <div class="w-full flex items-end">
                 <div class="relative text-5xl font-semibold flex items-start">
                   <div
-                    v-if="store.featureFlags?.beta_access && plan.name === 'Plus'"
+                    v-if="store.featureFlags?.beta_access.value && plan.name === 'Plus'"
                     class="absolute z-50 top-1/2 translate-y-[-50%] -rotate-12 w-full h-1 bg-[#8E48FF]"
                   ></div>
                   <span class="text-lg font-medium brightness-50">&euro;</span>
-                  <span class="relative z-10" :class="{ 'brightness-75': store.featureFlags?.beta_access && plan.name === 'Plus' }">{{
+                  <span class="relative z-10" :class="{ 'brightness-75': store.featureFlags?.beta_access.value && plan.name === 'Plus' }">{{
                     plan.price
                   }}</span>
                 </div>
@@ -132,8 +132,8 @@ export default {
     buttonDisabled(plan) {
       if (!plan.active) return true;
 
-      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access === true;
-      const isBeta = store.featureFlags?.beta_access === true;
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access.value === true;
+      const isBeta = store.featureFlags?.beta_access.value === true;
 
       if (plan.name === 'Plus') {
         return isSubscribed;
@@ -147,8 +147,8 @@ export default {
       return false;
     },
     buttonLabel(plan) {
-      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access === true;
-      const isBeta = store.featureFlags?.beta_access === true;
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access.value === true;
+      const isBeta = store.featureFlags?.beta_access.value === true;
 
       if (plan.name === 'Plus') {
         if (isBeta) return 'Accesso Beta Attivo';
@@ -164,8 +164,8 @@ export default {
     },
 
     async handleSubscription(plan) {
-      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access === true;
-      const isBeta = store.featureFlags?.beta_access === true;
+      const isSubscribed = authStore.subscription?.data?.status === 'active' || store.featureFlags?.beta_access.value === true;
+      const isBeta = store.featureFlags?.beta_access.value === true;
 
       if (!this.authStore.isAuthenticated) {
         this.$router.push({ name: 'signin', query: { redirect: 'pricing' } });
