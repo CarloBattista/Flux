@@ -13,7 +13,7 @@
           type="button"
           class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white/70 transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
         >
-          <span class="text-xs font-bold">Torna indietro</span>
+          <span class="text-xs font-bold">{{ $t('common.goBack') }}</span>
         </RouterLink>
       </div>
       <div class="w-full h-full sm:max-w-[400px] mx-auto flex flex-col items-center justify-center">
@@ -21,13 +21,12 @@
           <appLogo variant="white" class="relative w-fit h-6" />
           <div class="w-full mt-6 flex flex-col gap-3 items-center text-center">
             <h2 class="text-white text-3xl font-semibold">
-              {{ field.is_sent ? 'Controlla la tua casella di posta elettronica' : 'Modifica la tua password' }}
+              {{ field.is_sent ? $t('onboarding.checkEmailTitle') : $t('onboarding.resetPasswordTitle') }}
             </h2>
             <div v-if="!field.is_sent" class="w-full p-4 rounded-xl border flex gap-2 items-start border-[#8e48ff] bg-[#8e48ff]/40 text-white">
               <BadgeInfo class="relative top-0.5 h-5 aspect-square flex-none" />
               <p class="text-sm font-normal text-start">
-                Inserisci l'indirizzo email che utilizzi di solito per accedere a Flux. Ti invieremo un'email contenente le istruzioni per creare una
-                nuova password.
+                {{ $t('onboarding.resetPasswordDescription') }}
               </p>
             </div>
           </div>
@@ -39,7 +38,7 @@
           <hrButton
             size="large"
             variant="core-primary"
-            label="Modifica password"
+            :label="$t('onboarding.resetPasswordButton')"
             :loading="field.loading"
             :disabled="!isFormValid"
             class="w-full mt-10"
@@ -47,14 +46,12 @@
         </form>
         <div v-else-if="field.is_sent" class="w-full">
           <p class="text-sm font-normal text-center">
-            Ti abbiamo inviato una email all'indirizzo <b>{{ field.data.email }}</b
-            >. Clicca sul link contenuto nel messaggio per impostare una nuova password.
+            {{ $t('onboarding.confirmEmailSent') }} <b>{{ field.data.email }}</b
+            >.
           </p>
-          <p class="mt-4 text-sm font-normal text-center">
-            Se non ricevi nessuna email o hai dubbi sull'indirizzo email di accesso scrivi ad <b>assistenza@flux.com</b>
-          </p>
+          <p class="mt-4 text-sm font-normal text-center">{{ $t('onboarding.resetPasswordHelp') }} <b>assistenza@flux.com</b></p>
           <RouterLink to="/signin">
-            <hrButton type="submit" size="large" variant="secondary" label="Accedi" class="w-full mt-10" />
+            <hrButton type="submit" size="large" variant="secondary" :label="$t('common.signIn')" class="w-full mt-10" />
           </RouterLink>
         </div>
       </div>

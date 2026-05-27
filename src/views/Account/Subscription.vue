@@ -7,25 +7,25 @@
           <div class="h-full flex items-center justify-center">
             <House size="20" />
           </div>
-          <span class="text-sm font-medium">Panoramica</span>
+          <span class="text-sm font-medium">{{ $t('navigation.Overview') }}</span>
         </RouterLink>
         <RouterLink to="/profile" class="side-nav">
           <div class="h-full flex items-center justify-center">
             <CircleUserRound size="20" />
           </div>
-          <span class="text-sm font-medium">Profilo e impostazioni</span>
+          <span class="text-sm font-medium">{{ $t('navigation.profileAndSettings') }}</span>
         </RouterLink>
         <RouterLink to="/profile/subscription" class="side-nav">
           <div class="h-full flex items-center justify-center">
             <CreditCard size="20" />
           </div>
-          <span class="text-sm font-medium">Abbonamento</span>
+          <span class="text-sm font-medium">{{ $t('navigation.subscription') }}</span>
         </RouterLink>
         <a href="#" class="side-nav mt-8 accent">
           <div class="h-full flex items-center justify-center">
             <BadgeQuestionMark size="20" />
           </div>
-          <span class="text-sm font-medium">Hai bisogno di aiuto</span>
+          <span class="text-sm font-medium">{{ $t('common.needHelp') }}</span>
         </a>
       </div>
     </div>
@@ -40,30 +40,30 @@
               <div class="h-full flex items-center justify-center">
                 <House size="20" />
               </div>
-              <span class="text-sm font-medium">Panoramica</span>
+              <span class="text-sm font-medium">{{ $t('navigation.Overview') }}</span>
             </RouterLink>
             <RouterLink to="/profile" class="side-nav min">
               <div class="h-full flex items-center justify-center">
                 <CircleUserRound size="20" />
               </div>
-              <span class="text-sm font-medium">Profilo e impostazioni</span>
+              <span class="text-sm font-medium">{{ $t('navigation.profileAndSettings') }}</span>
             </RouterLink>
             <RouterLink to="/profile/subscription" class="side-nav min">
               <div class="h-full flex items-center justify-center">
                 <CreditCard size="20" />
               </div>
-              <span class="text-sm font-medium">Abbonamento</span>
+              <span class="text-sm font-medium">{{ $t('navigation.subscription') }}</span>
             </RouterLink>
             <a href="#" class="side-nav min accent">
               <div class="h-full flex items-center justify-center">
                 <BadgeQuestionMark size="20" />
               </div>
-              <span class="text-sm font-medium">Hai bisogno di aiuto</span>
+              <span class="text-sm font-medium">{{ $t('common.needHelp') }}</span>
             </a>
           </div>
           <div class="w-full flex flex-col gap-8">
             <div class="w-full flex flex-col gap-4">
-              <h2 class="text-xl font-medium">Dettagli di pagamento</h2>
+              <h2 class="text-xl font-medium">{{ $t('common.detailsPayment') }}</h2>
               <listContainer>
                 <RouterLink v-if="false" to="/profile">
                   <listItem secondLine="Controlla cronoologia pagamenti" />

@@ -13,14 +13,14 @@
           type="button"
           class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white/70 transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
         >
-          <span class="text-xs font-bold">Torna alla home</span>
+          <span class="text-xs font-bold">{{ $t('common.goHome') }}</span>
         </RouterLink>
       </div>
       <div class="w-full h-full sm:max-w-[400px] mx-auto flex flex-col items-center justify-center">
         <div class="w-full mb-12 flex flex-col items-center">
           <appLogo variant="white" class="relative w-fit h-6" />
           <div class="w-full mt-6 flex flex-col gap-3 items-center text-center">
-            <h2 class="text-white text-3xl font-semibold">Ciaooo, bentornato!</h2>
+            <h2 class="text-white text-3xl font-semibold">{{ $t('onboarding.signinTitle') }}</h2>
           </div>
         </div>
         <form @submit.prevent class="w-full">
@@ -42,16 +42,16 @@
             <div v-if="field.error.general" class="w-full px-2 flex gap-2 items-center">
               <p class="text-red-500 text-sm font-medium">{{ field.error.general }}</p>
             </div>
-            <RouterLink v-if="field.emailExists" to="/reset-password" class="text-white text-sm font-medium text-end hover:underline"
-              >Hai dimenticato la password?</RouterLink
-            >
+            <RouterLink v-if="field.emailExists" to="/reset-password" class="text-white text-sm font-medium text-end hover:underline">{{
+              $t('onboarding.forgotPassword')
+            }}</RouterLink>
           </div>
           <hrButton
             @click="actionSignin"
             type="submit"
             size="large"
             variant="core-primary"
-            label="Continua"
+            :label="$t('common.continue')"
             :loading="field.loading"
             :disabled="!isFormValid"
             class="w-full mt-10"

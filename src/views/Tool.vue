@@ -239,7 +239,7 @@ export default {
         if (this.categories[key].tools.some((t) => t.metadata.slug === this.tool.metadata.slug)) {
           return {
             ...this.categories[key],
-            slug: key
+            slug: key,
           };
         }
       }

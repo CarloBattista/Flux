@@ -9,7 +9,7 @@
             ref="searchInput"
             v-model="searchQuery"
             type="text"
-            placeholder="Cerca uno strumento..."
+            :placeholder="$t('search.placeholder')"
             class="flex-1 bg-transparent border-none outline-none text-white text-lg placeholder:text-white/20"
             @keydown.esc="store.searchBar.isOpen = false"
             @keydown.down.prevent="moveSelection(1)"
@@ -18,7 +18,7 @@
           />
           <div class="flex items-center gap-2">
             <hrButtonShortcut icon="ESC" class="hidden md:flex" />
-            <button @click="store.searchBar.isOpen = false" class="p-1 hover:bg-white/5 rounded-lg transition-colors">
+            <button @click="store.searchBar.isOpen = false" class="p-1 hover:bg-white/5 rounded-lg transition-colors cursor-pointer">
               <CloseIcon class="text-white/40" size="20" />
             </button>
           </div>
@@ -27,7 +27,7 @@
         <div class="max-h-[400px] overflow-y-auto custom-scrollbar">
           <div class="w-full px-4 pt-4 pb-2">
             <h2 class="text-white text-sm font-semibold brightness-50">
-              {{ searchQuery ? 'Risultati di ricerca' : 'Tutti gli strumenti' }}
+              {{ searchQuery ? $t('search.Results') : $t('common.allTools') }}
             </h2>
           </div>
           <div v-if="filteredTools.length > 0" class="p-2">
@@ -36,7 +36,7 @@
               <!-- Favorites Tools section -->
               <div v-if="favoritesTools.length > 0" class="mb-4">
                 <div class="px-3 py-2">
-                  <span class="text-[10px] text-white/30 font-bold uppercase tracking-wider">Preferiti</span>
+                  <span class="text-[10px] text-white/30 font-bold uppercase tracking-wider">{{ $t('common.favorites') }}</span>
                 </div>
                 <RouterLink
                   v-for="(tool, index) in favoritesTools"
@@ -65,7 +65,7 @@
               <!-- Recent Tools Section -->
               <div v-if="recentTools.length > 0" class="mb-4">
                 <div class="px-3 py-2">
-                  <span class="text-[10px] text-white/30 font-bold uppercase tracking-wider">Recenti</span>
+                  <span class="text-[10px] text-white/30 font-bold uppercase tracking-wider">{{ $t('common.recent') }}</span>
                 </div>
                 <RouterLink
                   v-for="(tool, index) in recentTools"
@@ -150,15 +150,15 @@
             <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
               <SearchIcon class="text-white/20" size="32" />
             </div>
-            <p class="text-white/60 font-medium">Nessun risultato trovato per "{{ searchQuery }}"</p>
-            <p class="text-white/30 text-sm mt-1">Prova con parole chiave diverse</p>
+            <p class="text-white/60 font-medium">{{ $t('search.noResultsFound') }}: "{{ searchQuery }}"</p>
+            <p class="text-white/30 text-sm mt-1">{{ $t('search.tryWithDifferentKeywords') }}</p>
           </div>
         </div>
         <!-- Footer -->
         <div class="px-6 py-3 bg-black/20 border-t border-white/10 flex items-center justify-between text-[11px] text-white/30">
           <div class="flex items-center gap-4">
-            <hrButtonShortcut icon="↑↓" label="Naviga" class="hidden md:flex" />
-            <hrButtonShortcut icon="Enter" label="Seleziona" class="hidden md:flex" />
+            <hrButtonShortcut icon="↑↓" :label="$t('common.navigate')" class="hidden md:flex" />
+            <hrButtonShortcut icon="Enter" :label="$t('common.select')" class="hidden md:flex" />
           </div>
           <div class="flex items-center gap-1.5">
             <span>Powered by Flux</span>

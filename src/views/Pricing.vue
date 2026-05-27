@@ -37,10 +37,8 @@
     <div class="vignette-hero"></div>
     <div class="relative z-20 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-start md:pt-[10%] pt-[20%]">
       <div class="w-full flex flex-col items-center justify-center text-center">
-        <h1 class="text-6xl font-semibold text-center whitespace-nowrap">Pricing</h1>
-        <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">
-          Strumenti veloci e moderni per convertire immagini, video, audio, file e dati direttamente nel browser.
-        </p>
+        <h1 class="text-6xl font-semibold text-center whitespace-nowrap">{{ $t('pricing.title') }}</h1>
+        <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">{{ $t('pricing.description') }}</p>
       </div>
       <div class="relative w-full max-w-[768px] mx-auto mt-14">
         <div v-if="store.plans.loading" class="w-full flex items-center justify-center">
@@ -55,9 +53,9 @@
           >
             <div class="w-full mb-10 flex gap-3 items-center">
               <h3 class="text-2xl font-semibold">{{ plan.name }}</h3>
-              <span v-if="plan.name === 'Plus'" class="py-1 px-2 rounded-full text-sm font-medium border border-[#8E48FF] bg-[#8E48FF]/50"
-                >Scelta consigliata</span
-              >
+              <span v-if="plan.name === 'Plus'" class="py-1 px-2 rounded-full text-sm font-medium border border-[#8E48FF] bg-[#8E48FF]/50">{{
+                $t('common.recommendedChoice')
+              }}</span>
             </div>
             <div class="w-full mb-8 flex flex-col gap-2">
               <div class="w-full flex items-end">
@@ -71,7 +69,9 @@
                     plan.price
                   }}</span>
                 </div>
-                <span class="text-base font-medium ml-2">/{{ plan.interval }}</span>
+                <span class="text-base font-medium ml-2 lowercase"
+                  >/{{ plan.interval === 'month' ? $t('pricing.monthly') : $t('pricing.yearly') }}</span
+                >
               </div>
               <p>{{ plan.description }}</p>
             </div>
@@ -87,7 +87,7 @@
               />
             </div>
             <div v-if="plan.features" class="w-full mt-16 flex flex-col">
-              <h2 class="text-base font-medium">Cosa include</h2>
+              <h2 class="text-base font-medium">{{ $t('pricing.whatIncluded') }}</h2>
               <div class="w-full mt-2 flex flex-col gap-1 text-sm font-normal">
                 <div v-for="feature in plan?.features" :key="feature" class="px-4 flex gap-2 items-center">
                   <span>{{ feature }}</span>
@@ -151,16 +151,13 @@ export default {
       const isBeta = store.featureFlags?.beta_access.value === true;
 
       if (plan.name === 'Plus') {
-        if (isBeta) return 'Accesso Beta Attivo';
-        // eslint-disable-next-line quotes
-        return isSubscribed ? 'Il tuo piano attuale' : "Fai l'upgrade a Plus";
+        if (isBeta) return this.$t('pricing.betaAccessActive');
+        return isSubscribed ? this.$t('pricing.currentPlan') : this.$t('pricing.upgradePlus');
       }
 
       if (plan.name === 'Free') {
-        return isSubscribed ? 'Annulla abbonamento' : 'Il tuo piano attuale';
+        return isSubscribed ? this.$t('pricing.cancelSubscription') : this.$t('pricing.currentPlan');
       }
-
-      return 'Seleziona piano';
     },
 
     async handleSubscription(plan) {

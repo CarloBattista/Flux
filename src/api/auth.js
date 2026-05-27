@@ -3,6 +3,7 @@ import { authStore } from '../data/authStore';
 import { getSubscription } from './subscription';
 import { toast } from '../utils/toast';
 import { getFavorites } from './favorites';
+import { setLanguage } from '../services/i18n';
 
 function clearAuth() {
   authStore.user = null;
@@ -76,7 +77,11 @@ export async function getProfile() {
 
     await getSubscription();
     await getFavorites();
-    document.documentElement.lang = authStore.profile?.lang;
+
+    if (data?.lang) {
+      authStore.currentLanguage = data.lang;
+      setLanguage(data.lang);
+    }
   } catch (e) {
     console.error(e);
   } finally {
@@ -197,7 +202,9 @@ export async function updateProfile(updates) {
     if (error) throw error;
 
     authStore.profile = data;
+
     toast.light('Profilo aggiornato con successo!', { showIcon: false, closable: false });
+
     return { data, error: null };
   } catch (e) {
     console.error(e);
@@ -217,5 +224,22 @@ export async function checkEmailExists(email) {
   } catch (e) {
     console.error(e);
     return { data: null, error: e };
+  }
+}
+
+/**
+ * Cambia la lingua dell'applicazione gestendo sia utenti autenticati che guest
+ * @param {string} lang - Il codice della lingua ('it', 'en')
+ */
+export async function changeLanguage(lang) {
+  authStore.currentLanguage = lang;
+  setLanguage(lang);
+
+  if (authStore.isAuthenticated) {
+    try {
+      await updateProfile({ lang: lang });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

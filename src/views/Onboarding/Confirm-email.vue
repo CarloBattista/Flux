@@ -13,23 +13,21 @@
           type="button"
           class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white/70 transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
         >
-          <span class="text-xs font-bold">Torna alla home</span>
+          <span class="text-xs font-bold">{{ $t('common.goHome') }}</span>
         </RouterLink>
       </div>
       <div class="w-full h-full sm:max-w-[400px] mx-auto flex flex-col items-center justify-center">
         <div class="w-full mb-12 flex flex-col items-center">
           <appLogo variant="white" class="relative w-fit h-6" />
           <div class="w-full mt-6 flex flex-col gap-3 items-center text-center">
-            <h2 class="text-white text-3xl font-semibold">Conferma la tua email</h2>
+            <h2 class="text-white text-3xl font-semibold">{{ $t('onboarding.confirmEmailTitle') }}</h2>
           </div>
         </div>
         <div class="w-full">
-          <p class="text-sm font-normal text-center">Per poter accedere a Flux devi prima confermare la tua email.</p>
-          <p class="mt-4 text-sm font-normal text-center">
-            Ti abbiamo inviato una email all'indirizzo. Clicca sul link contenuto nel messaggio per confermare la tua email.
-          </p>
+          <p class="text-sm font-normal text-center">{{ $t('onboarding.confirmEmailDescription') }}</p>
+          <p class="mt-4 text-sm font-normal text-center">{{ $t('onboarding.confirmEmailSent') }}</p>
           <a href="https://mail.google.com/mail/u/0/" target="_blank">
-            <hrButton size="large" variant="secondary" label="Apri la tua email" class="w-full mt-10" />
+            <hrButton size="large" variant="secondary" :label="$t('onboarding.openEmailButton')" class="w-full mt-10" />
           </a>
         </div>
       </div>

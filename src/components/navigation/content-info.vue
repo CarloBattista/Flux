@@ -1,6 +1,6 @@
 <template>
   <div class="relative z-999 bottom-0 left-0 w-full mt-16 md:py-20 md:px-32 py-6 px-6 border-t border-white/10">
-    <div class="w-full flex gap-6">
+    <div class="relative w-full flex gap-6">
       <div class="w-[35%] h-full flex flex-none flex-col">
         <appLogo variant="white" class="relative w-fit h-7" />
         <div class="mt-9 flex gap-4 items-center">
@@ -41,48 +41,59 @@
             </svg>
           </a>
         </div>
-        <p class="mt-20 text-sm font-normal brightness-50">&copy; {{ currentYear }} Flux, All rights reserved.</p>
+        <p class="mt-20 text-sm font-normal brightness-50">&copy; {{ currentYear }} Flux, {{ $t('navigation.copyright') }}.</p>
       </div>
       <div class="w-full h-full grid lg:grid-cols-4 grid-cols-2 gap-6">
         <div class="w-full flex flex-none flex-col gap-3">
-          <h2 class="footer-nav-head text-sm font-medium brightness-50">Azienda</h2>
+          <h2 class="footer-nav-head text-sm font-medium brightness-50">{{ $t('navigation.company') }}</h2>
           <div class="w-full flex flex-col">
-            <RouterLink to="/legal/about-us" class="footer-nav">Chi siamo</RouterLink>
-            <RouterLink to="/legal/security" class="footer-nav">Sicurezza</RouterLink>
+            <RouterLink to="/legal/about-us" class="footer-nav">{{ $t('navigation.aboutUs') }}</RouterLink>
+            <RouterLink to="/legal/security" class="footer-nav">{{ $t('navigation.security') }}</RouterLink>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">
-          <h2 class="footer-nav-head text-sm font-medium brightness-50">Legale</h2>
+          <h2 class="footer-nav-head text-sm font-medium brightness-50">{{ $t('navigation.legal') }}</h2>
           <div class="w-full flex flex-col">
-            <RouterLink to="/legal/privacy-policy" class="footer-nav">Privacy policy</RouterLink>
-            <RouterLink to="/legal/cookie" class="footer-nav">Cookie</RouterLink>
-            <a v-if="false" href="#" target="_blank" class="footer-nav">Contattaci</a>
+            <RouterLink to="/legal/privacy-policy" class="footer-nav">{{ $t('navigation.privacyPolicy') }}</RouterLink>
+            <RouterLink to="/legal/cookie" class="footer-nav">{{ $t('navigation.cookie') }}</RouterLink>
           </div>
         </div>
         <div class="w-full flex flex-none flex-col gap-3">
-          <h2 class="footer-nav-head text-sm font-medium brightness-50">Risorse</h2>
+          <h2 class="footer-nav-head text-sm font-medium brightness-50">{{ $t('navigation.resources') }}</h2>
           <div class="w-full flex flex-col">
-            <a v-if="false" href="#" target="_blank" class="footer-nav">Centro assistenza</a>
-            <RouterLink to="/pricing" class="footer-nav">Prezzi</RouterLink>
+            <a v-if="false" href="#" target="_blank" class="footer-nav">{{ $t('navigation.helpCenter') }}</a>
+            <RouterLink to="/pricing" class="footer-nav">{{ $t('navigation.pricing') }}</RouterLink>
           </div>
         </div>
+      </div>
+      <div class="absolute bottom-0 right-0">
+        <hrSelect :modelValue="authStore.currentLanguage" :options="authStore.languages" @update:modelValue="changeLanguage" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { authStore } from '../../data/authStore';
+import { changeLanguage } from '../../api/auth';
+
 import appLogo from '../global/app-logo.vue';
+import hrSelect from '../input/hr-select.vue';
 
 export default {
   name: 'content-info',
   components: {
     appLogo,
+    hrSelect,
   },
   data() {
     return {
+      authStore,
       currentYear: new Date().getFullYear(),
     };
+  },
+  methods: {
+    changeLanguage,
   },
 };
 </script>

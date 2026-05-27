@@ -7,25 +7,25 @@
           <div class="h-full flex items-center justify-center">
             <House size="20" />
           </div>
-          <span class="text-sm font-medium">Panoramica</span>
+          <span class="text-sm font-medium">{{ $t('navigation.Overview') }}</span>
         </RouterLink>
         <RouterLink to="/profile" class="side-nav">
           <div class="h-full flex items-center justify-center">
             <CircleUserRound size="20" />
           </div>
-          <span class="text-sm font-medium">Profilo e impostazioni</span>
+          <span class="text-sm font-medium">{{ $t('navigation.profileAndSettings') }}</span>
         </RouterLink>
         <RouterLink to="/profile/subscription" class="side-nav">
           <div class="h-full flex items-center justify-center">
             <CreditCard size="20" />
           </div>
-          <span class="text-sm font-medium">Abbonamento</span>
+          <span class="text-sm font-medium">{{ $t('navigation.subscription') }}</span>
         </RouterLink>
         <a href="#" class="side-nav mt-8 accent">
           <div class="h-full flex items-center justify-center">
             <BadgeQuestionMark size="20" />
           </div>
-          <span class="text-sm font-medium">Hai bisogno di aiuto</span>
+          <span class="text-sm font-medium">{{ $t('common.needHelp') }}</span>
         </a>
       </div>
     </div>
@@ -63,27 +63,27 @@
           </div>
           <div class="w-full flex flex-col gap-8">
             <div class="w-full flex flex-col gap-4">
-              <h2 class="text-xl font-medium">Profilo</h2>
+              <h2 class="text-xl font-medium">{{ $t('common.profile') }}</h2>
               <listContainer>
                 <RouterLink to="/update/username">
-                  <listItem firstLine="Nome utente" :secondLine="authStore.profile?.username || 'Aggiungi nome utente'" />
+                  <listItem :firstLine="$t('common.username')" :secondLine="authStore.profile?.username || 'Aggiungi nome utente'" />
                 </RouterLink>
                 <RouterLink to="/update/email">
-                  <listItem firstLine="Indirizzo email" :secondLine="authStore.user?.email || 'Aggiungi email'" />
+                  <listItem :firstLine="$t('common.email')" :secondLine="authStore.user?.email || 'Aggiungi email'" />
                 </RouterLink>
                 <RouterLink to="/update/password">
-                  <listItem firstLine="Password" secondLine="•••••••••••" />
+                  <listItem :firstLine="$t('common.password')" secondLine="•••••••••••" />
                 </RouterLink>
                 <RouterLink v-if="false" to="/update/phone">
-                  <listItem firstLine="Numero di telefono" :secondLine="authStore.user?.phone || 'Aggiungi telefono'" />
+                  <listItem :firstLine="$t('common.phone')" :secondLine="authStore.user?.phone || 'Aggiungi telefono'" />
                 </RouterLink>
               </listContainer>
             </div>
             <div class="w-full flex flex-col gap-4">
-              <h2 class="text-xl font-medium">Impostazioni</h2>
+              <h2 class="text-xl font-medium">{{ $t('common.settings') }}</h2>
               <listContainer>
                 <RouterLink to="/update/language">
-                  <listItem icon="Languages" firstLine="Lingua" :secondLine="formatLanguage(authStore.profile?.lang)" />
+                  <listItem icon="Languages" :firstLine="$t('common.language')" :secondLine="formatLanguage(authStore.currentLanguage)" />
                 </RouterLink>
               </listContainer>
             </div>

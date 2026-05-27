@@ -41,7 +41,7 @@
         <hrButton size="small" variant="core-primary" label="Abbonati ora" class="mr-4" />
       </RouterLink>
       <RouterLink v-if="!authStore.isAuthenticated" to="/signin">
-        <hrButton size="small" variant="core-primary" label="Accedi" class="mr-4" />
+        <hrButton size="small" variant="core-primary" :label="$t('common.signin')" class="mr-4" />
       </RouterLink>
       <div
         @click="store.searchBar.isOpen = !store.searchBar.isOpen"

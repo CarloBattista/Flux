@@ -40,17 +40,15 @@
         <div
           class="relative mb-6 h-8 p-0.5 rounded-full flex gap-1.5 items-center border border-white/50 hover:bg-white/20 transition-colors duration-200 cursor-pointer"
         >
-          <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">Esplora</span>
-          <span class="text-sm max-one-line">Strumenti veloci per i media e lo sviluppo</span>
+          <span class="h-full py-0.5 px-2 rounded-full flex items-center justify-center bg-[#8E48FF] text-sm">{{ $t('common.explore') }}</span>
+          <span class="text-sm max-one-line">{{ $t('landing.pill') }}</span>
           <ArrowRight size="16" class="mr-2" />
         </div>
         <h1 class="md:text-6xl text-3xl font-semibold text-center whitespace-nowrap">
-          Converti qualsiasi cosa, <br />
-          in pochi secondi.
+          {{ $t('landing.headFirst') }} <br />
+          {{ $t('landing.headSecond') }}
         </h1>
-        <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">
-          Strumenti veloci e moderni per convertire immagini, video, audio, file e dati direttamente nel browser.
-        </p>
+        <p class="w-full max-w-[500px] mt-6 text-gray-300 md:text-base text-sm font-normal text-center">{{ $t('landing.description') }}</p>
         <div v-if="false" class="w-full mt-8 flex gap-2 items-center justify-center">
           <hrButton size="large" variant="core-primary" label="Vedi prezzi" />
           <hrButton size="large" variant="secondary" label="Inizia ora" />
@@ -62,10 +60,7 @@
   <section class="relative w-full px-6 py-16">
     <div class="w-full max-w-[1100px] mx-auto flex flex-col gap-20">
       <div class="w-full flex items-center justify-center text-center">
-        <h2 class="text-white text-4xl font-semibold">
-          Strumenti moderni per <br />
-          workflow veloci
-        </h2>
+        <h2 class="text-white text-4xl font-semibold">{{ $t('landing.modernTools') }}</h2>
       </div>
       <div class="card-tools-data-container relative w-full grid md:grid-cols-4 grid-cols-1">
         <div
@@ -73,8 +68,8 @@
           :key="tool.value"
           class="card-tools-data relative w-full px-2.5 py-7 flex flex-col gap-2 text-center md:border-r md:last:border-r-0 md:border-b-0 border-b last:border-b-0 border-white/10 hover:bg-[#8E48FF]/20"
         >
-          <h2 class="text-white md:text-3xl text-base font-semibold">{{ tool.title }}</h2>
-          <p class="text-white md:text-xl text-xs font-normal">{{ tool.description }}</p>
+          <h2 class="text-white md:text-3xl text-base font-semibold">{{ $t(tool.title) }}</h2>
+          <p class="text-white md:text-xl text-xs font-normal">{{ $t(tool.description) }}</p>
         </div>
       </div>
     </div>
@@ -82,7 +77,7 @@
   <section class="relative w-full px-6 py-16">
     <div class="w-full max-w-[1100px] mx-auto flex flex-col gap-8">
       <div class="w-full flex items-center justify-start">
-        <h2 class="text-white text-4xl font-semibold">Tool più usati</h2>
+        <h2 class="text-white text-4xl font-semibold">{{ $t('landing.toolMostUsed') }}</h2>
       </div>
       <div class="w-full grid md:grid-cols-3 grid-cols-1 gap-4">
         <div v-for="tool in toolsMostUsed" :key="tool.value" class="relative w-full h-[170px] px-6 py-3 rounded-lg bg-white overflow-hidden">
@@ -93,7 +88,7 @@
             <div class="w-fit h-full max-h-11 flex items-center justify-center">
               <component :is="tool.icon" color="black" />
             </div>
-            <p class="max-w-[210px] text-black text-base font-medium">{{ tool.description }}</p>
+            <p class="max-w-[210px] text-black text-base font-medium">{{ $t(tool.description) }}</p>
           </div>
         </div>
       </div>
@@ -132,22 +127,22 @@ export default {
         {
           title: '20+',
           value: '20plus',
-          description: 'Strumenti per media e sviluppo',
+          description: 'landing.mediaAndDevelopmentTools',
         },
         {
           title: '100%',
           value: '100percentage',
-          description: 'Elaborazione direttamente nel browser, senza upload.',
+          description: 'landing.processingInBrowser',
         },
         {
-          title: 'Fast',
+          title: 'common.fast',
           value: 'fast',
-          description: 'Conversioni ottimizzate per ogni tipo di file.',
+          description: 'landing.optimizedConversions',
         },
         {
-          title: 'Privacy-first',
+          title: 'landing.privacyFirst',
           value: 'privacy-first',
-          description: 'I file restano sempre sul tuo dispositivo.',
+          description: 'landing.fileStorage',
         },
       ],
       toolsMostUsed: [
@@ -155,19 +150,19 @@ export default {
           title: 'Video',
           value: 'video',
           icon: VideoIcon,
-          description: 'Converti e comprimi video direttamente nel browser in pochi secondi.',
+          description: 'landing.videoDesc',
         },
         {
           title: 'Images',
           value: 'images',
           icon: Images,
-          description: 'Trasforma e ottimizza immagini tra diversi formati in modo rapido.',
+          description: 'landing.imagesDesc',
         },
         {
           title: 'Shield',
           value: 'shield',
           icon: Shield,
-          description: 'Decodifica e analizza token JWT in tempo reale senza strumenti esterni.',
+          description: 'landing.shieldDesc',
         },
       ],
     };

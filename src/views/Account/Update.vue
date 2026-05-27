@@ -7,7 +7,7 @@
           <div class="h-full flex items-center justify-center">
             <ChevronLeft size="20" />
           </div>
-          <span class="text-sm font-medium">Torna indietro</span>
+          <span class="text-sm font-medium">{{ $t('common.goBack') }}</span>
         </RouterLink>
       </div>
     </div>
@@ -22,7 +22,7 @@
               <div class="h-full flex items-center justify-center">
                 <ChevronLeft size="20" />
               </div>
-              <span class="text-sm font-medium">Torna indietro</span>
+              <span class="text-sm font-medium">{{ $t('common.goBack') }}</span>
             </RouterLink>
           </div>
           <div class="w-full sm:max-w-[400px] mx-auto flex flex-col items-center justify-center">
@@ -78,7 +78,7 @@
                 type="submit"
                 size="large"
                 variant="core-primary"
-                label="Salva"
+                :label="$t('common.save')"
                 :loading="field.loading"
                 :disabled="!isFormValid"
                 class="w-full mt-10"
@@ -93,7 +93,7 @@
 
 <script>
 import { authStore } from '../../data/authStore';
-import { updateEmail, updatePassword, updatePhone, updateProfile } from '../../api/auth';
+import { updateEmail, updatePassword, updatePhone, updateProfile, changeLanguage } from '../../api/auth';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { VALIDATION_ERRORS } from '../../utils/constants';
 
@@ -239,8 +239,8 @@ export default {
         } else if (this.updateType === 'phone') {
           result = await updatePhone(this.field.data.phone);
         } else if (this.updateType === 'language') {
-          result = await updateProfile({ lang: this.field.data.language });
-          document.documentElement.lang = this.field.data.language;
+          await changeLanguage(this.field.data.language);
+          result = { error: null };
         }
 
         if (result.error) {
