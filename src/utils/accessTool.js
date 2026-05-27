@@ -9,7 +9,7 @@ export function canAccessTool(tool) {
 
   // Verifica abbonamento attivo o accesso beta per i tool Plus
   const isSubscribed = authStore.subscription?.data?.status === 'active';
-  const isBeta = store.featureFlags?.beta_access === true;
+  const isBeta = store.featureFlags?.beta_access.value === true;
 
   return isSubscribed || isBeta;
 }
