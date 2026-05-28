@@ -2,7 +2,10 @@
   <navigation />
   <div class="relative pt-24 px-6 pb-20">
     <div class="w-full max-w-[1024px] mx-auto">
-      <div v-if="tool">
+      <div v-if="store.tools.loading" class="w-full flex items-center justify-center">
+        <loader />
+      </div>
+      <div v-else-if="!store.tools.loading && tool">
         <!-- Breadcrumbs -->
         <nav class="flex mb-8 text-sm font-medium text-gray-500" aria-label="Breadcrumb">
           <ol class="flex items-center space-x-2">
@@ -84,7 +87,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="text-center py-20">
+      <div v-else-if="!store.tools.loading && !tool" class="text-center py-20">
         <h2 class="text-2xl font-bold text-gray-300">Strumento non trovato</h2>
         <RouterLink to="/" class="mt-4 inline-block text-indigo-600 hover:text-indigo-500">Torna alla Home</RouterLink>
       </div>
@@ -95,15 +98,17 @@
 <script>
 import { authStore } from '../data/authStore';
 import { store } from '../data/store';
-import { tools } from '../toolsRegistry';
+import { toolConfigs } from '../toolsRegistry';
 import { categories } from '../data/categories';
 import { canAccessTool } from '../utils/accessTool';
 import { handleTool } from '../api/userTools';
 import { addFavorite, deleteFavorite } from '../api/favorites';
+import { toolTypeMap } from '../utils/toolMapping';
 
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
 import hrBadge from '../components/badge/hr-badge.vue';
+import loader from '../components/global/loader.vue';
 
 // UI
 import converterUi from '../components/layout/converter-ui.vue';
@@ -152,6 +157,7 @@ export default {
     navigation,
     hrButton,
     hrBadge,
+    loader,
 
     converterUi,
     imageConverterUi,
@@ -204,10 +210,25 @@ export default {
   computed: {
     tool() {
       const slug = this.$route.params.slug;
-      return tools[slug] || null;
+      const dbTool = this.store.tools.data.find((t) => t.slug === slug);
+      if (!dbTool) return null;
+
+      const toolExport = toolConfigs[slug] || {};
+      const { config, ...functions } = toolExport;
+
+      return {
+        ...config, // Appiattisce la configurazione locale (units, formats, indentationOptions, ecc.)
+        ...functions, // Include tutte le funzioni esportate (convert, formatJSON, minifyJSON, ecc.)
+        metadata: {
+          ...dbTool,
+          access: dbTool.is_plus ? 'plus' : 'free',
+          new: dbTool.is_new,
+          type: toolTypeMap[slug] || 'converter',
+        },
+      };
     },
     canAccessTool() {
-      return canAccessTool(this.tool);
+      return this.tool ? canAccessTool(this.tool) : false;
     },
     toolComponent() {
       if (!this.tool) return 'converterUi';
@@ -236,7 +257,7 @@ export default {
     category() {
       if (!this.tool) return null;
       for (const key in this.categories) {
-        if (this.categories[key].tools.some((t) => t.metadata.slug === this.tool.metadata.slug)) {
+        if (this.categories[key].tools.includes(this.tool.metadata.slug)) {
           return {
             ...this.categories[key],
             slug: key,
@@ -247,7 +268,21 @@ export default {
     },
     relatedTools() {
       if (!this.category || !this.tool) return [];
-      return this.category.tools.filter((t) => t.metadata.slug !== this.tool.metadata.slug).slice(0, 3);
+      const relatedSlugs = this.category.tools.filter((slug) => slug !== this.tool.metadata.slug).slice(0, 3);
+      return relatedSlugs
+        .map((slug) => {
+          const dbTool = this.store.tools.data.find((t) => t.slug === slug);
+          if (!dbTool) return null;
+          return {
+            metadata: {
+              ...dbTool,
+              access: dbTool.is_plus ? 'plus' : 'free',
+              new: dbTool.is_new,
+              type: toolTypeMap[slug] || 'converter',
+            },
+          };
+        })
+        .filter((t) => t !== null);
     },
     isFavorite() {
       if (!this.store.favorites.data || !this.tool) return false;

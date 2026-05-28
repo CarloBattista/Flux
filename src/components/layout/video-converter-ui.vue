@@ -37,11 +37,11 @@
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Formato di Destinazione</label>
         <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
           <hrButton
-            v-for="format in tool.config.formats"
+            v-for="format in tool.formats"
             :key="format"
             @click="targetFormat = format"
             :variant="targetFormat === format ? 'core-primary' : 'primary'"
-            :label="tool.config.labels[format]"
+            :label="tool.labels[format]"
           />
         </div>
       </div>

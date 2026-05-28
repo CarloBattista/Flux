@@ -8,13 +8,13 @@
         <hrSelect
           v-model="from"
           label="Da"
-          :options="tool.config.units.map((u) => ({ label: tool.config.labels ? tool.config.labels[u] : u, value: u }))"
+          :options="tool.units.map((u) => ({ label: tool.labels ? tool.labels[u] : u, value: u }))"
           @update:modelValue="autoConvert"
         />
         <hrSelect
           v-model="to"
           label="A"
-          :options="tool.config.units.map((u) => ({ label: tool.config.labels ? tool.config.labels[u] : u, value: u }))"
+          :options="tool.units.map((u) => ({ label: tool.labels ? tool.labels[u] : u, value: u }))"
           @update:modelValue="autoConvert"
         />
       </div>
@@ -26,7 +26,7 @@
             class="min-w-0 px-2 py-1 block rounded-2xl hover:bg-white/20 active:scale-95 transition-all duration-200 max-one-line cursor-pointer"
             >{{ result }}</span
           >
-          <span class="text-xl font-medium opacity-90 ml-1">{{ tool.config.labels ? tool.config.labels[to] : to }}</span>
+          <span class="text-xl font-medium opacity-90 ml-1">{{ tool.labels ? tool.labels[to] : to }}</span>
         </div>
       </div>
     </div>
@@ -59,9 +59,9 @@ export default {
       }
     },
     resetUnits() {
-      if (this.tool && this.tool.config && this.tool.config.units) {
-        this.from = this.tool.config.units[0];
-        this.to = this.tool.config.units[1] || this.tool.config.units[0];
+      if (this.tool && this.tool.units) {
+        this.from = this.tool.units[0];
+        this.to = this.tool.units[1] || this.tool.units[0];
         this.autoConvert();
       }
     },

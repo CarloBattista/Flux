@@ -96,25 +96,26 @@
                   <span class="text-[10px] font-bold text-white/30 uppercase tracking-wider">{{ category.label }}</span>
                 </div>
                 <RouterLink
-                  v-for="(tool, index) in category.tools"
-                  :key="tool.metadata.slug"
-                  :to="'/tool/' + tool.metadata.slug"
+                  v-for="(slug, index) in category.tools"
+                  :key="slug"
+                  :to="'/tool/' + slug"
                   @click="
                     store.searchBar.isOpen = false;
-                    actionHandleTool(tool);
+                    actionHandleTool(getToolBySlug(slug));
                   "
                 >
                   <cardTool
+                    v-if="getToolBySlug(slug)"
                     :keyCard="index"
                     :selectedIndex="selectedIndex"
-                    :icon="tool.metadata.icon"
-                    :firstLine="tool.metadata.title"
-                    :secondLine="tool.metadata.description"
-                    :badgeNew="tool.metadata.new"
-                    :badgePlus="tool.metadata.access === 'plus'"
-                    :action="navigationTools.indexOf(tool) === selectedIndex"
-                    @mouseenter="selectedIndex = navigationTools.indexOf(tool)"
-                    :class="[navigationTools.indexOf(tool) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                    :icon="getToolBySlug(slug).metadata.icon"
+                    :firstLine="getToolBySlug(slug).metadata.title"
+                    :secondLine="getToolBySlug(slug).metadata.description"
+                    :badgeNew="getToolBySlug(slug).metadata.new"
+                    :badgePlus="getToolBySlug(slug).metadata.access === 'plus'"
+                    :action="navigationTools.indexOf(getToolBySlug(slug)) === selectedIndex"
+                    @mouseenter="selectedIndex = navigationTools.indexOf(getToolBySlug(slug))"
+                    :class="[navigationTools.indexOf(getToolBySlug(slug)) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
                   />
                 </RouterLink>
               </div>
@@ -178,10 +179,10 @@
 </template>
 
 <script>
-import { tools } from '../../toolsRegistry';
 import { categories } from '../../data/categories';
 import { store } from '../../data/store';
 import { getRecentTools, handleTool } from '../../api/userTools';
+import { toolTypeMap } from '../../utils/toolMapping';
 
 import hrButtonShortcut from '../button/hr-button-shortcut.vue';
 import cardTool from '../card/card-tool.vue';
@@ -212,26 +213,26 @@ export default {
   computed: {
     recentTools() {
       if (!this.store.recentTools.data) return [];
-      // Map slugs to actual tool objects from registry, limiting to 4
-      return this.store.recentTools.data.map((item) => tools[item.tool_slug]).filter((tool) => !!tool);
+      return this.store.recentTools.data.map((item) => this.getToolBySlug(item.tool_slug)).filter((tool) => !!tool);
     },
     favoritesTools() {
       if (!this.store.favorites.data) return [];
 
-      return this.store.favorites.data.map((item) => tools[item.tool_slug]).filter((tool) => !!tool);
+      return this.store.favorites.data.map((item) => this.getToolBySlug(item.tool_slug)).filter((tool) => !!tool);
     },
     navigationTools() {
-      // Tools list used for keyboard navigation index
       if (!this.searchQuery) {
         return [...this.recentTools, ...this.allTools];
       }
       return this.filteredTools;
     },
     allTools() {
-      // Return tools in the order defined by categories
       const orderedTools = [];
       Object.values(this.categories).forEach((category) => {
-        orderedTools.push(...category.tools);
+        category.tools.forEach((slug) => {
+          const tool = this.getToolBySlug(slug);
+          if (tool) orderedTools.push(tool);
+        });
       });
       return orderedTools;
     },
@@ -244,6 +245,19 @@ export default {
     },
   },
   methods: {
+    getToolBySlug(slug) {
+      const dbTool = this.store.tools.data.find((t) => t.slug === slug);
+      if (!dbTool) return null;
+
+      return {
+        metadata: {
+          ...dbTool,
+          access: dbTool.is_plus ? 'plus' : 'free',
+          new: dbTool.is_new,
+          type: toolTypeMap[slug] || 'converter',
+        },
+      };
+    },
     handleGlobalKeydown(e) {
       // Toggle search bar with Cmd+K (Mac) or Ctrl+K (Windows/Linux)
       const isModifierPressed = this.store.isMac ? e.metaKey : e.ctrlKey;

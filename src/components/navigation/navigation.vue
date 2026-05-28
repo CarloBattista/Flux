@@ -91,11 +91,11 @@
                 >
                   <ChevronLeft size="28" />
                 </button>
-                <h3 class="text-white text-3xl font-bold">{{ categories[burger.activeCategory].label }}</h3>
+                <h3 class="text-white text-3xl font-bold">{{ mobileCategory?.label }}</h3>
               </div>
               <div class="grid grid-cols-1 gap-2">
                 <RouterLink
-                  v-for="tool in categories[burger.activeCategory].tools"
+                  v-for="tool in mobileCategory?.tools"
                   :key="tool.metadata.slug"
                   :to="'/tool/' + tool.metadata.slug"
                   class="w-full h-14 p-3 rounded-2xl flex gap-4 items-center bg-white/5 hover:bg-white/10 transition-colors"
@@ -169,6 +169,7 @@ import { store } from '../../data/store';
 import { authStore } from '../../data/authStore';
 import { handleTool } from '../../api/userTools';
 import { isSubscribed } from '../../api/subscription';
+import { toolTypeMap } from '../../utils/toolMapping';
 
 import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
@@ -261,10 +262,33 @@ export default {
       return isSubscribed();
     },
     currentCategory() {
-      return this.categories[this.dropdown.menu] || null;
+      const cat = this.categories[this.dropdown.menu];
+      if (!cat) return null;
+
+      const toolsWithMetadata = cat.tools
+        .map((slug) => this.getToolBySlug(slug))
+        .filter((t) => t !== null);
+
+      return {
+        ...cat,
+        tools: toolsWithMetadata,
+      };
     },
-  },
-  methods: {
+    mobileCategory() {
+      if (!this.burger.activeCategory) return null;
+      const cat = this.categories[this.burger.activeCategory];
+      if (!cat) return null;
+
+      const toolsWithMetadata = cat.tools
+        .map((slug) => this.getToolBySlug(slug))
+        .filter((t) => t !== null);
+
+      return {
+        ...cat,
+        tools: toolsWithMetadata,
+      };
+    },
+  },  methods: {
     navMouseEnter(menu) {
       if (this.dropdownTimer) clearTimeout(this.dropdownTimer);
 
@@ -287,6 +311,19 @@ export default {
     },
     dropdownMouseEnter() {
       if (this.dropdownTimer) clearTimeout(this.dropdownTimer);
+    },
+    getToolBySlug(slug) {
+      const dbTool = this.store.tools.data.find((t) => t.slug === slug);
+      if (!dbTool) return null;
+
+      return {
+        metadata: {
+          ...dbTool,
+          access: dbTool.is_plus ? 'plus' : 'free',
+          new: dbTool.is_new,
+          type: toolTypeMap[slug] || 'converter',
+        },
+      };
     },
     handleScroll() {
       if (window.scrollY > 0) {

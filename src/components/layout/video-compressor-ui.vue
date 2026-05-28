@@ -39,10 +39,10 @@
     <div v-if="selectedFile && !isReading" class="w-full p-8 rounded-3xl shadow-sm border border-white/10 bg-white/5 space-y-6 flex flex-col">
       <div class="space-y-4">
         <h2 class="block text-sm font-semibold text-gray-300 tracking-wider">Qualità Compressione</h2>
-        <hrSlider v-model="qualityIndex" :min="0" :max="tool.config.qualities.length - 1" :step="1" />
+        <hrSlider v-model="qualityIndex" :min="0" :max="tool.qualities.length - 1" :step="1" />
         <div class="flex justify-between text-xs font-medium text-gray-400 px-1">
-          <span class="text-[#8e48ff] font-bold uppercase tracking-tight">{{ tool.config.qualities[qualityIndex].label }}</span>
-          <span>CRF: {{ tool.config.qualities[qualityIndex].crf }}</span>
+          <span class="text-[#8e48ff] font-bold uppercase tracking-tight">{{ tool.qualities[qualityIndex].label }}</span>
+          <span>CRF: {{ tool.qualities[qualityIndex].crf }}</span>
         </div>
       </div>
 
@@ -50,11 +50,11 @@
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Formato di Destinazione</label>
         <div class="grid grid-cols-2 gap-3">
           <hrButton
-            v-for="format in tool.config.formats"
+            v-for="format in tool.formats"
             :key="format"
             @click="targetFormat = format"
             :variant="targetFormat === format ? 'core-primary' : 'primary'"
-            :label="tool.config.labels[format]"
+            :label="tool.labels[format]"
           />
         </div>
       </div>
@@ -177,7 +177,7 @@ export default {
         const arrayBuffer = await this.selectedFile.arrayBuffer();
         await this.ffmpeg.writeFile(inputName, new Uint8Array(arrayBuffer));
 
-        const quality = this.tool.config.qualities[this.qualityIndex];
+        const quality = this.tool.qualities[this.qualityIndex];
 
         const ffmpegArgs = ['-i', inputName];
 

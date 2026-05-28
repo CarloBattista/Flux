@@ -119,7 +119,7 @@
 
       <!-- Position Selector -->
       <div v-if="watermarkFile" class="space-y-3">
-        <hrSelect v-model="selectedPosition" label="Posizione" :options="tool.config.positions" />
+        <hrSelect v-model="selectedPosition" label="Posizione" :options="tool.positions" />
       </div>
 
       <!-- Opacity Selector -->
@@ -127,7 +127,7 @@
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Opacità</label>
         <div class="grid grid-cols-4 gap-2">
           <hrButton
-            v-for="level in tool.config.opacityLevels"
+            v-for="level in tool.opacityLevels"
             :key="level.value"
             @click="selectedOpacity = level.value"
             :variant="selectedOpacity === level.value ? 'core-primary' : 'primary'"
@@ -218,10 +218,10 @@ export default {
       previewUrl: null,
       watermarkFile: null,
       watermarkPreview: null,
-      selectedPosition: this.tool.config.defaultPosition,
-      selectedOpacity: this.tool.config.defaultOpacity,
-      selectedSize: this.tool.config.defaultSize,
-      selectedMargin: this.tool.config.defaultMargin,
+      selectedPosition: this.tool.defaultPosition,
+      selectedOpacity: this.tool.defaultOpacity,
+      selectedSize: this.tool.defaultSize,
+      selectedMargin: this.tool.defaultMargin,
       selectedRotation: 0,
       watermarkType: 'image', // 'image' or 'text'
       watermarkText: '',
@@ -256,7 +256,7 @@ export default {
         transformOrigin: 'center',
       };
 
-      // Calculate percentage margins relative to video dimensions
+      // Calculate percentage margins relative to video dimensions for CSS positioning
       const marginX = (this.selectedMargin / this.videoDimensions.width) * 100;
       const marginY = (this.selectedMargin / this.videoDimensions.height) * 100;
 

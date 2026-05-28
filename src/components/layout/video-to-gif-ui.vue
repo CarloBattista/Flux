@@ -36,7 +36,7 @@
       <div class="space-y-3">
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">FPS (Frame al secondo)</label>
         <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
-          <hrButton v-for="f in tool.config.fps" :key="f" @click="fps = f" :variant="fps === f ? 'core-primary' : 'primary'" :label="f.toString()" />
+          <hrButton v-for="f in tool.fps" :key="f" @click="fps = f" :variant="fps === f ? 'core-primary' : 'primary'" :label="f.toString()" />
         </div>
       </div>
 
@@ -44,7 +44,7 @@
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Risoluzione Verticale</label>
         <div class="grid grid-cols-2 gap-3">
           <hrButton
-            v-for="s in tool.config.scales"
+            v-for="s in tool.scales"
             :key="s.value"
             @click="scale = s.value"
             :variant="scale === s.value ? 'core-primary' : 'primary'"

@@ -1,0 +1,18 @@
+export const toolTypeMap = {
+  'image-converter': 'file-converter',
+  'image-compressor': 'image-tool',
+  'image-resizer': 'image-resizer-tool',
+  'video-converter': 'video-converter',
+  'video-compressor': 'video-compressor',
+  'video-to-gif': 'video-to-gif',
+  'video-watermark': 'video-watermark',
+  'audio-converter': 'audio-converter',
+  'json-formatter': 'json-formatter',
+  'base64-converter': 'base64-converter',
+  'jwt-decoder': 'jwt-decoder',
+  'jwt-encoder': 'jwt-encoder',
+  'regex-tester': 'regex-tester',
+  'timestamp-converter': 'timestamp-converter',
+  'uuid-generator': 'uuid-generator',
+  'color-picker-converter': 'color-picker-converter',
+};

@@ -29,7 +29,7 @@
     <div v-if="selectedFile && !isReading" class="w-full p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
       <div class="space-y-4">
         <h2 class="block text-sm font-semibold text-gray-300 tracking-wider">Qualità: {{ Math.round(quality * 100) }}%</h2>
-        <hrSlider v-model="quality" :min="tool.config.minQuality" :max="tool.config.maxQuality" :step="tool.config.step" />
+        <hrSlider v-model="quality" :min="tool.minQuality" :max="tool.maxQuality" :step="tool.step" />
         <div class="flex justify-between text-xs font-medium text-gray-400 px-1">
           <span>Più piccolo</span>
           <span>Migliore qualità</span>
@@ -109,7 +109,7 @@ export default {
       this.imageReady = false;
       this.isReading = true;
       this.selectedFile = file;
-      this.quality = this.tool.config.defaultQuality;
+      this.quality = this.tool.defaultQuality;
 
       const reader = new FileReader();
       reader.onload = (e) => {

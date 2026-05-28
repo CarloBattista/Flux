@@ -61,7 +61,7 @@
         <label class="block text-sm font-semibold text-gray-300 uppercase tracking-wider">Preset Social</label>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <hrButton
-            v-for="preset in tool.config.presets"
+            v-for="preset in tool.presets"
             :key="preset.label"
             @click="applyPreset(preset)"
             :variant="selectedPresetLabel === preset.label ? 'core-primary' : 'primary'"

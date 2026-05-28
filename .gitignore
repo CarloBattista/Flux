@@ -32,3 +32,5 @@ scheme/
 .tables.sql
 
 email/
+
+csv/

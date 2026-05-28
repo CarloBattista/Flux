@@ -98,8 +98,6 @@
 </template>
 
 <script>
-import { tools } from '../toolsRegistry';
-
 import navigation from '../components/navigation/navigation.vue';
 import hrButton from '../components/button/hr-button.vue';
 import contentInfo from '../components/navigation/content-info.vue';
@@ -122,7 +120,6 @@ export default {
   },
   data() {
     return {
-      tools,
       toolsData: [
         {
           title: '20+',

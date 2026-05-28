@@ -1,34 +1,32 @@
-import { tools } from '../toolsRegistry';
-
 export const categories = {
   media: {
     label: 'Media',
     tools: [
-      tools['image-converter'],
-      tools['image-compressor'],
-      tools['image-resizer'],
-      tools['video-converter'],
-      tools['video-compressor'],
-      tools['video-to-gif'],
-      tools['video-watermark'],
-      tools['audio-converter'],
+      'image-converter',
+      'image-compressor',
+      'image-resizer',
+      'video-converter',
+      'video-compressor',
+      'video-to-gif',
+      'video-watermark',
+      'audio-converter',
     ],
   },
   units: {
     label: 'Unità',
-    tools: [tools.temperature, tools.time, tools.velocity, tools['data-transfer-rate']],
+    tools: ['temperature', 'time', 'velocity', 'data-transfer-rate'],
   },
   devtools: {
     label: 'DevTools',
     tools: [
-      tools['json-formatter'],
-      tools['base64-converter'],
-      tools['jwt-decoder'],
-      tools['jwt-encoder'],
-      tools['regex-tester'],
-      tools['timestamp-converter'],
-      tools['uuid-generator'],
-      tools['color-picker-converter'],
+      'json-formatter',
+      'base64-converter',
+      'jwt-decoder',
+      'jwt-encoder',
+      'regex-tester',
+      'timestamp-converter',
+      'uuid-generator',
+      'color-picker-converter',
     ],
   },
 };

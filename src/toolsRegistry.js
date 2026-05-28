@@ -19,7 +19,7 @@ import videoCompressor from './tools/video_compressor';
 import videoToGif from './tools/video_to_gif';
 import videoWatermark from './tools/video_watermark';
 
-export const tools = {
+export const toolConfigs = {
   temperature,
   time,
   velocity,

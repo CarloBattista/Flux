@@ -11,7 +11,7 @@
 
     <div class="flex flex-col gap-4">
       <div class="flex-1 min-w-[200px]">
-        <hrSelect v-model="indent" label="Indentazione" :options="tool.config.indentationOptions" />
+        <hrSelect v-model="indent" label="Indentazione" :options="tool.indentationOptions" />
       </div>
       <div class="flex gap-2">
         <hrButton variant="core-primary" label="Formatta" @click="handleFormat" />

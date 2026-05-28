@@ -26,6 +26,6 @@ export const store = reactive({
   tools: {
     data: [],
     error: null,
-    loading: false,
+    loading: true,
   },
 });
