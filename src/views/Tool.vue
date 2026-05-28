@@ -262,7 +262,6 @@ export default {
       document.title = `${this.tool.metadata.title} - Flux`;
       document.description = this.tool.metadata.description;
     },
-
     async toggleFavorite() {
       if (!authStore.isAuthenticated) {
         this.$router.push('/signin');

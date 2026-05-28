@@ -22,4 +22,10 @@ export const store = reactive({
     error: null,
     loading: false,
   },
+
+  tools: {
+    data: [],
+    error: null,
+    loading: false,
+  },
 });

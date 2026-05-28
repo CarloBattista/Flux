@@ -24,6 +24,7 @@ import { Analytics } from '@vercel/analytics/vue';
 import { SpeedInsights } from '@vercel/speed-insights/vue';
 
 import { getAuthUser } from './api/auth';
+import { getTools } from './api/tools';
 import { authStore } from './data/authStore';
 import { store } from './data/store';
 import { getFeatureFlags } from './api/featureFlags';
@@ -44,20 +45,7 @@ export default {
     return {
       authStore,
       store,
-      currentTime: new Date().getTime(),
-      timer: null,
     };
-  },
-  computed: {
-    isUnderMaintenance() {
-      const maintenance = this.store.featureFlags.maintenance_mode?.value;
-      if (!maintenance?.start || !maintenance?.end) return false;
-
-      const start = new Date(maintenance.start).getTime();
-      const end = new Date(maintenance.end).getTime();
-
-      return this.currentTime >= start && this.currentTime <= end;
-    },
   },
   methods: {
     formatDate,
@@ -65,14 +53,7 @@ export default {
   async mounted() {
     await getAuthUser();
     await getFeatureFlags();
-
-    // Aggiorna l'ora ogni secondo per rendere reattivo il banner
-    this.timer = setInterval(() => {
-      this.currentTime = new Date().getTime();
-    }, 1000);
-  },
-  beforeUnmount() {
-    if (this.timer) clearInterval(this.timer);
+    await getTools();
   },
 };
 </script>
