@@ -106,7 +106,6 @@
 import { authStore } from '../data/authStore';
 import { store } from '../data/store';
 import { getPlans } from '../api/plans';
-import { tools } from '../toolsRegistry';
 
 import { createCheckoutSession } from '../api/subscription';
 
@@ -124,7 +123,6 @@ export default {
   data() {
     return {
       authStore,
-      tools,
       store,
     };
   },
