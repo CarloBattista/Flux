@@ -152,13 +152,15 @@ export default {
             password: this.field.data.password,
           });
 
-          if (error) {
-            if (error.message.includes('Email not confirmed')) {
-              this.$router.push({ name: 'confirm-email' });
-              return;
-            }
-            throw error;
-          }
+          // if (error) {
+          //   if (error.message.includes('Email not confirmed')) {
+          //     this.$router.push({ name: 'confirm-email' });
+          //     return;
+          //   }
+          //   throw error;
+          // }
+
+          if (error) throw error;
 
           authStore.user = data.user;
           authStore.session = data.session;

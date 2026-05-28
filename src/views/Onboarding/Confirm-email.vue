@@ -29,6 +29,15 @@
           <a href="https://mail.google.com/mail/u/0/" target="_blank">
             <hrButton size="large" variant="secondary" :label="$t('onboarding.openEmailButton')" class="w-full mt-10" />
           </a>
+          <hrButton
+            size="large"
+            variant="tertiary"
+            :label="resendButtonLabel"
+            :disabled="!canResend || resendLoading"
+            :loading="resendLoading"
+            class="w-full mt-4"
+            @click="handleResend"
+          />
         </div>
       </div>
     </div>
@@ -38,12 +47,65 @@
 <script>
 import appLogo from '../../components/global/app-logo.vue';
 import hrButton from '../../components/button/hr-button.vue';
+import { resendConfirmationEmail } from '../../api/auth';
+import { authStore } from '../../data/authStore';
 
 export default {
   name: 'Confirm-email',
   components: {
     appLogo,
     hrButton,
+  },
+  data() {
+    return {
+      countdown: 0,
+      timer: null,
+      resendLoading: false,
+    };
+  },
+  computed: {
+    canResend() {
+      return this.countdown === 0;
+    },
+    resendButtonLabel() {
+      if (this.countdown > 0) {
+        return `Riprova tra ${this.countdown}s`;
+      }
+      return 'Invia di nuovo email di conferma';
+    },
+  },
+  methods: {
+    startCountdown() {
+      this.countdown = 60;
+      this.timer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+        } else {
+          this.stopCountdown();
+        }
+      }, 1000);
+    },
+    stopCountdown() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+    },
+
+    async handleResend() {
+      if (!this.canResend || !authStore.user?.email) return;
+
+      this.resendLoading = true;
+      const { error } = await resendConfirmationEmail(authStore.user.email);
+      this.resendLoading = false;
+
+      if (!error) {
+        this.startCountdown();
+      }
+    },
+  },
+  beforeUnmount() {
+    this.stopCountdown();
   },
 };
 </script>

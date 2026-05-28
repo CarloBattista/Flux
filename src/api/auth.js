@@ -243,3 +243,21 @@ export async function changeLanguage(lang) {
     }
   }
 }
+
+export async function resendConfirmationEmail(email) {
+  try {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email,
+    });
+
+    if (error) throw error;
+
+    toast.light('Email di conferma inviata con successo!', { showIcon: false, closable: false });
+    return { error: null };
+  } catch (e) {
+    console.error(e);
+    toast.light('Errore durante invio dell email', { showIcon: false, closable: false });
+    return { error: e };
+  }
+}
