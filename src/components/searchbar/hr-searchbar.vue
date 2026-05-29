@@ -42,10 +42,7 @@
                   v-for="(tool, index) in favoritesTools"
                   :key="'favorite-' + tool.metadata.slug"
                   :to="'/tool/' + tool.metadata.slug"
-                  @click="
-                    store.searchBar.isOpen = false;
-                    actionHandleTool(tool);
-                  "
+                  @click="store.searchBar.isOpen = false"
                 >
                   <cardTool
                     :keyCard="index"

@@ -9,7 +9,7 @@ export async function handleTool(tool) {
   const toolSlug = tool.metadata.slug;
 
   try {
-    const { data, error } = await supabase.from('recent_tools').upsert(
+    const { error: recentError } = await supabase.from('recent_tools').upsert(
       {
         profile_id: profileId,
         tool_slug: toolSlug,
@@ -18,9 +18,16 @@ export async function handleTool(tool) {
       { onConflict: 'profile_id,tool_slug' }
     );
 
-    if (error) throw error;
+    if (recentError) throw recentError;
 
-    return { data, error: null };
+    const { error: usageError } = await supabase.from('tool_usage').insert({
+      profile_id: profileId,
+      tool_slug: toolSlug,
+    });
+
+    if (usageError) throw usageError;
+
+    return { error: null };
   } catch (e) {
     console.error(e);
     return { data: null, error: e.message };

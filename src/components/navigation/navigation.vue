@@ -102,7 +102,6 @@
                   @click="
                     burger.isOpen = false;
                     burger.activeCategory = null;
-                    actionHandleTool(tool);
                   "
                 >
                   <div class="h-full aspect-square rounded-xl flex items-center justify-center bg-white/10 text-white/70">
@@ -143,10 +142,7 @@
             :key="tool.metadata.slug"
             :to="'/tool/' + tool.metadata.slug"
             class="w-full h-12 p-2 rounded-2xl flex gap-3 items-center bg-black hover:bg-white/15 transition-colors duration-100 cursor-pointer"
-            @click="
-              dropdown.isOpen = false;
-              actionHandleTool(tool);
-            "
+            @click="dropdown.isOpen = false"
           >
             <div class="h-full aspect-square rounded-xl flex flex-none items-center justify-center bg-white/10 text-white/70">
               <component :is="tool.metadata.icon" size="18" />
@@ -265,9 +261,7 @@ export default {
       const cat = this.categories[this.dropdown.menu];
       if (!cat) return null;
 
-      const toolsWithMetadata = cat.tools
-        .map((slug) => this.getToolBySlug(slug))
-        .filter((t) => t !== null);
+      const toolsWithMetadata = cat.tools.map((slug) => this.getToolBySlug(slug)).filter((t) => t !== null);
 
       return {
         ...cat,
@@ -279,16 +273,15 @@ export default {
       const cat = this.categories[this.burger.activeCategory];
       if (!cat) return null;
 
-      const toolsWithMetadata = cat.tools
-        .map((slug) => this.getToolBySlug(slug))
-        .filter((t) => t !== null);
+      const toolsWithMetadata = cat.tools.map((slug) => this.getToolBySlug(slug)).filter((t) => t !== null);
 
       return {
         ...cat,
         tools: toolsWithMetadata,
       };
     },
-  },  methods: {
+  },
+  methods: {
     navMouseEnter(menu) {
       if (this.dropdownTimer) clearTimeout(this.dropdownTimer);
 
