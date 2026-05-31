@@ -27,7 +27,7 @@
         <div class="max-h-[400px] overflow-y-auto custom-scrollbar">
           <div class="w-full px-4 pt-4 pb-2">
             <h2 class="text-white text-sm font-semibold brightness-50">
-              {{ searchQuery ? $t('search.Results') : $t('common.allTools') }}
+              {{ searchQuery ? $t('search.Results') : $t('search.allTools') }}
             </h2>
           </div>
           <div v-if="filteredTools.length > 0" class="p-2">
@@ -110,9 +110,9 @@
                     :secondLine="getToolBySlug(slug).metadata.description"
                     :badgeNew="getToolBySlug(slug).metadata.new"
                     :badgePlus="getToolBySlug(slug).metadata.access === 'plus'"
-                    :action="navigationTools.indexOf(getToolBySlug(slug)) === selectedIndex"
-                    @mouseenter="selectedIndex = navigationTools.indexOf(getToolBySlug(slug))"
-                    :class="[navigationTools.indexOf(getToolBySlug(slug)) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
+                    :action="getToolIndexBySlug(slug) === selectedIndex"
+                    @mouseenter="selectedIndex = getToolIndexBySlug(slug)"
+                    :class="[getToolIndexBySlug(slug) === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5']"
                   />
                 </RouterLink>
               </div>
@@ -254,6 +254,9 @@ export default {
           type: toolTypeMap[slug] || 'converter',
         },
       };
+    },
+    getToolIndexBySlug(slug) {
+      return this.navigationTools.findIndex((t) => t.metadata.slug === slug);
     },
     handleGlobalKeydown(e) {
       // Toggle search bar with Cmd+K (Mac) or Ctrl+K (Windows/Linux)
