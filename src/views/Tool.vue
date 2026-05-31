@@ -40,6 +40,7 @@
                 {{ tool.metadata.title }}
               </h1>
               <hrBadge v-if="tool.metadata.access === 'plus'" size="md" variant="plus" label="Plus" />
+              <hrBadge v-if="tool.metadata.is_featured" variant="success" :label="$t('common.mostUsed')" />
             </div>
             <p v-if="tool.metadata.description" class="md:text-lg text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
               {{ tool.metadata.description }}

@@ -24,7 +24,8 @@
         "navigate": "Navigate",
         "select": "Select",
         "recent": "Recent",
-        "favorites": "Favorites"
+        "favorites": "Favorites",
+        "mostUsed": "Most used tools"
     },
     "navigation": {
         "chooseLanguage": "Choose your language",
