@@ -294,8 +294,49 @@ export default {
     handleMetadata() {
       if (!this.tool) return;
 
-      document.title = `${this.tool.metadata.title} - Flux`;
-      document.description = this.tool.metadata.description;
+      const title = `${this.tool.metadata?.seo_title || this.tool.metadata.title} - Flux`;
+      const description = this.tool.metadata?.seo_description || this.tool.metadata.description;
+      const url = `${window.location.origin}/tool/${this.tool.metadata.slug}`;
+
+      // Update Page Title
+      document.title = title;
+
+      // Update Meta Tags
+      this.updateMetaTag('description', description);
+
+      // Open Graph / Facebook
+      this.updateMetaTag('og:type', 'website', 'property');
+      this.updateMetaTag('og:url', url, 'property');
+      this.updateMetaTag('og:title', title, 'property');
+      this.updateMetaTag('og:description', description, 'property');
+
+      // Twitter
+      this.updateMetaTag('twitter:card', 'summary_large_image', 'name');
+      this.updateMetaTag('twitter:url', url, 'name');
+      this.updateMetaTag('twitter:title', title, 'name');
+      this.updateMetaTag('twitter:description', description, 'name');
+
+      // Canonical
+      this.updateCanonicalLink(url);
+    },
+    updateMetaTag(name, content, attribute = 'name') {
+      if (!content) return;
+      let el = document.querySelector(`meta[${attribute}="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attribute, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    },
+    updateCanonicalLink(url) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
     },
     async toggleFavorite() {
       if (!authStore.isAuthenticated) {
