@@ -6,7 +6,7 @@
     @dragover.prevent
     @drop.prevent="handleDrop"
   >
-    <input type="file" ref="fileInput" class="hidden" :accept="accept" @change="handleFileSelect" />
+    <input type="file" ref="fileInput" class="hidden" :accept="accept" :multiple="multiple" @change="handleFileSelect" />
 
     <slot v-if="!hasFile && !loading">
       <div class="space-y-2">
@@ -56,6 +56,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['file-selected'],
   methods: {
@@ -77,10 +81,15 @@ export default {
       });
     },
     handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (file) {
-        if (this.isValidFile(file)) {
-          this.$emit('file-selected', file);
+      const files = Array.from(e.target.files);
+      if (files.length > 0) {
+        const validFiles = files.filter((file) => this.isValidFile(file));
+        if (validFiles.length > 0) {
+          if (this.multiple) {
+            this.$emit('file-selected', validFiles);
+          } else {
+            this.$emit('file-selected', validFiles[0]);
+          }
         } else {
           e.target.value = '';
         }
@@ -88,10 +97,15 @@ export default {
     },
     handleDrop(e) {
       if (this.disabled) return;
-      const file = e.dataTransfer.files[0];
-      if (file) {
-        if (this.isValidFile(file)) {
-          this.$emit('file-selected', file);
+      const files = Array.from(e.dataTransfer.files);
+      if (files.length > 0) {
+        const validFiles = files.filter((file) => this.isValidFile(file));
+        if (validFiles.length > 0) {
+          if (this.multiple) {
+            this.$emit('file-selected', validFiles);
+          } else {
+            this.$emit('file-selected', validFiles[0]);
+          }
         }
       }
     },
