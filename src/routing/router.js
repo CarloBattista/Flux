@@ -45,12 +45,14 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('../views/Home.vue'),
+    meta: { title: `${APP_NAME} - Strumenti Online per Sviluppatori e Creativi` },
     props: true,
   },
   {
     path: '/pricing',
     name: 'pricing',
     component: () => import('../views/Pricing.vue'),
+    meta: { title: `${APP_NAME} - Prezzi e Abbonamenti` },
     props: true,
   },
   {
@@ -135,13 +137,27 @@ const router = createRouter({
 
 router.beforeEach(authMiddleware);
 
+const DEFAULT_DESCRIPTION = 'Flux offre una suite completa di strumenti online gratuiti per sviluppatori e creativi.';
+
 router.beforeEach((to, from, next) => {
+  // Update Title
   const pageTitle = to.meta.title;
-  if (pageTitle) {
-    document.title = pageTitle;
-  } else {
-    document.title = APP_NAME;
+  document.title = pageTitle ? `${pageTitle} | ${APP_NAME}` : APP_NAME;
+
+  // Update Meta Description
+  const description = to.meta.description || DEFAULT_DESCRIPTION;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) {
+    metaDescription.setAttribute('content', description);
   }
+
+  // Update OG Tags
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', document.title);
+
+  const ogDescription = document.querySelector('meta[property="og:description"]');
+  if (ogDescription) ogDescription.setAttribute('content', description);
+
   next();
 });
 

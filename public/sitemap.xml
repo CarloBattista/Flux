@@ -3,10 +3,39 @@
 
   <url>
     <loc>https://fluxtools.site/</loc>
+    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://fluxtools.site/pricing</loc>
+    <priority>0.8</priority>
   </url>
+
+  <!-- Categories -->
+  <url><loc>https://fluxtools.site/category/media</loc><priority>0.9</priority></url>
+  <url><loc>https://fluxtools.site/category/units</loc><priority>0.9</priority></url>
+  <url><loc>https://fluxtools.site/category/devtools</loc><priority>0.9</priority></url>
+
+  <!-- Tools -->
+  <url><loc>https://fluxtools.site/tool/image-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/image-compressor</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/image-resizer</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/video-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/video-compressor</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/video-to-gif</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/video-watermark</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/audio-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/temperature</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/time</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/velocity</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/data-transfer-rate</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/json-formatter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/base64-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/jwt-decoder</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/jwt-encoder</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/regex-tester</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/timestamp-converter</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/uuid-generator</loc><priority>0.7</priority></url>
+  <url><loc>https://fluxtools.site/tool/color-picker-converter</loc><priority>0.7</priority></url>
 
 </urlset>

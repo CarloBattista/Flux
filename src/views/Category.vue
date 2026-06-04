@@ -158,10 +158,55 @@ export default {
       };
     },
   },
+  methods: {
+    updateSEO() {
+      if (this.categoryData) {
+        const title = `${this.categoryData.label} - Flux`;
+        const description = `Esplora tutti i nostri strumenti dedicati a ${this.categoryData.label.toLowerCase()} su Flux.`;
+        const url = `${window.location.origin}/category/${this.categorySlug}`;
+
+        document.title = title;
+
+        this.updateMetaTag('description', description);
+        this.updateMetaTag('og:title', title, 'property');
+        this.updateMetaTag('og:description', description, 'property');
+        this.updateMetaTag('og:url', url, 'property');
+        this.updateMetaTag('twitter:title', title, 'name');
+        this.updateMetaTag('twitter:description', description, 'name');
+
+        this.updateCanonicalLink(url);
+      }
+    },
+    updateMetaTag(name, content, attribute = 'name') {
+      if (!content) return;
+      let el = document.querySelector(`meta[${attribute}="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attribute, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    },
+    updateCanonicalLink(url) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
+    },
+  },
+  watch: {
+    categoryData: {
+      handler() {
+        this.updateSEO();
+      },
+      immediate: true,
+    },
+  },
   mounted() {
-    if (this.categoryData) {
-      document.title = `${this.categoryData.label} - Flux`;
-    }
+    this.updateSEO();
   },
 };
 </script>
