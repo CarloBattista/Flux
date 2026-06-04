@@ -319,6 +319,35 @@ export default {
 
       // Canonical
       this.updateCanonicalLink(url);
+
+      // JSON-LD Structured Data
+      this.updateJSONLD(this.tool);
+    },
+    updateJSONLD(tool) {
+      // Rimuovi eventuale script esistente
+      const existingScript = document.getElementById('tool-json-ld');
+      if (existingScript) existingScript.remove();
+
+      const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: tool.metadata.title,
+        description: tool.metadata.description,
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'All',
+        url: window.location.href,
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      };
+
+      const script = document.createElement('script');
+      script.id = 'tool-json-ld';
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(schema);
+      document.head.appendChild(script);
     },
     updateMetaTag(name, content, attribute = 'name') {
       if (!content) return;
