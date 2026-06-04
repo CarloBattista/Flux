@@ -136,7 +136,10 @@
       @mouseleave="navMouseLeave"
     >
       <div class="max-w-[640px] p-4 mx-auto rounded-3xl border border-solid border-white/10 bg-black shadow-2xl shadow-white/2">
-        <section class="w-full h-full grid grid-cols-2 gap-4">
+        <div v-if="store.tools.loading || !store.tools.data" class="w-full h-full flex items-center justify-center">
+          <loader />
+        </div>
+        <section v-else class="w-full h-full grid grid-cols-2 gap-4">
           <RouterLink
             v-for="tool in currentCategory.tools"
             :key="tool.metadata.slug"
@@ -171,6 +174,7 @@ import appLogo from '../global/app-logo.vue';
 import hrButton from '../button/hr-button.vue';
 import hrButtonShortcut from '../button/hr-button-shortcut.vue';
 import hrBadge from '../badge/hr-badge.vue';
+import loader from '../global/loader.vue';
 
 // ICONS
 import {
@@ -207,6 +211,7 @@ export default {
     hrButton,
     hrButtonShortcut,
     hrBadge,
+    loader,
 
     // ICONS
     ChevronDown,
