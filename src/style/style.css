@@ -83,3 +83,25 @@ input[type='number'] {
   background: #080808;
   background: linear-gradient(900deg, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 1) 100%);
 }
+
+.background-blurred {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  filter: blur(150px) brightness(0.5);
+  background: linear-gradient(
+    92deg,
+    #369eff 0%,
+    #75bcff 14%,
+    #9747ff 26%,
+    #ef4c77 34%,
+    #ff7510 48%,
+    #ffda00 56%,
+    #ffda00 72%,
+    #76cc4b 88%,
+    #375d96 96%,
+    #1c4686 100%
+  );
+}

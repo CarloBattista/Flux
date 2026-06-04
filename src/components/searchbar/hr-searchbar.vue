@@ -165,13 +165,14 @@
       </div>
     </div>
   </Transition>
-
   <Transition name="fade">
     <div
       @click="store.searchBar.isOpen = false"
       v-if="store.searchBar.isOpen"
       class="fixed z-9999 top-0 left-0 w-full h-svh bg-black/60 backdrop-blur-sm"
-    ></div>
+    >
+      <div class="background-blurred"></div>
+    </div>
   </Transition>
 </template>
 
